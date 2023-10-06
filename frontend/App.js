@@ -1,40 +1,50 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import '/frontend/styles/reset.scss'
-import '/frontend/styles/base.scss'
-// import Area from "./components/Area";
-// import Board from "./components/Board";
+import '/frontend/styles/main.scss'
+import PlayGame from "./Pages/PlayGame";
+import Auth from "./Pages/Auth";
+import PreGame from "./Pages/PreGame";
+import MapCreater from "./Pages/MapCreater";
+import ChooseGame from "./Pages/ChooseGame";
+import Base from "./components/Base";
 import axios from "axios";
 
-// const areaDatas = require('/frontend/assets/map.json');
+const NewPage = () => {
+    return <>
+        New Game
+    </>
+};
+
+class AppState {
+
+    static new = new AppState(NewPage);
+    static auth = new AppState(Auth);
+    static mapCreater = new AppState(MapCreater);
+    static chooseGame = new AppState(ChooseGame);
+    static preGame = new AppState(PreGame);
+    static playeGame = new AppState(PlayGame);
+
+    constructor(page) {
+        this.page = page;
+    };
+};
 
 const App = () => {
-    
-    const [mapState, setMapState] = useState({
-        zoomLevel: 1,
-        defaultPosition: {x: 0, y: 0},
-        areas: [],
-        currentArea: {hexagons: [], name: ''},
-    });
 
-    useEffect(()=>{
-        axios.post('/test', {payload: 'this is a test post request'})
-        .then(console.log)
-        .catch(console.log)
-    }, [])
+    const [appState, setAppState] = useState(appState.new)
+
+    // const [res, setRes] = useState('');
+
+    // useEffect(() => {axios.get('/', {params: {token: 'hello world'}})
+    //     .then(r=>setRes(r.data))}
+    //     , [])
     
-    const handleAreaAdd = () => {
-        setMapState(state=>({...state, areas: state.areas.concat([mapState.currentArea]), currentArea: {name:'', hexagons: []}}))
-    };
+    // const [appState, setAppState] = useState(AppState.new);
 
     return <>
-        <div className="testing">
-            {/* {Board({areaDatas:areaDatas.areas, mapState, setMapState})} */}
-            {/* <div className="submitLine"> */}
-                {/* <input value={mapState.currentArea.name} onChange={(event)=>setMapState(state=>({...state, currentArea: {...state.currentArea, name: event.target.value}}))}/> */}
-                {/* <button onClick={handleAreaAdd}>Add New Area</button> */}
-            {/* </div> */}
-
-        </div>
+        <Base>
+            {appState.page()}
+        </Base>
     </>;
 };
 

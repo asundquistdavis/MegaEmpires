@@ -1,0 +1,24 @@
+
+@use 'vars';
+
+@mixin breakpoint($size: 0px) {
+    @media screen and (min-width: $size) {
+        @content
+    }
+};
+
+
+@each $breakpoint, $breakwidth in vars.$breakpoints {
+    @include breakpoint($breakwidth) {
+        
+        // breakpont specific content here:
+
+        // widths
+        .w-#{$breakpoint}-auto {width: auto;}
+        @for $percent from 1 through 100 {
+            .w-#{$breakpoint}-#{$percent} {width: $percent*1%}
+            .vw-#{$breakpoint}-#{$percent}vw {width: $percent*1vw}
+
+        }
+    }
+};

@@ -9,9 +9,6 @@ module.exports = {
         path: path.join(__dirname, '/frontend/output'),
         filename: 'bundle.js'
     },
-    plugins: [
-        new HTMLWebpackPlugin({template: './static/index.html'}),
-    ],
     module: {
         rules: [
             {
