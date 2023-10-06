@@ -31,7 +31,7 @@ class AppState {
 
 const App = () => {
 
-    const [appState, setAppState] = useState(appState.new)
+    // const [appState, setAppState] = useState(AppState.new)
 
     // const [res, setRes] = useState('');
 
@@ -43,7 +43,7 @@ const App = () => {
 
     return <>
         <Base>
-            {appState.page()}
+            Hello World
         </Base>
     </>;
 };
