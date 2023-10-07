@@ -1,0 +1,58 @@
+
+div.authBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // width: fit-content;
+};
+
+div.usernameRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+};
+
+label.usernameLabel {
+    margin-left: auto;
+    margin-right: 1%;
+}
+
+input.usernameInput {
+    margin-left: 1%;
+    margin-right: auto;
+}
+
+div.passwordRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+};
+
+label.passwordLabel {
+    margin-left: auto;
+    margin-right: 1%;
+}
+
+input.passwordInput{
+    margin-left: 1%;
+    margin-right: auto;}
+
+div.submitRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+}
+
+button.login {
+    margin-left: auto;
+    margin-right: 1%;
+}
+
+button.register {
+    margin-left: 1%;
+    margin-right: auto;
+}

@@ -1,11 +1,31 @@
 
 @use 'vars';
 
+.header {
+    font-size: 1.4rem;
+};
+
 @mixin breakpoint($size: 0px) {
     @media screen and (min-width: $size) {
         @content
     }
 };
+
+.flexColumn {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flexRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
 
 @each $breakpoint, $breakwidth in vars.$breakpoints {
@@ -15,10 +35,14 @@
 
         // widths
         .w-#{$breakpoint}-auto {width: auto;}
-        @for $percent from 1 through 100 {
-            .w-#{$breakpoint}-#{$percent} {width: $percent*1%}
-            .vw-#{$breakpoint}-#{$percent}vw {width: $percent*1vw}
-
+        @for $percent from 0 through 100 {
+            .w-#{$breakpoint}-#{$percent}pc {width: $percent*1%}
+            .w-#{$breakpoint}-#{$percent}vw {width: $percent*1vw}
+            .h-#{$breakpoint}-#{$percent}pc {height: $percent*1%}
+            .h-#{$breakpoint}-#{$percent}vh {height: $percent*1vh}
+            .mb-#{$breakpoint}-#{$percent}pc {margin-bottom: $percent*1%;}
+            .mr-#{$breakpoint}-#{$percent}pc {margin-right: $percent*1%;}
+            .text-#{$breakpoint}-right {text-align: right}
         }
     }
 };
