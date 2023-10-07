@@ -1,0 +1,15 @@
+<html>
+<body>
+<script>
+fetch( "http://192.168.4.34:1104/corstest", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Arg1": "Your argument here",
+        "Arg2": "Another arg",
+    },
+    body: JSON.stringify( { uid: 42, title: "Foo", done: true } ),
+}).then( (response) => response.json() ).then( (json) => console.log(json) );
+</script>
+</body>
+</html>
