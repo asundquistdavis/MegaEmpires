@@ -1,14 +1,15 @@
 import React from "react";
+import '/frontend/styles/header.scss'
 
 const Header = (props) => {
 
-    const {l, r, children, className} = props;
+    const {left, right, children, className} = props;
 
     return <>
         <div className={'flexRow ' + className}>
-            <div>{l}</div>
-            <div className="header">{children}</div>
-            <div>{r}</div>
+            <div className="headerSide">{left}</div>
+            <div className="headerTitle">{children}</div>
+            <div className="headerSide">{right}</div>
         </div>
     </>;
 };

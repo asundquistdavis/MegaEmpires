@@ -1,8 +1,13 @@
 
-
 // colors
 $page1: #d0d0d0;
 $page2: #959595;
+$alert: #ec0d0d;
+
+$buttonBorder: black;
+
+$colors: ('page1': $page1, 'page2': $page2, 'alert': $alert);
 
 // widths
 $breakpoints: ('': 0px, 'hor': 500px, 'des': 900px);
+

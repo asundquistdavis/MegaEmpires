@@ -1,0 +1,22 @@
+
+@use 'vars';
+
+button.btn {
+    padding: 2px;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    height: fit-content !important;
+    width: fit-content;
+}
+
+button.btnI {
+    border: none;
+}
+
+button.btnT {
+    border-radius: 5px;
+    border: solid vars.$buttonBorder 1px;
+    background-color: vars.$page2;
+    margin: 1px;
+}

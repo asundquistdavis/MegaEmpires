@@ -48,7 +48,7 @@ Response Obj:
 }
 ```
 ## Choose Game
-### Player
+### User
 Enpoint: ```/choose/user```
 
 Type: *get*, polling
@@ -143,8 +143,8 @@ Response obj:
 }
 ```
 
-### Pre Game
-## game
+## Pre Game
+### game
 
 Endpoint: ```/pregame/game```
 
