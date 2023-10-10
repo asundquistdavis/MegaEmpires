@@ -24,7 +24,7 @@ export const setServerState = (setter, errorSetter, route, apiData, fallback, co
     if (useServer) {
         axios.post(endpoint(route), apiData, config)
         .then(response=>{
-            response.data.status? errorSetter(response.data.status): setter(response.data.data);
-        });
+            response.data.status? errorSetter(response.data.status): setter(response.data.data)})
+        .catch(console.log);
     } else {setter(fallback)};
 };

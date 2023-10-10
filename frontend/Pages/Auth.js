@@ -4,16 +4,16 @@ import '/frontend/styles/auth.scss'
 
 class AuthState {
 
-    static new = (setter) => ({name: 'auth', pageState: new AuthState(setter, '', '')});
+    static new = (setter) => ({name: 'auth', token: null, pageState: new AuthState(setter, '', '')});
     
-    constructor(setter, username, password) {
-        this.setter = setter;
-        this.setState = (stateName, value) => this.setter(state=>({...state, pageState: {...state.pageState, [stateName]: value}})) //
+    constructor(setAppState, username, password) {
+        this.setAppState = setAppState;
+        this.setPageState = setState => this.setAppState(state=>({...state, pageState: setState(state)})); //
         this.username = username;
         this.password = password;
-        this.changeUsername = (event) => this.setState('username', event.target.value);
-        this.changePassword = (event) => this.setState('password', event.target.value);
-        this.submitLogIn = () => this.setter(state=>({...state, token: 'abc'}));
+        this.changeUsername = (event) => this.setPageState('username', event.target.value);
+        this.changePassword = (event) => this.setPageState('password', event.target.value);
+        this.submitLogIn = () => this.setAppState(state=>({...state, token: 'abc'}));
         this.submitRegister = () => console.log('send register');
         this.render = (appState) => Auth(appState);
     };

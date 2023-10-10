@@ -1,0 +1,46 @@
+
+@use 'vars';
+@use 'sass:map';
+
+div.pregameBody {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+div.pregamePlayersCard {
+    border: solid black 2px;
+    width: clamp(150px, auto, 500px);
+    justify-self: center;
+}
+
+div.pregamePlayerRow {
+    display: flex;
+    margin-bottom: 5px;
+    border: solid lightgrey 1px;
+    overflow: hidden;
+}
+
+div.pregamePlayerRow:last-child {
+    margin-bottom: 0;
+}
+
+div.pregamePlayerIcon {
+    margin-right: 5px;
+    padding: 2px;
+}
+
+div.pregamePlayerUsername {
+    margin-right: auto;
+}
+
+div.pregameCivilizationDisplay {
+    margin-left: 5px;
+    margin-right: 0;
+    padding: 2px;
+}
+
+select.pregameCivilizationSelect {
+    margin-left: 5px;
+    margin-right: 0;
+    padding: 2px;
+}

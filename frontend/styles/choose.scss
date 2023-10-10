@@ -1,4 +1,6 @@
 
+@use 'vars';
+
 div.chooseGameRow {
     display: flex;
     justify-content: start;
@@ -11,8 +13,18 @@ div.chooseGameHost {
 };
 
 div.chooseGamePlayers{
+    display: flex;
+    align-items: center;
     margin-inline-end: 5px;
 };
+
+div.chooseGamePlayersPill {
+    width: fit-content;
+    padding: 2px;
+    background-color: vars.$page1;
+    border-radius: 5px;
+    border: solid vars.$buttonBorder 1px;
+}
 
 div.chooseGameStatus{
     margin-inline-end: 5px;

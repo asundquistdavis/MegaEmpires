@@ -179,7 +179,8 @@ where player:
 {
     "userId": int,
     "username": str,
-    "type": str("ai", "human", "open")
+    "type": str("ai", "human"),
+    "civilizationId": int,
 }
 And civilization:
 {

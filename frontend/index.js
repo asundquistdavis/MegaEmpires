@@ -4,4 +4,4 @@ import App from "./App";
 import 'bootstrap';
 
 const root = createRoot(document.getElementById('root'));
-root.render(<><App/></>);
+root.render(<StrictMode><App/></StrictMode>);

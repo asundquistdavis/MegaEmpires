@@ -7,3 +7,16 @@ div.settingsUserRow {
     padding: 0;
     margin: 0;
 };
+
+
+div.settingsGameRow {
+    display: flex;
+};
+
+div.settingsGameHost {
+    margin-inline-end: 5px;
+};
+
+div.settingsGameStatus {
+    margin-inline-end: 5px;    
+};
