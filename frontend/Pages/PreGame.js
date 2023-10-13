@@ -12,6 +12,7 @@ export default class PreGameState {
     static new = (setter, game, user) => ({name:'pregame', pageState: new PreGameState(setter, game, user)});
 
     constructor(setAppState, game, user) {
+        this.name = 'pregame';
         this.setAppState = setAppState;
         this.setPageState = (setState) => this.setAppState(appState=>({...appState, pageState: setState(appState.pageState)}));
         this.errorSetter = (error) => this.setPageState(state=>({...state, error}))

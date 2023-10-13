@@ -1,10 +1,10 @@
 import React from "react";
 
-const MapCreater = () => {
+const MapCreator = () => {
 
     return <>
     
     </>;
 };
 
-export default MapCreater;
+export default MapCreator;

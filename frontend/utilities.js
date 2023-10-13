@@ -3,9 +3,9 @@ const endpoint = (route) => `http://23.88.147.138:1104/${route}`
 const axiosCorsConfig = {headers: {"Content-Type": "application/json"}};
 const useServer = false
 
-export const capatalize = (string) => string[0].toUpperCase() + string.slice(1);
+export const capitalize = (string) => (string.length === 0)? '': string[0].toUpperCase() + string.slice(1);
 
-export const title = (string) => string.split(' ').map(capatalize).join(' ');
+export const title = (string) => string.split(' ').map(capitalize).join(' ');
 
 // use to update data on app and before server sends response
 export const useServerState = (state, setState, name, endpoint, data, config={headers: {"Content-Type": "application/json"}}) => {
