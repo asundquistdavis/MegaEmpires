@@ -25,8 +25,6 @@ const ChooseGame = (appState) => {
 
     const { pageState } = appState;
 
-    console.log(pageState)
-
     const settingsButton = <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>;
 
     const gameRow = (game, key) => {
@@ -52,7 +50,7 @@ const ChooseGame = (appState) => {
         const errorSetter = (status) => pageState.setAppState(state=>({...state, error: status}));
         const route = '/choose/' + type
         const data = {token: appState.token, hostUsername, gameId}
-        const fallback = {gameId: 0, status: 'pregame'}
+        const fallback = {gameId: 0, status: 'playing'}
         setServerState(setter, errorSetter, route, data, fallback)
     }; 
 

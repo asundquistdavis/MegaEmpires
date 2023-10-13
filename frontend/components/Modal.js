@@ -8,7 +8,7 @@ const Modal = (props) => {
     const {children, title, exit} = props;
     return <>
         <div className="modalOverlay">
-            <div className="modalBody" style={{width: '50%', height:'fit-content'}}>
+            <div className="modalBody">
                 <Header right={<Button Icon={XCircleFill} onClick={exit}/>} >{title}</Header>
                 {children}
             </div>

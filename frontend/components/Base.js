@@ -6,7 +6,7 @@ const Base = (props) => {
     const { children } = props;
 
     return <>
-        <div className="w--100vw h--100vh">
+        <div className="basePage">
             <div className="baseBody">
                 {children}
             </div>

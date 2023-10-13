@@ -16,6 +16,10 @@ div.modalOverlay {
 };
 
 div.modalBody {
+    min-width: 50%;
+    width: fit-content;
+    max-width: 90%;
+    height: fit-content;
     border: solid;
     margin-top: 5%;
     margin-bottom: auto;

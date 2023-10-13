@@ -7,9 +7,22 @@
     }
 };
 
+input.inpN {
+    width: 17px;
+    text-align: end;
+    padding: 0;
+    margin: 0;
+}
+
+input.inpN::-webkit-outer-spin-button,
+input.inpN::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+};
+
 strong {
     font-weight: 600;
-}
+};
 
 .flexColumn {
     height: 100%;

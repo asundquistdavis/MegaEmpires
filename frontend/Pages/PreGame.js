@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import '/frontend/styles/pregame.scss'
 import Header from "../components/Header";
 import Button from "../components/Button";
-import { GearFill, PersonFill, Robot, StarFill } from "react-bootstrap-icons";
+import { ArrowLeftCircleFill, GearFill, PersonFill, Robot, StarFill } from "react-bootstrap-icons";
 import Settings from "../components/Settings";
-import { title } from "../utilities";
+import { setServerState, title } from "../utilities";
+import Chat from "../components/Chat";
 
 export default class PreGameState {
 
@@ -13,6 +14,7 @@ export default class PreGameState {
     constructor(setAppState, game, user) {
         this.setAppState = setAppState;
         this.setPageState = (setState) => this.setAppState(appState=>({...appState, pageState: setState(appState.pageState)}));
+        this.errorSetter = (error) => this.setPageState(state=>({...state, error}))
         this.game = game;
         this.user = user;
         this.render = (appState) => PreGame(appState);
@@ -21,14 +23,34 @@ export default class PreGameState {
 };
 
 const PreGame = (appState) => {
-
-    const {pageState} = appState;
+    
+    const {pageState, token} = appState;
     const {game, user} = pageState;
-    const players = game.players || [];
+    const players = game.players || null;
     const civilizations = game.civilizations || [];
     const isHost = game.hostId === user.userId;
+    const toggleGameProperty = (propertyName) => {
+        const setter = (game) => pageState.setPageState(state=>({...state, game}));
+        setServerState(setter, pageState.errorSetter, '/pregame/settings', {token, [propertyName]: !pageState.game[propertyName]}, {...pageState.game, [propertyName]: !pageState.game[propertyName]});
+    };
 
-    const settingsButton  = <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>
+    const changeGameProperty = (propertyName, value) => {
+        const setter = (game) => pageState.setPageState(state=>({...state, game}));
+        setServerState(setter, pageState.errorSetter, '/pregame/settings', {token, [propertyName]: value}, {...pageState.game, [propertyName]: value});
+    };
+
+    const nullState = {           
+        name: null,
+        pageState: null,
+        setState: null,
+        error: 0,
+        render: ()=><></>,
+        user: null,
+        game: null,
+    };
+
+    const settingsButton  = <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>;
+    const backButton = <Button Icon={ArrowLeftCircleFill} onClick={()=>pageState.setAppState(_=>({...nullState}))}/>;
 
     // needs a setServerStateAsync
     const handleCivilizationChange = (userId, civilizationId) => console.log(`changing user ${userId} to civlilzation ${civilizationId}`); 
@@ -51,15 +73,39 @@ const PreGame = (appState) => {
         </div>
     };
 
-    const playersCard = <div className="pregamePlayersCard">
-        {players.map(playerRow)}
-    </div>
+    const playersCard =
+        <div className="pregamePlayersCardWrapper">
+            <div className="pregamePlayersCardText">Players</div>
+            <div className="pregamePlayersCard">
+                {players? players.map(playerRow): 'loading...'}
+            </div>
+        </div>
+
+    const gameSettingsCard = 
+        <div className="pregameSettingsCardWrapper">
+            <div className="pregameSettingsCardText">Settings</div>
+            <div className="pregameSettingsCard">
+                <div className="pregameSettingRow"><div>Max number of players</div><input className="inpN" type="number" value={game.maxNumberOfPlayers} onChange={(event)=>changeGameProperty('maxNumberOfPlayers', event.target.value)}/></div>
+                <div className="pregameSettingRow"><div>Allow AI</div><Button checkable checked={game.allowAI} onClick={()=>toggleGameProperty('allowAI')}/></div>
+                <div className="pregameSettingRow"><div>Use advanced AST track</div><Button checkable checked={game.useAdvancedAST} onClick={()=>toggleGameProperty('useAdvancedAST')}/></div>
+                <div className="pregameSettingRow">Civilizations</div>
+            </div>
+            <Button className="pregameStart">Start The Game Already</Button>
+        </div>;
+
+    const chatCard = 
+        <div className="pregameChatWrapper">
+            <div className="pregameChatText">Chat</div>
+            {Chat()}
+        </div> 
+
 
     return <>
-        <Header right={settingsButton}>Mega Empires</Header>
+        <Header left={backButton} right={settingsButton}>Mega Empires</Header>
         <div className="pregameBody">
             {playersCard}
-            {playersCard}
+            {gameSettingsCard}
+            {chatCard}
         </div>
         {pageState.showSettings? Settings(pageState): null}
     </>;
