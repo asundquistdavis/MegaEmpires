@@ -1,6 +1,10 @@
 
 @use 'vars';
 
+div.chooseGameButtonsRow {
+    display: flex;
+}
+
 div.chooseGameRow {
     display: flex;
     justify-content: start;

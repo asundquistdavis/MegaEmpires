@@ -16,9 +16,10 @@ div.basePage {
 }
 
 div.baseBody {
+    height: calc(100vh - 2*vars.$spacer);
     width: auto;
     padding: vars.$spacer;
-    @media screen and (min-width: map.get(vars.$breakpoints, 'des')) {
+    @media only screen and (min-width: map.get(vars.$breakpoints, 'des')) {
         height: 500px;
         position: relative;
         width: 900px;

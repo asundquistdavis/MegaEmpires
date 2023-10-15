@@ -1,10 +1,11 @@
 import React from "react";
-import { GearFill } from "react-bootstrap-icons";
+import { GearFill, Map } from "react-bootstrap-icons";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Settings from "../components/Settings";
 import '/frontend/styles/choose.scss';
 import { setServerState } from "../utilities";
+import MapCreatorState from "./MapCreator";
 
 export default class ChooseGameState {
 
@@ -25,7 +26,6 @@ const ChooseGame = (appState) => {
 
     const { pageState } = appState;
 
-    const settingsButton = <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>;
 
     const gameRow = (game, key) => {
 
@@ -54,8 +54,15 @@ const ChooseGame = (appState) => {
         setServerState(setter, errorSetter, route, data, fallback)
     }; 
 
+    const buttonsRow = 
+        <div className="chooseGameButtonsRow">
+            <Button onClick={()=>pageState.setAppState(state=>({...state, ...MapCreatorState.new(pageState.setAppState)}))} Icon={Map}/>
+            <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>
+        </div>
+
+
     return <>
-        <Header left={''} right={settingsButton}>{pageState.user.username}</Header>
+        <Header left={''} right={buttonsRow}>{pageState.user.username}</Header>
         <strong>Games:</strong>
         {pageState.user.games.map(gameRow)}
         <div className="chooseAddRow">

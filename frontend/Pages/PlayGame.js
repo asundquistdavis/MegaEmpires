@@ -16,6 +16,7 @@ export default class PlayGameState {
         this.game = game;
         this.user = user;
         this.phasesHover = false;
+        this.playersHover = false;
         this.setPhaseHover = (name, value)=>this.setPageState(state=>({...state, phases: [...state.phases.map(phase=>({...phase, hover: (phase.name===name? value: phase.hover)}))]}));
         this.phases = [
             {name: 'census', hover: false, setHover: (value)=>this.setPhaseHover('census', value), actions: ['collect tax', 'resolve city revolts', 'expand population']}, 
@@ -35,6 +36,7 @@ const PlayGame = (appState) => {
     const {game, user} = pageState;
     const players = game.players;
 
+    const player = game.currentPlayerNumber;
     const phase = game.phase||'Loading...';
     const phaseAction = game.phaseAction||null
    
@@ -46,7 +48,7 @@ const PlayGame = (appState) => {
     return <>
         {Board(mapWidth, mapHeight)}
         <div className="playGameContent">
-            <div className="column">{PlayersCard(players)}</div>
+            <div className="column">{PlayersCard(player, players, pageState.playersHover, (value)=>{pageState.setPageState(state=>({...state, playersHover: value}))})}</div>
             <div className="column">{PhasesBanner(phase, phaseAction, pageState.phasesHover, (value)=>{pageState.setPageState(state=>({...state, phasesHover: value}))}, pageState.phases)}</div>
             <div className="column"></div>
             
