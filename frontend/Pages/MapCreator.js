@@ -99,6 +99,7 @@ const MapCreator = (appState) => {
                 height, 
                 backgroundSize: 'cover'
                 }}>
+                    <svg x1={left} x2={left+width} y1={top} y2={top+height} fill="black" fillOpacity={.9}></svg>
             </div>
         </div>
     </>;

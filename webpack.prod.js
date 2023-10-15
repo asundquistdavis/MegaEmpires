@@ -7,7 +7,8 @@ module.exports = {
     entry: './frontend/index.js',
     output: {
         path: path.join(__dirname, '/static'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/static/'
     },
     plugins: [
         new HTMLWebpackPlugin({template: './static/index.html'}),
