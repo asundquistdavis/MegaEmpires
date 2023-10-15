@@ -73,14 +73,16 @@ const useAppState = () => {
     useEffect(()=>{
         if (appState.name && (appState.name==='pregame')) {
             const interval = setInterval(()=>{
+                console.log('polling');
                 getGame();
-            }, 1000);
+            }, 10);
             return () => clearInterval(interval);
         };
         if (appState.name && (appState.name==='playgame')) {
             const interval = setInterval(()=>{
+                console.log('polling');
                 getGame();
-            }, 1000);
+            }, 10);
             return () => clearInterval(interval);
         };
     }, [appState]);

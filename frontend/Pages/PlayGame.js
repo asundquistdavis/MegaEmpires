@@ -43,8 +43,6 @@ const PlayGame = (appState) => {
     const mapWidth = document.body.clientWidth;
     const mapHeight = document.body.clientHeight;
 
-    console.log(pageState);
-
     return <>
         {Board(mapWidth, mapHeight)}
         <div className="playGameContent">

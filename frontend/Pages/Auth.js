@@ -24,7 +24,7 @@ const Auth = (appState) => {
     const {pageState} = appState;
 
     return <>
-        <Header className='mb--2pc'>Mea Empires</Header>
+        <Header className='mb--2pc'>Mega Empires</Header>
         <div className="authBody">
             <div className="usernameRow">
                 <label htmlFor="usernameField" className="usernameLabel">Username:</label>

@@ -1,6 +1,7 @@
 import React from "react";
 import map from '/frontend/assets/MegaCiv_Mapboard.jpg';
 import '/frontend/styles/mapcreator.scss';
+import Hexagon from "../components/Hexagon";
 
 export default class MapCreatorState {
 
@@ -16,6 +17,7 @@ export default class MapCreatorState {
         this.dragging = false;
         this.touchingX = 0;
         this.touchingY = 0;
+        this.hexagonSpacing = 50;
         this.render = (appState) => MapCreator(appState)
         this.setPageState = (setState) => this.setAppState(appState=>({...appState, pageState: {...setState(appState.pageState)}}));
     };
@@ -24,7 +26,7 @@ export default class MapCreatorState {
 const MapCreator = (appState) => {
     
     const {pageState} = appState;
-    const {zoomLevel, top, left, scaleFactor, aspectRatio, maxZoomLevel} = pageState;
+    const {zoomLevel, top, left, scaleFactor, aspectRatio, maxZoomLevel, hexagonSpacing} = pageState;
     const height = document.getElementsByClassName('baseBody')[0].offsetHeight + scaleFactor * zoomLevel;
     const width = height * aspectRatio 
     
@@ -42,6 +44,10 @@ const MapCreator = (appState) => {
         const inYBounds = (top>boardHeight-height)&&(0>top);
         if (pageState.dragging) {pageState.setPageState(state=>({...state, top: inYBounds? top: state.top, left: inXBounds? left:state.left}))};
     };
+
+    const handleMouseLeave = (event) => {
+        if (pageState.dragging) {pageState.setPageState(state=>({...state, dragging: false}))}
+    }
 
     const handleTouchStart = (event) => {
         if (event.touches.length === 1) {
@@ -80,12 +86,29 @@ const MapCreator = (appState) => {
         if (inBounds) {pageState.setPageState(state=>({...state, zoomLevel, left: state.left-leftCorrection, top: state.top-topCorrection}))}
     };
 
+    const points = Array.from(Array(50)).map((_, nx)=>Array.from(Array(50)).map((_, ny)=>[nx, ny])).flat(1);
+
+    const hexagon = (nx, ny, key, hexagonSpacing) => {
+
+        const yScale = (document.getElementsByClassName('baseBody')[0].offsetHeight + scaleFactor * zoomLevel)/document.getElementsByClassName('baseBody')[0].offsetHeight;
+        const xScale = yScale;
+        const yStep = hexagonSpacing/2 * yScale;
+        const xStep = Math.sqrt(3)*hexagonSpacing/2 * xScale;
+        const yStart = top + 3/2*ny*yStep;
+        const xStart = left + 2*nx*xStep - ny%2*xStep;
+
+        return <svg key={key}>
+            <path d={`M${xStart} ${yStart} v${yStep} l${xStep} ${yStep/2} l${xStep} ${-yStep/2} v${-yStep} l${-xStep} ${-yStep/2} z`} fill="blue" fillOpacity={.3} stroke="black"></path>
+        </svg>
+    };
+    
     return <>
         <div className="mapCreatorBorder">
             <div className="mapCreatorMap" 
             onMouseDown={()=>handleMouse(true)}
             onMouseUp={()=>handleMouse(false)} 
             onMouseMove={handleMouseMove} 
+            onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             onTouchMove={(handleTouchMove)}
@@ -93,13 +116,15 @@ const MapCreator = (appState) => {
             style={{
                 backgroundImage: `url(${map})`, 
                 backgroundRepeat: 'no-repeat', 
-                backgroundPositionX: left, 
-                backgroundPositionY: top, 
+                left,
+                top,
                 width, 
                 height, 
                 backgroundSize: 'cover'
                 }}>
-                    <svg x1={left} x2={left+width} y1={top} y2={top+height} fill="black" fillOpacity={.9}></svg>
+                    <svg width={width} height={height}>
+                        {points.map(([nx, ny], key)=>hexagon(nx, ny, key, hexagonSpacing))}
+                    </svg>
             </div>
         </div>
     </>;

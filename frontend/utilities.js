@@ -1,4 +1,6 @@
 
+import axios from "axios";
+
 const endpoint = (route) => `http://23.88.147.138:1104/${route}`
 const axiosCorsConfig = {headers: {"Content-Type": "application/json"}};
 const useServer = false

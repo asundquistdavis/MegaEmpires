@@ -2,7 +2,7 @@ import React from "react";
 
 const Hexagon = (props) => {
     
-    const { hexData, key, scale, mapState, setMapState } = props;
+    const { hexData, key, scale, current, setCurrent, } = props;
     
     const { nx, ny, l } = hexData;
 
