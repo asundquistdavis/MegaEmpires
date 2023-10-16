@@ -56,7 +56,7 @@ const ChooseGame = (appState) => {
 
     const buttonsRow = 
         <div className="chooseGameButtonsRow">
-            <Button onClick={()=>pageState.setAppState(state=>({...state, ...MapCreatorState.new(pageState.setAppState)}))} Icon={Map}/>
+            <Button onClick={()=>pageState.setAppState(state=>({...state, ...MapCreatorState.new(pageState.setAppState, state.boardHeight)}))} Icon={Map}/>
             <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>
         </div>
 

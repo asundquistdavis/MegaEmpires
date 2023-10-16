@@ -5,30 +5,37 @@ import Hexagon from "../components/Hexagon";
 
 export default class MapCreatorState {
 
-    static new = (setAppState) => ({name: 'mapcreator', game: {}, pageState: new MapCreatorState(setAppState)})
-    constructor(setAppState) {
+    static new = (setAppState, boardHeight) => ({name: 'mapcreator', game: {}, pageState: new MapCreatorState(setAppState, boardHeight)})
+    constructor(setAppState, boardHeight) {
         this.setAppState = setAppState;
         this.maxZoomLevel = 15;
         this.scaleFactor = 150;
-        this.zoomLevel = 0;
+        this.zoomLevel = 10;
         this.top = 0;
         this.aspectRatio = 656/227;
         this.left = 0;
         this.dragging = false;
         this.touchingX = 0;
         this.touchingY = 0;
-        this.hexagonSpacing = 50;
-        this.render = (appState) => MapCreator(appState)
+        this.hexagonSpacing = 10;
+        this.points = Array.from(Array(Math.floor(1000*this.aspectRatio/this.hexagonSpacing))).map((_, nx)=>Array.from(Array(Math.floor(1000/this.hexagonSpacing))).map((_, ny)=>({nx, ny, isUsed: false, isHovered: false, isSelected: false}))).flat(1);
+        this.render = (appState) => MapCreator(appState);
         this.setPageState = (setState) => this.setAppState(appState=>({...appState, pageState: {...setState(appState.pageState)}}));
     };
 }
 
 const MapCreator = (appState) => {
-    
+
     const {pageState} = appState;
     const {zoomLevel, top, left, scaleFactor, aspectRatio, maxZoomLevel, hexagonSpacing} = pageState;
-    const height = document.getElementsByClassName('baseBody')[0].offsetHeight + scaleFactor * zoomLevel;
-    const width = height * aspectRatio 
+    const boardHeight = appState.baseHeight;
+    const boardWidth = appState.baseWidth;
+    const height = boardWidth + scaleFactor * zoomLevel;
+    const width = height * aspectRatio;
+    const yScale = (boardHeight + scaleFactor * zoomLevel)/boardHeight;
+    const xScale = yScale;
+    const yStep = hexagonSpacing/2*yScale;
+    const xStep = Math.sqrt(3)*hexagonSpacing/2*xScale;
     
     const handleMouse = (value) => {
         pageState.setPageState(state=>({...state, dragging: value}))
@@ -86,22 +93,32 @@ const MapCreator = (appState) => {
         if (inBounds) {pageState.setPageState(state=>({...state, zoomLevel, left: state.left-leftCorrection, top: state.top-topCorrection}))}
     };
 
-    const points = Array.from(Array(50)).map((_, nx)=>Array.from(Array(50)).map((_, ny)=>[nx, ny])).flat(1);
+    const hexagon = (nx, ny, isUsed, isHovered, isSelected, key) => {
 
-    const hexagon = (nx, ny, key, hexagonSpacing) => {
+        const yStart = 3/2*ny*yStep;
+        const xStart = 2*nx*xStep - ny%2*xStep;
 
-        const yScale = (document.getElementsByClassName('baseBody')[0].offsetHeight + scaleFactor * zoomLevel)/document.getElementsByClassName('baseBody')[0].offsetHeight;
-        const xScale = yScale;
-        const yStep = hexagonSpacing/2 * yScale;
-        const xStep = Math.sqrt(3)*hexagonSpacing/2 * xScale;
-        const yStart = top + 3/2*ny*yStep;
-        const xStart = left + 2*nx*xStep - ny%2*xStep;
+        if (xStart<-5*hexagonSpacing||boardWidth+hexagonSpacing-left<xStart||yStart<-hexagonSpacing||boardHeight+hexagonSpacing-top<yStart) {return null}
+        else {
 
-        return <svg key={key}>
-            <path d={`M${xStart} ${yStart} v${yStep} l${xStep} ${yStep/2} l${xStep} ${-yStep/2} v${-yStep} l${-xStep} ${-yStep/2} z`} fill="blue" fillOpacity={.3} stroke="black"></path>
-        </svg>
+            const handleMouseEnter = () => {pageState.setPageState(state=>({...state, points: state.points.map(point=>point.nx===nx&&point.ny===ny? {...point, isHovered: true}: point)}))};
+            const handleMouseLeave = () => {pageState.setPageState(state=>({...state, points: state.points.map(point=>point.nx===nx&&point.ny===ny? {...point, isHovered: false}: point)}))};
+            const handleClick = () => {{pageState.setPageState(state=>({...state, points: state.points.map(point=>point.nx===nx&&point.ny===ny? {...point, isSelected: !point.isSelected}: point)}))}}
+
+            return <svg key={key} nx={nx} ny={ny}>
+                <path 
+                d={`M${xStart} ${yStart} v${yStep} l${xStep} ${yStep/2} l${xStep} ${-yStep/2} v${-yStep} l${-xStep} ${-yStep/2} z`} 
+                fill={isUsed? 'red': isSelected? 'darkgreen': isHovered? 'red': 'blue'} 
+                fillOpacity={.3} 
+                stroke="black" 
+                mask="url(#mask)"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}/>
+            </svg>
+        }
     };
-    
+
     return <>
         <div className="mapCreatorBorder">
             <div className="mapCreatorMap" 
@@ -122,9 +139,20 @@ const MapCreator = (appState) => {
                 height, 
                 backgroundSize: 'cover'
                 }}>
-                    <svg width={width} height={height}>
-                        {points.map(([nx, ny], key)=>hexagon(nx, ny, key, hexagonSpacing))}
+                    <svg width={width} height={height} left={left} top={top}>
+                        {pageState.points.map(({nx, ny, isUsed, isHovered, isSelected}, key)=>hexagon(nx, ny, isUsed, isHovered, isSelected, key))}
                     </svg>
+            </div>
+        </div>
+        <div className="mapCreatorInputs">
+            <div className="mapCreatorTitleRow">Map Creator</div>
+            <div className="mapCreatorCurrentRow">
+                <div className="mapCreatorCurrent">Currently Selected:</div>
+                <div className="mapCreatorCurrentCount">{pageState.points.length}</div>
+            </div>
+            <div className="mapCreatorNameRow">
+                <div className="mapCreatorName">Name:</div>
+                <input className="mapCreatorNameInput"/>
             </div>
         </div>
     </>;

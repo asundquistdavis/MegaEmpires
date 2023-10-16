@@ -34,6 +34,7 @@ const useAppState = () => {
         render: ()=><></>,
         user: null,
         game: null,
+        baseHeight: 0,
     });
     
     // define loading state
@@ -73,14 +74,12 @@ const useAppState = () => {
     useEffect(()=>{
         if (appState.name && (appState.name==='pregame')) {
             const interval = setInterval(()=>{
-                console.log('polling');
                 getGame();
             }, 10);
             return () => clearInterval(interval);
         };
         if (appState.name && (appState.name==='playgame')) {
             const interval = setInterval(()=>{
-                console.log('polling');
                 getGame();
             }, 10);
             return () => clearInterval(interval);
@@ -98,6 +97,8 @@ const useAppState = () => {
             setAppState(state=>({...state, ...ChooseGameState.new(setAppState, appState.user)}))
         }
     }, [appState.user]);
+
+    useEffect(()=>{setAppState(state=>({...state, baseHeight: document.getElementsByClassName('baseBody')?.[0].offsetHeight||1, baseWidth: document.getElementsByClassName('baseBody')?.[0].offsetWidth||1}))}, [appState.name]);
 
     return appState
 };
