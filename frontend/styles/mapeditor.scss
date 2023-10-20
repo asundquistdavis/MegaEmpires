@@ -1,0 +1,15 @@
+
+@use 'vars';
+
+div.board {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    margin: -1 * vars.$spacer;
+    overflow: hidden;
+}
+
+div.boardImg {
+    background-position: cover;
+}

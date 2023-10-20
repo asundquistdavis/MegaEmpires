@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import Settings from "../components/Settings";
 import '/frontend/styles/choose.scss';
 import { setServerState } from "../utilities";
-import MapCreatorState from "./MapCreator";
+import MapCreatorState from "../depriciated/MapCreator";
 
 export default class ChooseGameState {
 

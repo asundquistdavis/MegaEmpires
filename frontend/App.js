@@ -4,12 +4,11 @@ import '/frontend/styles/main.scss';
 import PlayGameState from "./Pages/PlayGame";
 import AuthState from "./Pages/Auth";
 import PreGameState from "./Pages/PreGame";
-import MapCreator from "./Pages/MapCreator";
 import ChooseGameState from "./Pages/ChooseGame";
 import Base from "./components/Base";
 import axios from "axios";
-import Modal from "./components/Modal";
 import { setServerState } from "./utilities";
+import Test from "./Pages/MapEditor";
 
 const App = () => {
 
@@ -17,7 +16,8 @@ const App = () => {
     
     return <>
         <Base>
-            {appState.render(appState)}
+            <Test testProp={'test prop'} state={appState}/>
+            {/* {appState.render(appState)} */}
         </Base>
     </>;
 };
