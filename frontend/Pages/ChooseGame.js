@@ -1,31 +1,20 @@
-import React from "react";
-import { GearFill, Map } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { GearFill, Map, MapFill } from "react-bootstrap-icons";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Settings from "../components/Settings";
 import '/frontend/styles/choose.scss';
-import { setServerState } from "../utilities";
-import MapCreatorState from "../depriciated/MapCreator";
+import { setServerState, title, useServerState } from "../utilities";
+import MapEditor from './MapEditor';
+import { loadState } from "../App";
 
-export default class ChooseGameState {
+export default function ChooseGame(props) {
 
-    static new = (setter, user) => ({name:'choose', pageState: new ChooseGameState(setter, user)})
-
-    constructor(setAppState, user) {
-        this.setAppState = setAppState;
-        this.setPageState = (setState) => this.setAppState(appState=>({...appState, pageState: setState(appState.pageState)}))
-        this.user = user;
-        this.render = (appState) => ChooseGame(appState);
-        this.showSettings = false;
-        this.hostUsername = '';
-    };
-
-}
-
-const ChooseGame = (appState) => {
-
-    const { pageState } = appState;
-
+    const { appState, setAppState } = props;
+    const [chooseGameState, setChooseGameState] = useState({
+        showSettings: false,
+        gameId: '',
+    });
 
     const gameRow = (game, key) => {
 
@@ -45,32 +34,31 @@ const ChooseGame = (appState) => {
         </div>;
     };
 
-    const handleChooseGame = (type, gameId=0, hostUsername='') => {
-        const setter = (game) => pageState.setAppState(state=>({...state, game: game}));
-        const errorSetter = (status) => pageState.setAppState(state=>({...state, error: status}));
+    const handleChooseGame = (type, gameId='') => {
+        const setter = (gameId) => setAppState(state=>({...loadState, userId: state.userId, gameId}));
+        const errorSetter = (status) => setChooseGameState(state=>({...state, error: status}));
         const route = '/choose/' + type
-        const data = {token: appState.token, hostUsername, gameId}
+        const data = {token: appState.token, gameId}
         const fallback = {gameId: 0, status: 'playing'}
         setServerState(setter, errorSetter, route, data, fallback)
     }; 
 
     const buttonsRow = 
         <div className="chooseGameButtonsRow">
-            <Button onClick={()=>pageState.setAppState(state=>({...state, ...MapCreatorState.new(pageState.setAppState, state.boardHeight)}))} Icon={Map}/>
-            <Button Icon={GearFill} onClick={()=>pageState.setPageState(state=>({...state, showSettings: !state.showSettings}))}/>
+            <Button onClick={()=>setAppState(state=>({...state, name: 'map', App: MapEditor}))} Icon={MapFill}/>
+            <Button Icon={GearFill} onClick={()=>setChooseGameState(state=>({...state, showSettings: !state.showSettings}))}/>
         </div>
 
-
-    return <>
-        <Header left={''} right={buttonsRow}>{pageState.user.username}</Header>
+    return <> 
+        <Header left={''} right={buttonsRow}>{chooseGameState.user? title(chooseGameState.user.handle): 'Loading...'}</Header>
         <strong>Games:</strong>
-        {pageState.user.games.map(gameRow)}
+        {chooseGameState.user?.games.map(gameRow)||'Loading...'}
         <div className="chooseAddRow">
-            <Button onClick={()=>handleChooseGame('join', hostUsername=pageState.hostUsername)}>Join Game</Button>
-            <input placeholder="Host Username?" type='text' onChange={(event)=>pageState.setPageState(state=>({...state, hostUsername: event.target.value}))} value={pageState.hostUsername}/>
+            <Button onClick={()=>handleChooseGame('join', chooseGameState.gameId)}>Join Game</Button>
+            <input placeholder="Game Id?" type='number' onChange={(event)=>setChooseGameState(state=>({...state, gameId: event.target.value}))} value={chooseGameState.gameId}/>
              or 
             <Button onClick={()=>handleChooseGame('host')}>Host Game</Button>
         </div>
-        {pageState.showSettings? Settings(pageState): null}
+        {chooseGameState.showSettings? Settings(pageState): null}
     </>;
 };
