@@ -45,13 +45,17 @@ const useAppState = () => {
     }, [appState.userId]);
 
     useEffect(()=>{
+        console.log(appState.userId, appState.name)
         // move to auth if there is no userId
         if (appState.name!=='auth' && !appState.userId) {setAppState(state=>({...state, name: 'auth', App: Auth}))};
-        // more to load state from auth if there is a userId 
-        if (appState.name==='auth' && appState.userId) {setAppState(state=>({...state, ...loadState}))};
         // go to choose game if there is a userId
         if (appState.name==='loading' && appState.userId && !appState.gameId) {setAppState(state=>({...state, name: 'choose', App: ChooseGame}))};
     }, [appState.name]);
+
+useEffect(()=>{
+        // more to load state from auth if there is a userId 
+        if (appState.name==='auth' && appState.userId) {setAppState(state=>({...state, ...loadState, userId: state.userId}))};
+    }, [appState.userId]);
 
     useEffect(()=>{
         if (appState.gameId) {
