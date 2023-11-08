@@ -27,11 +27,8 @@ export default function PlayGame(props) {
 
     const handleClick = () => {
         const doc = mapRef.current.contentDocument
-        const texts = Array.from(doc.getElementsByTagName('text'));
-        
-        texts.forEach(text=>{
-            text.style.display = 'none';
-        });
+        const texts = doc.querySelector('[name="texts"]')
+        texts.style.display = 'none';
     };
 
     return <>
