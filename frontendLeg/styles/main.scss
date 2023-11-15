@@ -1,0 +1,66 @@
+
+@use 'vars';
+
+@mixin breakpoint($size: 0px) {
+    @media screen and (min-width: $size) {
+        @content
+    }
+};
+
+input.inpN {
+    width: 17px;
+    text-align: end;
+    padding: 0;
+    margin: 0;
+}
+
+input.inpN::-webkit-outer-spin-button,
+input.inpN::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+};
+
+strong {
+    font-weight: 600;
+};
+
+.flexColumn {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+};
+
+.flexRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+};
+
+
+@each $colorName, $color in vars.$colors {
+    .bg-#{$colorName} {background-color: $color;}
+    .cc-#{$colorName} {color: $color;}
+};
+
+@each $breakpoint, $breakwidth in vars.$breakpoints {
+    @include breakpoint($breakwidth) {
+        
+        // breakpont specific content here:
+
+        // widths
+        .w-#{$breakpoint}-auto {width: auto;}
+        @for $percent from 0 through 100 {
+            .w-#{$breakpoint}-#{$percent}pc {width: $percent*1%}
+            .w-#{$breakpoint}-#{$percent}vw {width: $percent*1vw}
+            .h-#{$breakpoint}-#{$percent}pc {height: $percent*1%}
+            .h-#{$breakpoint}-#{$percent}vh {height: $percent*1vh}
+            .mb-#{$breakpoint}-#{$percent}pc {margin-bottom: $percent*1%;}
+            .mr-#{$breakpoint}-#{$percent}pc {margin-right: $percent*1%;}
+            .text-#{$breakpoint}-right {text-align: right}
+        }
+    }
+};

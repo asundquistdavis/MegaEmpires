@@ -1,0 +1,11 @@
+@use 'vars';
+
+g.mapArea {
+    box-shadow: yellow 0 0 10px 10px;
+}
+
+g.mapArea:hover::before {
+    position: relative;
+    top: -10px;
+    content: attr('name');
+}

@@ -1,0 +1,67 @@
+
+@use 'vars';
+
+div.board {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    margin: -1 * vars.$spacer;
+    overflow: hidden;
+}
+
+div.boardImg {
+    background-position: cover;
+}
+
+div.overboard {
+    z-index: 1;
+    position: relative;
+    border: solid black 1px;
+    border-radius: 5px;
+    background-color: vars.$page0;
+    padding: vars.$spacer;
+}
+
+div.overlay {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+div.down {
+    align-items: end !important;
+}
+
+div.currentArea {
+    margin-top: 4*vars.$spacer;
+    margin-left: 4*vars.$spacer;
+}
+
+div.mapAreas {    
+    margin-top: 4*vars.$spacer;
+    margin-right: 4*vars.$spacer;
+}
+
+div.textEntryRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+input.textEntryInput {
+    background-color: vars.$page1;
+    border: solid vars.$page2 1px;
+    width: 50%;
+    text-align: end;
+    color: vars.$dark;
+}
+
+select.selectType {
+    background-color: vars.$page1;
+}
+
+div.currentButtonsRow {
+    display: flex;
+    justify-content: space-evenly;
+}

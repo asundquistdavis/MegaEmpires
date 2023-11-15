@@ -1,0 +1,129 @@
+
+@use 'vars';
+@use 'sass:map';
+
+div.pregameBody {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 80vh
+};
+
+div.pregamePlayersCardWrapper {
+    width: fit-content;
+    min-width: 150px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+};
+
+div.pregamePlayersCard {
+    background-color: vars.$pagen1;
+    border: solid black 2px;
+    width: fit-content;
+    min-width: 150px;
+    max-width: 400px;
+};
+
+div.pregamePlayersCardText {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: vars.$spacer;
+};
+
+div.pregamePlayerRow {
+    display: flex;
+    margin-bottom: 5px;
+    border: solid lightgrey 1px;
+};
+
+div.pregamePlayerRow:last-child {
+    margin-bottom: 0;
+}
+
+div.pregamePlayerIcon {
+    margin-right: 5px;
+    padding: 2px;
+}
+
+div.pregamePlayerUsername {
+    margin-right: auto;
+}
+
+div.pregameCivilizationDisplay {
+    margin-left: 5px;
+    margin-right: 0;
+    padding: 2px;
+}
+
+select.pregameCivilizationSelect {
+    margin-left: 5px;
+    margin-right: 0;
+    padding: 2px;
+}
+
+div.pregameSettingsCardWrapper {
+    width: fit-content;
+    min-width: 150px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.pregameSettingsCardText {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: vars.$spacer;
+}
+
+div.pregameSettingsCard {
+    background-color: vars.$pagen1;
+    border: solid black 2px;
+}
+
+div.pregameSettingRow {
+    display: flex;
+    margin-bottom: vars.$spacer;
+    align-items: center;
+}
+
+div.pregameSettingRow:last-child {
+    margin-bottom: 0;
+}
+
+div.pregameSettingRow * {
+    margin-right: vars.$spacer;
+}
+
+div.pregameSettingRow *:last-child {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+button.pregameStart {
+    margin-top: auto !important;
+    margin-bottom: auto !important;;
+}
+
+div.pregameChatWrapper {
+    max-height: 100%;
+    @media screen and (min-width: map.get(vars.$breakpoints, 'des')) {
+        max-height: 75vh;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    min-width: 150px;
+    max-width: 400px;
+}
+
+div.pregameChatText {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: vars.$spacer;
+}

@@ -1,0 +1,29 @@
+
+@use 'vars';
+
+.overBoard {
+    position: relative;
+    z-index: 1;
+    background-color: vars.$page0;
+};
+
+div.playGameContent {
+    display: flex;
+};
+
+div.column {
+    width: 100%;
+    height: 100%;
+};
+
+div.card {
+    padding: vars.$spacer;
+    border-radius: 5px;
+    border: solid vars.$dark 1px;
+};
+
+div.cardTitle {
+    font-size: 1.2rem;
+    font-weight: 700
+};
+

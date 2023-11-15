@@ -6,7 +6,6 @@
         --coastal: azure;
         --hovered: black;
         --border: black;
-        /* --border: #d8cbaf; */
         --selected: black;
         --city: black;
         --floodplain: darkgreen;
@@ -35,6 +34,7 @@
     path[type='cover'] {
         pointer-events: none;
         fill: var(--land);
+        stroke-opacity: .5;
     }
     path[type='water'] {
         fill: var(--water);
@@ -46,7 +46,7 @@
         pointer-events: none;
         text-anchor: middle;
         fill: black;
-        font-size: xx-small;
+        font-size: .3rem;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
     path[selected] {
@@ -93,6 +93,7 @@
         fill: red;
         stroke: black;
         opacity: .5;
+        pointer-events: none;
     }
 
     path[name="ruler1"] {
@@ -110,6 +111,9 @@
     path[name="ruler4"] {
         stroke: red;
         stroke-width: 5px;
+    }
+    path[owned] {
+        fill: pink;
     }
 
     /* g[name="texts"] {
@@ -2159,10 +2163,9 @@ onmouseleave="handleMouseLeaveMap(event)"
         d="M873 198l3 2 6 0 3-2-4-3 1-4-2-2-3 1 0 3z"></path>
         <path
         type="volcano"
-        d="1072 90l3 2 6 0 3-2-4-3 1-4-2-2-3 1 0 3z"></path>
+        d="M1072 90l3 2 6 0 3-2-4-3 1-4-2-2-3 1 0 3z"></path>
     </g>
     <g name="cities">
-        <!-- <rect x="165" y="149" width="5" height="5" type="city" name="lu"></rect> -->
         <path d="M163 152l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="londinium"></path>
         <path d="M57 380 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="lusitania"></path>
         <path d="M130 411 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="corduba"></path>
@@ -2171,7 +2174,10 @@ onmouseleave="handleMouseLeaveMap(event)"
         <path d="M205 378 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="carthago nova"></path>
         <path d="M266 277 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" floodplaincity type="city" name="aquae sextiae"></path>
     </g>
-    <g id="the-sign"></g>
+    <g name="hovered">
+    </g>
+    <g name="selected">
+    </g>
     <g name="supports">
         <circle name="ithica" support cx="502" value="2" cy="320" r="4"></circle>
         <text name="ithica" support x="502" y="320" dominant-baseline="central">2</text>
@@ -2375,7 +2381,7 @@ onmouseleave="handleMouseLeaveMap(event)"
         <text support name="crimea" dominant-baseline="central" x="609" y="166">2</text>
         <circle support name="alani" value="0" cx="670" cy="61" r="4"></circle>
         <text support name="alani" dominant-baseline="central" x="670" y="61">0</text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
+        <!-- <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text>
         <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text>
@@ -2510,7 +2516,7 @@ onmouseleave="handleMouseLeaveMap(event)"
         <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text>
         <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
+        <text support name="" dominant-baseline="central" x="" y=""></text> -->
 
     </g>
     <g name="texts">
@@ -2654,16 +2660,15 @@ onmouseleave="handleMouseLeaveMap(event)"
 
     const handleMouseDownPath = (event) => {
         if (clicking) {
-            const boardWidth = window.document.body.offsetWidth;
-            const boardHeight = window.document.body.offsetHeight;
             const selected = document.querySelector('path[selected]');
             const path = event.target;
-            const rect = path.getBoundingClientRect();
             const newPath = path.cloneNode(false);
-            const sign = document.getElementById('the-sign');
+            const selectedHolder = document.querySelector('g[name="selected"]');
+            const attrs = Object.values(newPath.attributes).filter(attr=>((attr.name!=='name')&&(attr.name!=='type')&&(attr.name!=="d")));
+            attrs.forEach(attr=>newPath.removeAttribute(attr.name));
             newPath.setAttribute('selected', '');
             newPath.addEventListener('mouseup', handleMouseDownPath, false);
-            if (selected?.getAttribute('name')!==path.getAttribute('name')) {map.insertBefore(newPath, sign)};
+            if (selected?.getAttribute('name')!==path.getAttribute('name')) {selectedHolder.appendChild(newPath)};
             selected?.remove();
         };
     };
@@ -2677,12 +2682,13 @@ onmouseleave="handleMouseLeaveMap(event)"
         const hovered = document.querySelector('path[hovered]');
         const path = event.target;
         const newPath = path.cloneNode(false);
-        const sign = document.getElementById('the-sign');
+        const hoverdHolder = document.querySelector('g[name="hovered"]');
+        const attrs = Object.values(newPath.attributes).filter(attr=>((attr.name!=='name')&&(attr.name!=='type')&&(attr.name!=="d")));
         hovered?.remove();
+        attrs.forEach(attr=>newPath.removeAttribute(attr.name));
         newPath.addEventListener('mouseout', handleMouseLeave, false);
         newPath.setAttribute('hovered', '');
-        map.insertBefore(newPath, sign)
-        
+        hoverdHolder.appendChild(newPath);
     };
 
     paths.forEach(path => {
@@ -2697,11 +2703,8 @@ onmouseleave="handleMouseLeaveMap(event)"
     const handleScroll = (event) => {
         const scaleDelta = event.deltaY<0? 1: -1
         const scaleTarget = scale + scaleDelta;
+        const boardWidth = map.offsetWidth
         if (scaleTarget<scaleMax&&scaleTarget>=scaleMin) {
-            const boardWidth = window.document.body.offsetWidth;
-            const boardHeight = window.document.body.offsetHeight;
-            mx = //(((mapWidth)*(1-1/scaleTarget)/2))*scaleTarget//+ boardWidth/2;
-            my = //(((mapHeight)*(1-1/scaleTarget)/2))*scaleTarget//+ boardHeight/2;
             scale = scaleTarget;
             changeElem(map, 'transform', `translate(${mx} ${my}) scale(${scale})`)
         };
@@ -2732,7 +2735,7 @@ onmouseleave="handleMouseLeaveMap(event)"
     
     const handleMouseLeaveMap = (event) => {
         moving = false;
-    }
+    };
 
 </script>
 

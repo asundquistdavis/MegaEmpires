@@ -1,0 +1,39 @@
+[
+    {
+        "name": "start of turn",
+        "actionGroups": 
+        [
+            "select tax rate",
+            "resolve revolts",
+            "select areas to expand"
+        ]
+    },
+    {
+        "name": "movement",
+        "actionGroups": 
+        [
+            "move and maintain units",
+            "resolve city conflicts",
+            "construct cities",
+            "remove surplus population"
+        ]
+    },
+    {
+        "name": "trade",
+        "actionGroups": 
+        [
+            "make additional purchases",
+            "make trade deals",
+            "resolve calamity"
+        ]
+    },
+    {
+        "name": "end of turn",
+        "actionGroups": 
+        [
+            "use special abilities",
+            "remove surplus population",
+            "purchase advancement cards"
+        ]
+    }
+]

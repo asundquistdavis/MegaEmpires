@@ -1,0 +1,27 @@
+
+@use 'vars';
+
+div.modalOverlay {
+
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(1px);
+};
+
+div.modalBody {
+    min-width: 50%;
+    width: fit-content;
+    max-width: 90%;
+    height: fit-content;
+    border: solid;
+    margin-top: 5%;
+    margin-bottom: auto;
+    background-color: vars.$page1;
+};

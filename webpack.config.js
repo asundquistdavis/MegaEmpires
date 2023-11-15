@@ -4,10 +4,11 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     devtool: 'eval-source-map',
-    entry: './frontend/index.js',
+    entry: { play: './frontend/pages/play.js'},
     output: {
-        path: path.join(__dirname, '/frontend/output'),
-        filename: 'bundle.js'
+        publicPath: '/web',
+        filename: '[name].js',
+        path: path.join(__dirname, '/web/static'),
     },
     module: {
         rules: [

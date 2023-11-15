@@ -1,0 +1,100 @@
+
+@use 'vars';
+
+div.mapCreatorBorder {
+    height: 100%;
+    overflow: hidden;
+}
+
+div.mapCreatorMap {
+    position: relative;
+    z-index: 0;
+}
+
+div.mapCreatorAreas {
+    padding: vars.$spacer;
+    position: absolute;
+    right: 5*vars.$spacer;
+    top: 5*vars.$spacer;
+    z-index: 1;
+    width: fit-content;
+    background-color: vars.$page0;
+    border-radius: 5px;
+    border: solid black 1px;
+}
+
+div.mapCreatorLeft {
+    left: 5*vars.$spacer;
+}
+
+div.mapCreatorLeft > div.mapCreatorTitleRow {
+    flex-direction: row-reverse;
+}
+
+div.mapCreatorTitleRow {
+    display: flex;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+div.mapCreatorTitleText {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.mapCreatorAreas > * {
+    margin-bottom: vars.$spacer;
+}
+
+div.mapCreatorAreas > *:last-child {
+    margin-bottom: 0;
+}
+
+div.mapCreatorNameRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div.mapCreatorName {
+    font-size: 1rem;
+}
+
+input.mapCreatorNameInput {
+    width: 60%;
+}
+
+div.mapCreatorCurrentRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div.mapCreatorSubmitRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.mapCreatorCurrent {
+    background-color: vars.$page0;
+    border: solid black 1px;
+    border-radius: 5px;
+    position: absolute;
+    right: 5*vars.$spacer;
+    bottom: 5*vars.$spacer;
+    display: flex;
+    flex-direction: column;
+}
+
+div.mapCreatorCurrent > * {
+    margin-bottom: vars.$spacer;
+}
+
+div.mapCreatorCurrent > *:last-child {
+    margin-bottom: 0;
+}
+
+div.mapCreatorChooseMapRow > input {
+    width: 100%;
+}

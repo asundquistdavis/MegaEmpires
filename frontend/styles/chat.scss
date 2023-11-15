@@ -1,60 +1,63 @@
 
-@use 'vars';
-
-div.chatBorder {
-    background-color: vars.$pagen1;
-    height: 100%;
-    border: solid 2px vars.$buttonBorder;
+div.messageBody {
+    max-height: 500px;
+    height: 60dvh;
     display: flex;
     flex-direction: column;
 }
 
-div.chatMessages {
-    flex-shrink: 1;
-    overflow-y: scroll;
+div.messagesContainer { 
     margin-bottom: auto;
     display: flex;
     flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
-div.chatMessageWrapper {
+div.messagesInputRow {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: baseline;
 }
 
-div.chatMessageWrapper.message {
-    align-self: baseline;
+input.messageInput {
+    max-width: 100%;
+    margin-right: var(--length1);
 }
 
-div.chatMessageWrapper.reply {
-    align-self: end;
+button.chatButton {
+    margin-left: auto;
 }
 
-div.chatMessageBubble {
-    margin: vars.$spacer;
-    padding: 3px;
+div.messageOutside {
+    max-width: 80%;
+    width: max-content;
+    text-overflow: ellipsis;
+    hyphens: auto;
+    margin-right: auto;
+}
+
+div.messageOutside.owned {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+div.messageBubble {
     width: fit-content;
+    border: solid black 1px;
+    padding: 5px;
     border-radius: 5px;
-    box-shadow: 1px 1px 3px black;
+    background-color: lightgrey;
 }
 
-
-div.chatMessageWrapper.message div.chatMessageBubble {
-    border: solid 1px vars.$page1;
-    background-color: vars.$player;
-    margin-right: 4*vars.$spacer;
+div.messageOutside.owned div.messageBubble {
+    background-color: azure;
 }
 
-div.chatMessageWrapper.reply div.chatMessageBubble {
-    border: solid 1px vars.$dark;
-    margin-left: 4*vars.$spacer;
-    background-color: vars.$you;
+div.messageSender {
+    font-size: x-small;
+    padding: 2px;
+    width:fit-content;
 }
 
-div.chatSendMessageRow{
-    border-top: solid vars.$dark 1px;
-    padding: vars.$spacer;
-    display: flex;
-    justify-content: space-between;
-}
+// div.messageText
+

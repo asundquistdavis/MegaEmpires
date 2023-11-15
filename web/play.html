@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Empires</title>
+    <script src="./static/play.js" defer type="module"></script>
+    <style>
+        :root {
+            --bg1: white;
+            --bgHover: gray;
+            --length1: 5px;
+            --current: yellow;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        hr {margin: 2px;}
+        div#root {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+        div#map {
+            width: 100%;
+            height: 100%;
+        }
+        div#left {
+            display: none;
+            bottom: calc(2*var(--length1));
+            left: calc(2*var(--length1));
+        }
+        div#banner {
+            display: none;
+            top: calc((2*var(--length1)));
+            left: 50%;
+            transform: translate(-50%);
+        }
+        div#players {
+            display: none;
+            top: calc((2*var(--length1)));
+            left: calc(2*var(--length1));
+        }
+        div#players div.player, div#players hr {display: none;}
+        div#players:hover div.player, div#players:hover hr {display: block;}
+        div.overboard {
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+        }
+        div.card {
+            border-radius: 5px;
+            border: solid black 1px;
+            background-color: var(--bg1);
+        }
+        div.header {
+            font-size: larger;
+            font-weight: 600;
+        }
+        div.phases {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div.phase {
+            padding: var(--length1);
+            border: solid black 1px;
+            transform: skewX(-10deg);
+        }
+        div.phase div {
+            transform: skew(10deg);
+        }
+        div.phase.current {
+            background-color: var(--current);
+        }
+        div.hoverable:hover svg{
+            fill: var(--bgHover);
+        }
+        div.hoverableX:hover svg{
+            fill:red;
+        }
+        div.modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(90, 90, 90 , .5);
+            backdrop-filter: blur(1px);
+            z-index: 2;
+            display: none;
+        }
+        div.modalContent {
+            position: absolute;
+            min-width: 200px;
+            max-width: 90dvw;
+            left:50%;
+            top: 5%;
+            transform: translate(-50%);
+            padding: var(--length1);
+        }
+        div.alignCenter {
+            text-align: center;
+        }
+        div.justifyBetween {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        div.alignRight {
+            text-align: right;
+        }
+        div#settingsClose {
+            padding: calc(var(--length1)/2);
+        }
+        div#test {
+            right: calc(4*var(--length1) + 60px);
+            top: calc((2*var(--length1)));  
+        }
+        div.buttonRow {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        div.buttonRow div:not(:last-child) {
+            margin-left: var(--length1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div id="map"></div>
+        <div id="banner" class="overboard card"></div>
+        <div id="left" class="overboard card"></div>
+        <div id="players" class="overboard card"></div>
+    </div>
+</body>
+</html>

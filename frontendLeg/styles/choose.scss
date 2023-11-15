@@ -1,0 +1,39 @@
+
+@use 'vars';
+
+div.chooseGameButtonsRow {
+    display: flex;
+}
+
+div.chooseGameRow {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 5px;
+};
+
+div.chooseGameHost {
+    margin-inline-end: 5px;
+};
+
+div.chooseGamePlayers{
+    display: flex;
+    align-items: center;
+    margin-inline-end: 5px;
+};
+
+div.chooseGamePlayersPill {
+    width: fit-content;
+    padding: 2px;
+    background-color: vars.$page1;
+    border-radius: 5px;
+    border: solid vars.$buttonBorder 1px;
+}
+
+div.chooseGameStatus{
+    margin-inline-end: 5px;
+};
+
+div.chooseAddRow {
+    margin-bottom: 5px;
+}
