@@ -2,14 +2,6 @@ import { title } from '../utilities';
 
 const phaseData = require('./phases.json');
 
-class Phase {
-
-    constructor(name, actionGroups) {
-        this.name = name;
-        this.actionGroups;
-    }
-}
-
 export function setBanner(phaseName) {
     const banner = document.getElementById('banner');
     const phasesHTML = '<div class="phases">' + phaseData.map(data=>`<div class="phase ${phaseName===data.name?'current': ''}"><div>${title(data.name)}</div></div>`).join('')  + '</div>';
@@ -17,3 +9,9 @@ export function setBanner(phaseName) {
     banner.style.display = 'block';
 };
 
+export function setHeader(text) {
+    const banner = document.getElementById('banner');
+    const headerHtml = `<div class="header">${text}</div>`;
+    banner.innerHTML = headerHtml;
+    banner.style.display = 'block'
+};

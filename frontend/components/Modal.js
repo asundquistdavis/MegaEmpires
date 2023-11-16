@@ -12,7 +12,6 @@ export function useModal(name, parentId, bodyHtml='', state=false) {
     const body = document.createElement('div')
     body.id = name + 'Body'
     parent.innerHTML = modalHtml;
-    console.log(parent)
     body.innerHTML = bodyHtml;
     document.getElementById(name+'Modal').innerHTML = modalContentHtml
     document.getElementById(name+'ModalContent').innerHTML = modalHeaderHtml

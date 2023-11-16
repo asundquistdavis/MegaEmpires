@@ -116,6 +116,7 @@ export async function useMap(mapState) {
     };
 
     const handleTouchStart = (event) => {
+        event.preventDefault()
         dragging = true;
         clicking = true;
         if (event.changedTouches.length === 1) {
@@ -125,6 +126,7 @@ export async function useMap(mapState) {
     };
 
     const handleTouchMove = (event) => {
+        event.preventDefault()
         clicking = false;
         // console.log(event)
         if (event.changedTouches.length === 1) {
