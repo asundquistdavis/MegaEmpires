@@ -1,0 +1,10 @@
+
+div#board {
+    position: relative;
+    height: 100vh;
+}
+
+div.overboard {
+    position: absolute;
+    z-index: 1;
+}

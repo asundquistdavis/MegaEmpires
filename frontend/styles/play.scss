@@ -1,0 +1,66 @@
+
+@use 'board';
+@use 'card';
+
+html, body {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+hr {
+    margin: 0;
+    padding: 0;
+}
+
+div#root {
+    background-color: gray;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+div#map {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+}
+
+div#actionCard, div#actionCard div.card {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+div#info {
+    @extend .overboard;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    padding-inline: 10px;
+    padding-block: 5px;
+    background: radial-gradient(ellipse farthest-side at center, lightgray 80%, transparent 100%);
+}
+
+div#badges {
+    @extend .overboard;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: end;
+    top: 20px;
+    right: 20px;
+};
+
+div#badges * {
+    margin-left: 5px;
+};
+
+div.row {
+    display: flex;
+    justify-content: space-between;
+}

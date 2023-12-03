@@ -1,0 +1,30 @@
+
+@use 'vars';
+@use 'board';
+
+div.card {
+    @extend .overboard;
+    padding: 5px;
+    border-radius: 5px;
+    border: solid black 1px;
+    background-color: vars.$bg1;
+    width: fit-content;
+    height: fit-content;
+    min-width: 50px;
+    min-height: 10px;
+}
+
+div.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.headerRow div {
+    padding: 3px;
+}
+
+div.headerRow div:not(:last-child) {
+    margin-right: auto;
+}
+

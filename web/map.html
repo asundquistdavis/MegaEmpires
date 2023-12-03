@@ -1,8 +1,8 @@
 
 <style>
     :root {
-        --land: #dddc9b;
-        --water: lightblue;
+        --land: gray;
+        --water: #c6ddec;
         --coastal: azure;
         --hovered: black;
         --border: black;
@@ -10,16 +10,22 @@
         --city: black;
         --floodplain: darkgreen;
         --floodplaincity: white;
+        --effects: #000050;
+        --support0: #CA8C4E;
+        --support1: #B0D050;
+        --support2: #52D552;
+        --support3: #68DABE;
+        --support4: #7DAEE0;
+
+        /* legacy support coloring
+            0: 24639B
+            1: ECCC2F
+            2: DA8C41
+            3: DC2C50
+            4: D55696
+        */
     }
-    html, body {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: bisque;
-        user-select: none;
-    }
+
     path {
         stroke: var(--border);
         stroke-width: .25px;
@@ -29,7 +35,7 @@
         --name: attr('name');
     }
     path[type='land'] {
-        fill: var(--land);
+        fill: var(--land)
     }
     path[type='cover'] {
         pointer-events: none;
@@ -47,34 +53,39 @@
         text-anchor: middle;
         fill: black;
         font-size: .3rem;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font: 'open sans';
     }
     path[selected] {
-        fill: var(--selected);
-        opacity: .25;
+        fill: transparent;
+        stroke: var(--effects);
+        opacity: 1;
+        stroke-width: 3px;
+        stroke-linecap: round;   
         pointer-events: none;
     }
     path[hovered] {
-        fill: var(--hovered);
-        opacity: .3;
-        pointer-events: none;
+        fill: transparent;
+        stroke: var(--effects);
+        opacity: 1;
+        stroke-width: 3px;
+        stroke-linecap:round;
+        pointer-events:none;
     }
     circle[support] {
         pointer-events: none;
-        opacity: .5;
+        opacity: 1;
         fill: yellow;
-        stroke: black;
-        stroke-width: .5px;
     }
-    circle[value="0"] {fill: royalblue}
-    circle[value="1"] {fill: gold}
-    circle[value="2"] {fill: orange}
-    circle[value="3"] {fill: red}
-    circle[value="4"] {fill: magenta}
+    circle[value="0"] {fill: var(--support0)}
+    circle[value="1"] {fill: var(--support1)}
+    circle[value="2"] {fill: var(--support2)}
+    circle[value="3"] {fill: var(--support3)}
+    circle[value="4"] {fill: var(--support4)}
     text[support] {
-        font-family:'Courier New', Courier, monospace;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: .45rem
     }
+
     path[type="floodplain"] {
         fill: var(--floodplain);
         opacity: .5;
@@ -92,28 +103,23 @@
     path[type="volcano"] {
         fill: red;
         stroke: black;
-        opacity: .5;
+        opacity: 1;
+        stroke-opacity: .5;
         pointer-events: none;
     }
-
-    path[name="ruler1"] {
-        stroke: red;
-        stroke-width: 5px;
-    }   
-    path[name="ruler2"] {
-        stroke: green;
-        stroke-width: 5px;
-    }
-    path[name="ruler3"] {
-        stroke: yellow;
-        stroke-width: 5px;
-    }
-    path[name="ruler4"] {
-        stroke: red;
-        stroke-width: 5px;
-    }
     path[owned] {
+        opacity: .3;
         fill: pink;
+    }
+    path[layer] {
+        pointer-events: none;
+        opacity: 1;
+    }
+    path[contested] {
+        fill: url(#crossFillSVG) !important;
+    }
+    g[hide] * {
+        display: none;
     }
 
 </style>
@@ -124,6 +130,10 @@ height="552"
 id="mapSVG" 
 transform="matrix(1 0 0 1 0 0)"
 >
+    <pattern x="0" y="0" height="30" width="8" id="crossFillSVG" patternUnits="userSpaceOnUse" patternTransform="rotate(10 0 0)">
+        <rect x="0" y="0" width="8" height="30" fill="darkgray" stroke="transparent"></rect>
+        <rect x="0" y="0" width="4" height="30" fill="gray" stroke="transparent"></rect>
+    </pattern>
     <g name="areas">
         <path
         name="northern atlantic ocean"
@@ -140,7 +150,7 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="hibernia"
         type="coastal"
-        d="M12 125 41 161 84 157 97 143 95 129 91 115 74 98 47 98"></path>
+        d="M12 125 41 161 84 157 97 143 95 129 91 115 74 98 47 98z"></path>
         <path
         name="hibernia"
         type="cover"
@@ -148,19 +158,19 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="britannia"
         type="coastal"
-        d="M124 105 109 109 91 115 95 129 104 126 140 152 146 148 145 137 137 128 135 121 128 114"></path>
+        d="M124 105 109 109 91 115 95 129 104 126 140 152 146 148 145 137 137 128 135 121 128 114z"></path>
         <path
         name="britannia"
         type="cover"
-        d="M109 109 113 117 120 118 117 124 118 128 123 131 112 132 140 152 146 148 145 137 137 128 135 121 128 114 124 105 109 109"></path>
+        d="M109 109 113 117 120 118 117 124 118 128 123 131 112 132 140 152 146 148 145 137 137 128 135 121 128 114 124 105 109 109z"></path>
         <path
         name="londinium"
         type="coastal"
-        d="M124 105 128 114 135 121 137 128 145 137 146 148 140 152 126 165 101 166 84 183 94 204 165 183 191 162 191 138 168 118 149 99 133 103"></path>
+        d="M124 105 128 114 135 121 137 128 145 137 146 148 140 152 126 165 101 166 84 183 94 204 165 183 191 162 191 138 168 118 149 99 133 103z"></path>
         <path
         name="londinium"
         type="cover"
-        d="M124 105 133 103 141 112 151 116 158 126 159 138 171 137 181 142 181 153 173 156 168 161 182 163 170 172 149 171 140 174 142 177 123 176 122 185 114 181 103 187 95 186 94 184 100 183 108 177 107 173 112 169 129 168 138 158 140 152 146 148 145 137 137 128 135 121 128 114 124 105"></path>
+        d="M124 105 133 103 141 112 151 116 158 126 159 138 171 137 181 142 181 153 173 156 168 161 182 163 170 172 149 171 140 174 142 177 123 176 122 185 114 181 103 187 95 186 94 184 100 183 108 177 107 173 112 169 129 168 138 158 140 152 146 148 145 137 137 128 135 121 128 114 124 105z"></path>
         <path
         type="coastal"
         name="dyfed"
@@ -176,11 +186,11 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="ultima thule"
         type="coastal"
-        d="M180 1 325 0 353 35 366 71 305 98 301 96 291 78 270 59 260 58 230 71 198 52 173 22 180 1"></path>
+        d="M180 0 325 0 353 35 366 71 305 98 301 96 291 78 270 59 260 58 230 71 198 53 173 21 180 0"></path>
         <path
         name="ultima thule"
         type="cover"
-        d="M315 0 321 10 333 16 336 27 317 27 320 31 338 30 339 35 333 34 326 39 326 51 332 57 328 61 329 68 327 77 317 78 312 82 315 90 305 91 295 73 283 64 278 60 277 50 272 49 255 28 253 42 246 44 243 51 234 56 222 56 206 45 211 42 207 29 208 21 203 26 197 24 194 14 193 5 191 1 315 0"></path>
+        d="M315 0 321 10 333 16 336 27 317 27 320 31 338 30 339 35 333 34 326 39 326 51 332 57 328 61 329 68 327 77 317 78 312 82 315 90 305 91 295 73 283 64 278 60 277 50 272 49 255 28 253 42 246 44 243 51 234 56 222 56 206 45 211 42 207 29 208 21 203 26 197 24 194 14 193 5 191 0 315 0"></path>
         <path
         name="germania magna"
         type="coastal"
@@ -228,7 +238,7 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="caesaraugustanus"
         type="cover"
-        d="M172 276 170 294 168 299 151 297 147 299 154 328 193 325 208 317 208 281 172 276"></path>
+        d="M172 276 170 294 168 299 151 297 147 299 154 328 193 325 209 317 208 281 172 276"></path>
         <path
         name="alesia"
         type="land"
@@ -276,7 +286,7 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="eastern atlantic ocean"
         type="water"
-        d="M1 125 12 125 41 161 64 173 38 235 37 246 53 287 31 299 43 353 36 414 79 449 71 482 46 504 38 552 1 552 1 126"></path>
+        d="M0 125 12 125 41 161 64 173 38 235 37 246 53 287 31 299 43 353 36 414 79 449 71 482 46 504 38 552 0 552 0 126"></path>
         <path
         name="cluniensis"
         type="coastal"
@@ -320,7 +330,7 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         name="emeritensis"
         type="land"
-        d="M97 402 162 370 149 340 101 348 79 351"></path>
+        d="M97 402 162 370 149 340 101 348 79 351z"></path>
         <path
         name="carthaginensis"
         type="land"
@@ -706,7 +716,7 @@ transform="matrix(1 0 0 1 0 0)"
         type="coastal"
         d="M511 330 495 329 493 326 489 314 485 308 484 300 486 298 510 311 508 316 509 323 511 330"></path>
         <path
-        name="ithica"
+        name="ithaca"
         type="cover"
         d="M503 316 506 314 506 310 503 309 500 310 499 313 503 316M497 310 491 307 490 305 494 305 498 307 499 309 497 310"></path>
         <path
@@ -838,11 +848,11 @@ transform="matrix(1 0 0 1 0 0)"
         type="cover"
         d="M613 234 607 236 606 239 600 240 601 245 605 245 608 242 611 242 610 246 607 246 601 251 604 252 604 255 600 255 597 258 593 257 594 260 588 260 586 262 579 266 576 272 579 279 588 276 604 265 607 260 622 250 613 234"></path>
         <path
-        name="lesbos"
+        name="lemnos"
         type="coastal"
         d="M569 281 561 284 551 270 558 266 563 265 565 265 572 271 571 277 569 281"></path>
         <path
-        name="lesbos"
+        name="lemnos"
         type="cover"
         d="M562 279 565 277 565 275 560 275 560 279 562 279 562 279M565 272 561 272 560 267 565 267 565 272 565 272"></path>
         <path
@@ -902,1193 +912,1311 @@ transform="matrix(1 0 0 1 0 0)"
         type="land"
         d="M597 446 619 430 662 426 689 437 698 473 693 552 588 552 582 485 597 446"></path>
         <path
-        name="coda"
+        name="ustiurt"
         type="coastal"
         d="M713 0 858 0 876 0 878 18 879 30 839 48 796 38 780 34 773 29 767 30 755 41 749 35 713 0"></path>
         <path
-        name=""
+        name="ustiurt"
         type="cover"
         d="M749 35 750 31 758 26 769 13 781 14 789 9 798 10 801 15 801 21 805 27 804 32 799 35 796 38 839 48 879 30 878 18 873 22 871 22 867 15 863 14 859 5 858 0 713 0 749 35 "></path>
         <path
-        name=""
+        name="caspian coast"
         type="coastal"
         d="M780 34 796 38 839 48 844 66 825 81 813 91 783 66 778 58 780 34 780 34"></path>
         <path
-        name=""
+        name="caspian coast"
         type="cover"
         d="M825 81 823 77 819 75 810 72 805 63 791 55 790 51 802 50 796 42 796 38 839 48 844 66 825 81"></path>
         <path
-        name=""
+        name="kara-bogaz gol"
         type="coastal"
         d="M813 91 841 127 853 120 880 106 891 93 896 92 892 80 844 66 825 81 813 91"></path>
         <path
-        name=""
+        name="kara-bogaz gol"
         type="cover"
         d="M853 120 847 113 848 109 853 110 861 110 865 104 863 99 856 92 851 85 842 81 836 86 835 93 838 97 835 98 831 95 825 88 825 81 844 66 892 80 896 92 891 93 880 106 853 120"></path>
         <path
-        name=""
+        name="dahae"
         type="coastal"
         d="M896 92 907 119 882 136 871 143 841 127 853 120 880 106 891 93 896 92"></path>
         <path
-        name=""
+        name="dahae"
         type="cover"
         d="M882 136 873 130 869 130 861 124 856 123 853 120 880 106 891 93 896 92 907 119 882 136"></path>
         <path
-        name=""
+        name="hyrcania"
         type="coastal"
         d="M871 143 882 156 901 160 910 161 918 143 922 121 907 119 882 136 871 143"></path>
         <path
-        name=""
+        name="hyrcania"
         type="cover"
         d="M901 160 901 153 897 148 882 136 907 119 922 121 918 143 910 161 901 160"></path>
         <path
-        name=""
+        name="hecatompylos"
         type="coastal"
         d="M910 161 920 162 935 203 923 216 904 214 883 205 874 187 869 176 882 156 901 160 910 161"></path>
         <path
-        name=""
+        name="hecatompylos"
         type="cover"
         d="M901 160 898 169 902 169 901 171 906 178 905 183 898 185 889 186 885 182 886 177 883 178 885 173 882 174 877 184 874 187 883 205 904 214 923 216 935 203 920 162 910 161 901 160"></path>
         <path
-        name=""
+        name="eastern media"
         type="coastal"
         d="M883 205 865 220 834 208 835 195 836 179 869 176 874 187 883 205"></path>
         <path
-        name=""
+        name="eastern media"
         type="cover"
         d="M874 187 867 193 858 193 856 194 852 194 847 191 843 191 835 195 834 208 865 220 883 205 874 187"></path>
         <path
-        name=""
+        name="caucasus"
         type="coastal"
         d="M803 163 818 154 817 130 812 121 796 112 767 95 762 108 750 135 769 146 779 155 783 156 788 162 797 167 803 163"></path>
         <path
-        name=""
+        name="caucasus"
         type="cover"
         d="M803 163 798 160 798 157 802 154 801 150 800 143 798 141 801 138 806 137 807 133 805 128 799 128 790 127 786 122 776 115 771 113 762 108 750 135 769 146 779 155 783 156 788 162 797 167 803 163"></path>
         <path
-        name=""
         type="coastal"
+        name="nalchik"
         d="M750 135 729 150 714 152 684 101 731 73 748 62 767 95 762 108 750 135"></path>
         <path
-        name=""
         type="cover"
+        name="nalchik"
         d="M750 135 762 108 751 98 745 84 742 84 737 78 733 76 731 73 684 101 714 152 729 150 750 135"></path>
         <path
-        name=""
+        name="mikop"
         type="coastal"
         d="M714 152 712 153 706 158 696 165 668 160 667 154 663 143 664 136 659 108 684 101 714 152"></path>
         <path
-        name=""
+        name="mikop"
         type="cover"
         d="M706 158 699 156 682 156 667 154 663 143 664 136 659 108 684 101 714 152 712 153 706 158"></path>
         <path
-        name=""
+        name="kuban"
         type="coastal"
         d="M667 154 668 160 633 160 626 136 634 123 639 120 638 113 642 107 659 108 664 136 663 143 667 154"></path>
         <path
-        name=""
+        name="kuban"
         type="cover"
         d="M667 154 662 152 643 152 638 149 633 149 631 146 636 145 635 141 635 130 637 130 638 132 642 132 642 129 634 123 639 120 638 113 642 107 659 108 664 136 663 143 667 154"></path>
         <path
-        name=""
+        name="colchis"
         type="coastal"
         d="M729 150 731 160 734 165 735 173 738 179 739 186 727 191 724 187 713 181 698 173 696 165 706 158 712 153 714 152 729 150"></path>
         <path
-        name=""
+        name="colchis"
         type="cover"
         d="M713 181 716 174 716 166 710 160 706 158 712 153 714 152 729 150 731 160 734 165 735 173 738 179 739 186 727 191 724 187 713 181"></path>
         <path
-        name=""
+        name="western armenia"
         type="land"
         d="M739 186 756 192 763 192 766 171 767 166 767 159 766 156 769 146 750 135 729 150 731 160 734 165 735 173 738 179 739 186"></path>
         <path
-        name=""
+        name="eastern armenia"
         type="land"
         d="M769 146 779 155 783 156 788 162 797 167 795 169 795 177 790 185 790 195 763 192 766 171 767 166 767 159 766 156 769 146"></path>
         <path
-        name=""
+        name="trapezus"
         type="coastal"
         d="M727 191 703 208 692 216 667 205 666 200 665 189 698 173 713 181 724 187 727 191"></path>
         <path
-        name=""
+        name="trapezus"
         type="cover"
         d="M666 200 670 200 671 202 674 200 684 200 686 199 688 196 693 196 694 194 698 192 700 188 702 185 707 185 710 182 713 181 724 187 727 191 703 208 692 216 667 205 666 200"></path>
         <path
-        name=""
+        name="phrygia"
         type="coastal"
         d="M667 205 666 200 665 189 641 191 616 210 628 216 638 221 644 223 654 229 667 205"></path>
         <path
-        name=""
+        name="phrygia"
         type="cover"
         d="M666 200 667 205 654 229 644 223 638 221 628 216 629 212 633 209 639 208 642 206 649 200 652 200 657 202 662 202 666 200"></path>
         <path
-        name=""
+        name="bithynia"
         type="coastal"
         d="M654 229 644 223 638 221 628 216 616 210 606 223 613 234 622 250 629 257 637 250 641 249 648 243 658 238 654 229"></path>
         <path
-        name=""
+        name="bithynia"
         type="cover"
         d="M628 216 638 221 644 223 654 229 658 238 648 243 641 249 637 250 629 257 622 250 613 234 620 233 621 231 621 227 623 222 626 220 628 216"></path>
         <path
-        name=""
+        name="caspian sea"
         type="water"
         d="M836 179 869 176 882 156 871 143 841 127 813 91 783 66 778 58 780 34 773 29 767 30 755 41 748 62 767 95 796 112 812 121 817 130 818 154 836 179"></path>
         <path
-        name=""
+        name="hattusa"
         type="land"
         d="M658 238 671 245 683 244 685 242 685 233 692 216 667 205 654 229 658 238"></path>
         <path
-        name=""
+        name="lesbos"
         type="coastal"
         d="M572 284 582 300 588 304 596 304 592 287 584 280 579 281 572 284"></path>
         <path
-        name=""
+        name="lesbos"
         type="cover"
         d="M591 301 594 301 593 296 590 295 586 296 588 299 591 301 591 301M577 288 582 289 586 289 586 287 584 282 581 282 577 285 577 288 577 288"></path>
         <path
-        name=""
+        name="sardes"
         type="coastal"
         d="M588 276 584 280 592 287 596 287 605 287 606 289 609 289 610 288 621 288 632 268 629 257 622 250 607 260 604 265 588 276"></path>
         <path
-        name=""
+        name="sardes"
         type="cover"
         d="M588 276 589 281 593 284 595 284 596 287 605 287 606 289 609 289 610 288 621 288 632 268 629 257 622 250 607 260 604 265 588 276"></path>
         <path
-        name=""
+        name="miletus"
         type="coastal"
         d="M621 288 610 288 609 289 606 289 605 287 596 287 592 287 596 304 605 304 621 317 627 312 625 307 625 297 622 293 621 288"></path>
         <path
-        name=""
+        name="miletus"
         type="cover"
         d="M625 307 625 297 622 293 621 288 610 288 609 289 606 289 605 287 596 287 596 289 599 290 604 290 604 292 602 294 598 294 596 296 598 298 601 298 603 296 605 297 607 297 610 301 615 302 615 304 613 306 618 307 620 308 619 311 623 311 625 307"></path>
         <path
-        name=""
+        name="ionia"
         type="coastal"
         d="M627 312 625 307 625 297 622 293 621 288 632 268 642 268 644 269 658 269 660 283 657 285 652 286 645 291 640 305 640 309 635 308 627 312"></path>
         <path
-        name=""
+        name="ionia"
         type="cover"
         d="M640 305 645 291 652 286 657 285 660 283 658 269 644 269 642 268 632 268 621 288 622 293 625 297 625 307 630 303 630 308 634 305 640 305"></path>
         <path
-        name=""
+        name="lycia"
         type="coastal"
         d="M640 309 640 305 645 291 652 286 657 285 660 283 670 291 684 302 684 310 665 313 648 318 640 309"></path>
         <path
-        name=""
+        name="lycia"
         type="cover"
         d="M640 305 645 291 652 286 657 285 660 283 670 291 664 291 661 293 661 296 664 300 662 303 660 307 657 307 655 309 648 309 645 306 643 306 641 307 640 305"></path>
         <path
-        name=""
+        name="galatia"
         type="coastal"
         d="M670 291 660 283 658 269 665 257 679 261 691 261 698 260 701 261 712 266 716 269 716 277 701 294 684 302 670 291"></path>
         <path
-        name=""
+        name="galatia"
         type="cover"
         d="M670 291 660 283 658 269 665 257 679 261 691 261 698 260 701 261 712 266 712 270 710 271 706 271 702 273 702 284 700 287 696 287 692 292 687 293 685 293 684 291 670 291"></path>
         <path
-        name=""
+        name="cyprus"
         type="coastal"
         d="M684 310 684 302 701 294 706 299 715 307 720 312 715 316 705 320 700 320 690 312 684 310"></path>
         <path
-        name=""
+        name="cyprus"
         type="cover"
         d="M715 307 706 299 702 299 704 302 703 304 701 305 701 307 702 308 700 309 697 309 697 311 700 311 703 312 708 313 711 312 713 310 713 308 715 307"></path>
         <path
-        name=""
+        name="salamais"
         type="coastal"
         d="M720 312 715 307 706 299 701 294 716 277 720 278 724 285 727 295 728 302 720 312"></path>
         <path
-        name=""
+        name="salamais"
         type="cover"
         d="M715 307 706 299 709 296 709 294 711 292 711 289 716 284 717 287 715 295 715 298 719 298 720 299 716 300 715 302 715 307"></path>
         <path
-        name=""
+        name="anatolia"
         type="land"
         d="M658 269 665 257 671 245 658 238 648 243 641 249 637 250 629 257 632 268 642 268 644 269 658 269"></path>
         <path
-        name=""
+        name="kanesh"
         type="land"
         d="M665 257 671 245 683 244 685 242 685 233 692 216 703 208 716 227 701 261 698 260 691 261 679 261 665 257"></path>
         <path
-        name=""
+        name="cilicia"
         type="coastal"
         d="M712 266 716 269 721 264 724 261 731 251 730 226 716 227 701 261 712 266"></path>
         <path
-        name=""
+        name="cilicia"
         type="cover"
         d="M712 266 714 261 718 260 721 264 724 261 731 251 730 226 716 227 701 261 712 266"></path>
         <path
-        name=""
+        name="antioch"
         type="coastal"
         d="M727 295 736 289 752 276 737 268 733 267 724 261 721 264 716 269 716 277 720 278 724 285 727 295"></path>
         <path
-        name=""
+        name="antioch"
         type="cover"
         d="M736 289 734 286 730 284 728 279 728 275 722 272 721 271 721 264 724 261 733 267 737 268 752 276 736 289"></path>
         <path
-        name=""
+        name="phoenicia"
         type="coastal"
         d="M728 302 734 303 739 303 754 301 771 290 767 277 752 276 736 289 727 295 728 302"></path>
         <path
-        name=""
+        name="phoenicia"
         type="cover"
         d="M739 303 739 296 736 294 736 289 752 276 767 277 771 290 754 301 739 303"></path>
         <path
-        name=""
+        name="sidon"
         type="coastal"
         d="M739 303 734 303 733 314 738 324 746 320 759 313 754 301 739 303"></path>
         <path
-        name=""
+        name="sidon"
         type="cover"
         d="M746 320 742 313 742 309 739 306 739 303 754 301 759 313 746 320"></path>
         <path
-        name=""
+        name="rhodes"
         type="coastal"
         d="M644 337 648 318 640 309 635 308 627 312 621 317 627 324 628 329 644 337"></path>
         <path
-        name=""
+        name="rhodes"
         type="cover"
         d="M631 319 633 313 635 311 638 311 639 316 639 320 638 323 634 322 631 319"></path>
         <path
-        name=""
+        name="tyre"
         type="coastal"
         d="M738 324 745 338 753 336 761 334 762 329 765 327 777 324 775 314 759 313 746 320 738 324"></path>
         <path
-        name=""
+        name="tyre"
         type="cover"
         d="M761 334 753 336 751 330 747 328 747 326 751 326 746 320 759 313 775 314 777 324 765 327 762 329 761 334"></path>
         <path
-        name=""
+        name="jerusalem"
         type="coastal"
         d="M745 338 753 336 761 334 773 341 767 357 764 355 755 351 742 344 745 338"></path>
         <path
-        name=""
+        name="jerusalem"
         type="cover"
         d="M753 336 761 334 773 341 767 357 764 355 755 351 756 342 754 339 753 336"></path>
         <path
-        name=""
+        name="gaza"
         type="coastal"
         d="M748 370 764 355 755 351 742 344 735 351 743 363 748 370"></path>
         <path
-        name=""
+        name="gaza"
         type="cover"
         d="M755 351 743 363 748 370 764 355 755 351"></path>
         <path
-        name=""
+        name="tanis"
         type="coastal"
         d="M748 370 743 363 735 351 715 360 723 371 732 384 747 385 748 370"></path>
         <path
-        name=""
+        name="tanis"
         type="cover"
         d="M743 363 733 363 730 366 724 366 723 371 732 384 747 385 748 370 743 363"></path>
         <path
-        name=""
+        name="alexandria"
         type="coastal"
         d="M732 384 719 397 709 389 693 377 715 360 723 371 732 384"></path>
         <path
-        name=""
+        name="alexandria"
         type="cover"
         d="M723 371 719 371 714 377 715 380 709 389 719 397 732 384 723 371"></path>
         <path
-        name=""
+        name="paraetonium"
         type="coastal"
         d="M719 397 726 402 689 437 662 426 664 397 665 380 693 377 709 389 719 397"></path>
         <path
-        name=""
+        name="paraetonium"
         type="cover"
         d="M664 397 673 394 684 394 686 392 697 390 705 391 709 389 719 397 726 402 689 437 662 426 664 397"></path>
         <path
-        name=""
+        name="cyrenaica"
         type="coastal"
         d="M662 426 664 397 665 380 608 385 612 404 619 430 662 426"></path>
         <path
-        name=""
+        name="cyrenaica"
         type="cover"
         d="M664 397 658 398 655 401 645 403 641 399 638 399 636 402 631 402 628 404 620 405 612 404 619 430 662 426 664 397"></path>
         <path
-        name=""
+        name="cyrene"
         type="coastal"
         d="M597 446 577 441 553 436 558 396 598 386 608 385 612 404 619 430 597 446"></path>
         <path
-        name=""
+        name="cyrene"
         type="cover"
         d="M577 441 570 429 568 422 573 418 572 415 574 408 579 408 581 405 586 404 590 402 606 401 612 404 619 430 597 446 577 441"></path>
         <path
-        name=""
+        name="eastern mediterranean"
         type="water"
         d="M598 386 608 385 665 380 693 377 715 360 735 351 742 344 745 338 738 324 733 314 734 303 728 302 720 312 715 316 705 320 700 320 690 312 684 310 665 313 648 318 644 337 640 349 636 354 614 361 592 368 598 386"></path>
         <path
-        name=""
+        name="western desert"
         type="land"
         d="M698 473 731 443 737 411 726 402 689 437 698 473"></path>
         <path
-        name=""
+        name="memphis"
         type="land"
         d="M737 411 751 401 747 385 732 384 719 397 726 402 737 411"></path>
         <path
-        name=""
+        name="fayum"
         type="land"
         d="M731 443 746 446 774 418 751 401 737 411 731 443"></path>
         <path
-        name=""
+        name="upper egypt"
         type="land"
         d="M774 418 787 416 793 427 792 436 790 462 779 469 746 446 774 418"></path>
         <path
-        name=""
+        name="siwa"
         type="land"
         d="M693 552 775 552 777 505 779 469 746 446 731 443 698 473 693 552"></path>
         <path
-        name=""
+        name="teiga"
         type="land"
         d="M775 552 845 552 830 523 814 510 777 505 775 552"></path>
         <path
-        name=""
+        name="nukheila"
         type="land"
         d="M814 510 817 474 790 462 779 469 777 505 814 510"></path>
         <path
-        name=""
+        name="salima"
         type="land"
         d="M817 474 821 475 842 499 850 503 830 523 814 510 817 474"></path>
         <path
-        name=""
+        name="nuba"
         type="land"
         d="M850 503 881 516 915 520 915 552 845 552 830 523 850 503"></path>
         <path
-        name=""
+        name="ahmar"
         type="land"
         d="M915 520 922 520 950 531 975 539 976 552 915 552 915 520"></path>
         <path
-        name=""
+        name="oromia"
         type="land"
         d="M976 552 1054 552 1052 538 1015 530 988 524 975 539 976 552"></path>
         <path
-        name=""
+        name="orodan"
         type="land"
         d="M1054 552 1143 552 1129 521 1101 518 1068 532 1052 538 1054 552"></path>
         <path
-        name=""
+        name="t'ana"
         type="land"
         d="M975 539 988 524 960 519 950 531 975 539"></path>
         <path
-        name=""
+        name="aksum"
         type="land"
         d="M960 519 964 509 954 495 933 498 922 520 950 531 960 519"></path>
         <path
-        name=""
+        name="meroe"
         type="land"
         d="M922 520 933 498 916 487 879 485 886 501 881 516 915 520 922 520"></path>
         <path
-        name=""
+        name="napata"
         type="land"
         d="M879 485 861 480 842 499 850 503 881 516 886 501 879 485"></path>
         <path
-        name=""
+        name="upper nubia"
         type="land"
         d="M861 480 845 463 821 464 821 475 842 499 861 480"></path>
         <path
-        name=""
-        type="land"
-        d="M861 480 845 463 821 464 821 475 842 499 861 480"></path>
-        <path
-        name=""
+        name="buhen"
         type="land"
         d="M821 464 816 443 811 437 792 436 790 462 817 474 821 475 821 464"></path>
         <path
-        name=""
+        name="thebes"
         type="land"
         d="M793 427 812 425 839 439 845 463 821 464 816 443 811 437 792 436 793 427"></path>
         <path
-        name=""
+        name="petra"
         type="land"
         d="M767 357 788 369 803 353 795 350 773 341 767 357"></path>
         <path
-        name=""
+        name="jericho"
         type="land"
         d="M773 341 795 350 791 330 780 311 775 314 777 324 765 327 762 329 761 334 773 341"></path>
         <path
-        name=""
+        name="jordan"
         type="land"
         d="M803 353 822 360 844 335 833 314 798 305 791 330 795 350 803 353"></path>
         <path
-        name=""
+        name="damascus"
         type="land"
         d="M780 311 771 290 754 301 759 313 775 314 780 311"></path>
         <path
-        name=""
+        name="syria"
         type="land"
         d="M798 305 791 330 780 311 771 290 767 277 763 261 775 263 788 266 798 305"></path>
         <path
-        name=""
+        name="aleppo"
         type="land"
         d="M763 261 731 251 724 261 733 267 737 268 752 276 767 277 763 261"></path>
         <path
-        name=""
+        name="mari"
         type="land"
         d="M788 266 797 266 822 279 833 314 798 305 788 266"></path>
         <path
-        name=""
+        name="assyria"
         type="land"
         d="M775 263 762 224 754 224 730 226 731 251 763 261 775 263"></path>
         <path
-        name=""
+        name="carrhae"
         type="land"
         d="M775 263 788 266 797 266 807 241 788 232 774 225 762 224 775 263"></path>
         <path
-        name=""
+        name="vann"
         type="land"
         d="M754 224 730 226 716 227 703 208 727 191 739 186 756 192 754 224"></path>
         <path
-        name=""
+        name="ninveh"
         type="land"
         d="M788 232 774 225 762 224 754 224 756 192 763 192 790 195 794 199 800 205 788 232"></path>
         <path
-        name=""
+        name="urmia"
         type="land"
         d="M807 241 788 232 800 205 809 214 814 218 825 240 821 247 807 241"></path>
         <path
-        name=""
+        name="elam"
         type="land"
         d="M825 240 872 241 865 220 834 208 828 210 823 215 819 215 814 218 825 240"></path>
         <path
-        name=""
+        name="mesapotamia"
         type="land"
         d="M842 269 821 247 807 241 797 266 822 279 835 283 842 269"></path>
         <path
-        name=""
+        name="babylon"
         type="land"
-        d="M835 283 852 300 861 299 871 298 868 289 867 274 852 271 842 269"></path>
+        d="M835 283 852 300 861 299 871 298 868 289 867 274 852 271 842 269z"></path>
         <path
-        name=""
+        name="sumaria"
         type="land"
         d="M861 299 852 300 835 283 822 279 833 314 844 335 874 329 874 321 862 303 861 299"></path>
         <path
-        name=""
+        name="nafud"
         type="land"
         d="M874 329 844 335 822 360 837 378 873 394 881 383 880 379 892 361 899 335 874 329"></path>
         <path
-        name=""
+        name="nafud desert"
         type="land"
         d="M899 335 916 339 939 346 964 349 974 350 972 372 969 379 969 392 964 409 955 431 937 425 893 403 873 394 881 383 880 379 892 361 899 335"></path>
         <path
-        name=""
+        name="arabia deserta"
         type="land"
         d="M974 350 1018 356 1022 385 1086 417 1075 432 1061 449 1046 450 1001 450 955 431 964 409 969 392 969 379 972 372 974 350"></path>
         <path
-        name=""
+        name="western arabia felix"
         type="land"
         d="M1018 356 1040 358 1084 349 1116 347 1117 355 1104 397 1086 417 1022 385 1018 356"></path>
         <path
-        name=""
+        name="marib"
         type="land"
         d="M1046 450 1046 470 1017 469 999 462 1001 450 1046 450"></path>
         <path
-        name=""
+        name="zafar"
         type="land"
         d="M1046 470 1057 478 1041 494 1022 484 1017 469 1046 470"></path>
         <path
-        name=""
+        name="eastern arabia felix"
         type="land"
         d="M1116 347 1114 331 1112 316 1085 318 1085 325 1084 349 1116 347"></path>
         <path
-        name=""
+        name="ad dhana"
         type="land"
         d="M964 349 964 335 945 320 927 323 916 339 939 346 964 349"></path>
         <path
-        name=""
+        name="ecbatana"
         type="land"
         d="M872 241 865 220 883 205 904 214 897 249 876 249 872 241"></path>
         <path
-        name=""
+        name="paraetacene"
         type="land"
         d="M923 216 904 214 897 249 926 256 931 239 930 233 926 227 923 216"></path>
         <path
-        name=""
+        name="zagros"
         type="land"
         d="M931 239 930 233 926 227 923 216 935 203 948 208 950 219 953 233 939 238 931 239"></path>
         <path
-        name=""
+        name="western parthia"
         type="land"
         d="M948 208 935 203 920 162 947 163 951 161 976 160 981 196 972 199 948 208"></path>
         <path
-        name=""
+        name="kavir"
         type="land"
         d="M972 199 980 217 970 236 953 233 950 219 948 208 972 199"></path>
         <path
-        name=""
+        name="susiana"
         type="land"
         d="M926 256 931 239 939 238 953 233 970 236 990 240 998 260 985 261 980 266 977 279 952 267 947 267 931 271 926 256"></path>
         <path
-        name=""
+        name="persepolis"
         type="land"
         d="M998 260 985 261 980 266 977 279 985 288 1019 282 1031 273 998 260"></path>
         <path
-        name=""
+        name="sagartia"
         type="land"
         d="M1031 273 998 260 990 240 1008 226 1024 229 1031 242 1031 249 1036 254 1041 265 1031 273"></path>
         <path
-        name=""
+        name="persua"
         type="land"
         d="M1008 226 990 240 970 236 980 217 999 216 1008 226"></path>
         <path
-        name=""
+        name="gedrosia"
         type="land"
         d="M1041 265 1036 254 1031 249 1031 242 1024 229 1038 207 1055 211 1084 250 1074 257 1050 265 1041 265"></path>
         <path
-        name=""
+        name="drangiana"
         type="land"
         d="M1038 207 1024 229 1008 226 999 216 980 217 972 199 981 196 1023 194 1038 207"></path>
         <path
-        name=""
+        name="eastern parthia"
         type="land"
         d="M1023 194 981 196 976 160 975 137 999 136 1029 170 1019 178 1023 194"></path>
         <path
-        name=""
+        name="sinai"
         type="coastal"
         d="M788 369 790 373 799 401 795 400 777 394 762 385 755 379 748 373 748 370 764 355 767 357 788 369"></path>
         <path
-        name=""
+        name="sinai"
         type="cover"
         d="M764 355 767 357 788 369 790 373 788 376 790 380 795 395 777 389 765 384 760 379 755 379 748 373 748 370 764 355"></path>
         <path
-        name=""
+        name="eastern desert"
         type="coastal"
         d="M748 373 755 379 762 385 777 394 795 400 793 404 787 416 774 418 751 401 747 385 748 373"></path>
         <path
-        name=""
+        name="eastern desert"
         type="cover"
         d="M793 404 790 401 787 400 780 400 773 397 767 392 756 382 755 379 748 373 747 385 751 401 774 418 787 416 793 404"></path>
         <path
-        name=""
+        name="ptolemais"
         type="coastal"
         d="M799 401 795 400 793 404 787 416 793 427 812 425 817 419 821 414 815 408 814 405 799 401"></path>
         <path
-        name=""
+        name="ptolemais"
         type="cover"
         d="M817 419 812 414 810 413 810 413 809 411 805 411 797 408 793 404 787 416 793 427 812 425 817 419"></path>
         <path
-        name=""
+        name="nubian desert"
         type="coastal"
         d="M821 414 936 467 931 473 916 487 879 485 861 480 845 463 839 439 812 425 817 419 821 414"></path>
         <path
-        name=""
+        name="nubian desert"
         type="cover"
         d="M931 473 920 466 912 466 887 449 879 449 860 441 854 434 817 419 812 425 839 439 845 463 861 480 879 485 916 487 931 473"></path>
         <path
-        name=""
+        name="bahrmeder"
         type="coastal"
         d="M936 467 963 481 960 486 954 495 933 498 916 487 931 473 936 467"></path>
         <path
-        name=""
+        name="bahrmeder"
         type="cover"
         d="M960 486 949 478 937 476 931 473 916 487 933 498 954 495 960 486"></path>
         <path
-        name=""
+        name="adulis"
         type="coastal"
         d="M964 509 954 495 960 486 963 481 994 498 991 501 981 510 964 509"></path>
         <path
-        name=""
+        name="adulis"
         type="cover"
         d="M991 501 974 492 971 492 967 494 960 486 954 495 964 509 981 510 991 501"></path>
         <path
-        name=""
+        name="danokil"
         type="coastal"
         d="M994 498 1016 501 1028 506 1026 508 1017 516 1015 530 988 524 960 519 964 509 981 510 991 501 994 498"></path>
         <path
-        name=""
+        name="danokil"
         type="cover"
         d="M1026 508 1011 507 1002 503 991 501 981 510 964 509 960 519 988 524 1015 530 1017 516 1026 508"></path>
         <path
-        name=""
+        name="barbaria"
         type="coastal"
         d="M1028 506 1044 512 1049 518 1055 519 1060 517 1064 524 1068 532 1052 538 1015 530 1017 516 1026 508 1028 506"></path>
         <path
-        name=""
+        name="barbaria"
         type="cover"
         d="M1064 524 1058 527 1047 527 1036 517 1030 517 1030 509 1026 508 1017 516 1015 530 1052 538 1068 532 1064 524"></path>
         <path
-        name=""
+        name="berbera"
         type="coastal"
         d="M1060 517 1095 496 1097 504 1101 518 1068 532 1064 524 1060 517"></path>
         <path
-        name=""
+        name="berbera"
         type="cover"
         d="M1064 524 1077 519 1080 515 1094 508 1097 504 1101 518 1068 532 1064 524"></path>
         <path
-        name=""
+        name="calmadon"
         type="coastal"
         d="M1095 496 1097 504 1101 518 1129 521 1146 510 1135 483 1132 476 1095 496"></path>
         <path
-        name=""
+        name="calmadon"
         type="cover"
         d="M1097 504 1101 518 1129 521 1146 510 1135 483 1125 493 1105 502 1100 502 1097 504"></path>
         <path
-        name=""
+        name="opone"
         type="coastal"
         d="M1146 510 1135 483 1132 476 1152 456 1166 455 1176 461 1186 514 1170 512 1146 510"></path>
         <path
-        name=""
+        name="opone"
         type="cover"
         d="M1135 483 1140 480 1149 471 1153 471 1159 474 1162 478 1163 483 1166 488 1169 503 1170 512 1146 510 1135 483"></path>
         <path
-        name=""
+        name="rhapta"
         type="coastal"
         d="M1143 552 1129 521 1146 510 1170 512 1186 514 1188 531 1179 552 1165 552 1143 552"></path>
         <path
-        name=""
+        name="rhapta"
         type="cover"
         d="M1165 552 1143 552 1129 521 1146 510 1170 512 1174 526 1174 532 1172 537 1170 546 1165 552 1165 552"></path>
         <path
-        name=""
+        name="socotra"
         type="coastal"
         d="M1176 461 1166 455 1165 442 1176 435 1182 434 1195 442 1195 447 1195 452 1176 461"></path>
         <path
-        name=""
+        name="socotra"
         type="cover"
         d="M1173 449 1180 448 1187 444 1186 440 1182 441 1179 445 1173 445 1171 447 1173 449"></path>
         <path
-        name=""
+        name="nabataea"
         type="coastal"
         d="M814 405 799 401 790 373 788 369 803 353 822 360 837 378 827 398 824 404 814 405"></path>
         <path
-        name=""
+        name="nabataea"
         type="cover"
         d="M827 398 809 391 804 394 801 393 794 374 790 373 788 369 803 353 822 360 837 378 827 398"></path>
         <path
-        name=""
+        name="tayma"
         type="coastal"
         d="M824 404 827 398 837 378 873 394 893 403 883 420 881 427 824 404"></path>
         <path
-        name=""
+        name="tayma"
         type="cover"
         d="M883 420 875 420 868 417 867 414 843 403 834 403 827 398 837 378 873 394 893 403 883 420"></path>
         <path
-        name=""
+        name="yathrib"
         type="coastal"
         d="M881 427 883 420 893 403 937 425 929 444 927 450 881 427"></path>
         <path
-        name=""
+        name="yathrib"
         type="cover"
         d="M929 444 920 439 916 432 903 426 898 427 888 421 883 420 893 403 937 425 929 444"></path>
         <path
-        name=""
+        name="ma'in"
         type="coastal"
         d="M999 462 1001 450 955 431 937 425 929 444 927 450 992 482 993 478 999 462"></path>
         <path
-        name=""
+        name="ma'in"
         type="cover"
         d="M993 478 984 474 980 468 973 468 966 463 960 463 956 459 950 458 939 450 935 446 929 444 937 425 955 431 1001 450 999 462 993 478"></path>
         <path
-        name=""
+        name="saba"
         type="coastal"
         d="M1022 484 1017 469 999 462 993 478 992 482 1006 492 1011 490 1022 484"></path>
         <path
-        name=""
+        name="saba"
         type="cover"
         d="M1011 490 1022 484 1017 469 999 462 993 478 1003 485 1008 489 1011 490"></path>
         <path
-        name=""
+        name="himyar"
         type="coastal"
         d="M1006 492 1011 490 1022 484 1041 494 1052 500 1058 504 1044 512 1028 506 1016 501 1006 492"></path>
         <path
-        name=""
+        name="himyar"
         type="cover"
         d="M1052 500 1041 494 1022 484 1011 490 1019 499 1028 504 1043 505 1052 500"></path>
         <path
-        name=""
+        name="aden"
         type="coastal"
         d="M1058 504 1052 500 1041 494 1057 478 1073 489 1078 493 1058 504"></path>
         <path
-        name=""
+        name="aden"
         type="cover"
         d="M1073 489 1071 491 1066 491 1061 496 1057 496 1052 500 1041 494 1057 478 1073 489"></path>
         <path
-        name=""
+        name="qutaban"
         type="coastal"
         d="M1078 493 1073 489 1057 478 1046 470 1046 450 1061 449 1071 460 1076 462 1087 471 1096 478 1078 493"></path>
         <path
-        name=""
+        name="qutaban"
         type="cover"
         d="M1087 471 1076 462 1071 460 1061 449 1046 450 1046 470 1057 478 1073 489 1073 487 1078 486 1083 482 1083 479 1086 479 1086 473 1087 471"></path>
         <path
-        name=""
+        name="hadhramawt"
         type="coastal"
         d="M1096 478 1087 471 1076 462 1071 460 1061 449 1075 432 1105 450 1115 455 1096 478"></path>
         <path
-        name=""
+        name="hadhramawt"
         type="cover"
         d="M1105 450 1075 432 1061 449 1071 460 1076 462 1087 471 1090 467 1094 466 1101 459 1104 459 1105 450"></path>
         <path
-        name=""
+        name="zufar"
         type="coastal"
         d="M1115 455 1105 450 1075 432 1086 417 1104 397 1128 405 1144 411 1137 427 1115 455"></path>
         <path
-        name=""
+        name="zufar"
         type="cover"
         d="M1128 405 1104 397 1086 417 1075 432 1105 450 1106 445 1112 444 1114 441 1118 440 1121 431 1124 430 1129 426 1124 417 1124 409 1128 409 1128 405"></path>
         <path
-        name=""
+        name="ubar"
         type="coastal"
         d="M1144 411 1128 405 1104 397 1117 355 1148 359 1162 360 1144 411"></path>
         <path
-        name=""
+        name="ubar"
         type="cover"
         d="M1148 359 1117 355 1104 397 1128 405 1131 403 1131 399 1140 394 1144 394 1144 389 1141 387 1141 379 1148 376 1151 371 1150 367 1146 365 1148 359"></path>
         <path
-        name=""
+        name="madrrakah"
         type="coastal"
         d="M1162 360 1148 359 1117 355 1116 347 1114 331 1145 325 1159 322 1162 360"></path>
         <path
-        name=""
+        name="madrrakah"
         type="cover"
         d="M1145 325 1114 331 1116 347 1117 355 1148 359 1157 355 1156 352 1150 351 1143 343 1142 334 1149 335 1147 329 1145 325"></path>
         <path
-        name=""
+        name="oman"
         type="coastal"
         d="M1159 322 1145 325 1114 331 1112 316 1125 306 1125 296 1125 286 1143 288 1151 293 1154 299 1159 322"></path>
         <path
-        name=""
+        name="oman"
         type="cover"
         d="M1125 296 1125 306 1112 316 1114 331 1145 325 1147 311 1144 300 1141 294 1136 297 1125 296"></path>
         <path
-        name=""
+        name="bat"
         type="coastal"
         d="M1125 286 1125 296 1125 306 1112 316 1085 318 1082 301 1082 295 1115 286 1125 286"></path>
         <path
-        name=""
+        name="bat"
         type="cover"
         d="M1082 301 1085 318 1112 316 1125 306 1125 296 1111 291 1109 296 1103 297 1101 301 1082 301"></path>
         <path
-        name=""
+        name="maka"
         type="coastal"
         d="M1082 295 1082 301 1085 318 1085 325 1062 321 1050 319 1048 297 1049 282 1053 279 1061 279 1075 287 1082 295"></path>
         <path
-        name=""
+        name="maka"
         type="cover"
         d="M1062 321 1085 325 1085 318 1082 301 1073 298 1064 287 1057 284 1057 299 1059 313 1062 321"></path>
         <path
-        name=""
+        name="magan"
         type="coastal"
         d="M1050 319 1062 321 1085 325 1084 349 1040 358 1035 338 1033 331 1050 319"></path>
         <path
-        name=""
+        name="magan"
         type="cover"
         d="M1035 338 1040 358 1084 349 1085 325 1062 321 1056 329 1051 329 1047 332 1047 336 1042 338 1035 338"></path>
         <path
-        name=""
+        name="gerrah"
         type="coastal"
         d="M1033 331 1035 338 1040 358 1018 356 974 350 964 349 964 335 945 320 948 312 949 302 993 318 1020 318 1033 331"></path>
         <path
-        name=""
+        name="gerrah"
         type="cover"
         d="M948 312 945 320 964 335 964 349 974 350 1018 356 1040 358 1035 338 1029 336 1025 330 1020 329 1015 323 1009 323 1013 332 1023 340 1008 335 1007 332 1002 330 992 323 974 323 970 320 960 319 953 312 948 312"></path>
         <path
-        name=""
+        name="chaldaea"
         type="coastal"
         d="M949 302 948 312 945 320 927 323 916 339 899 335 874 329 874 321 899 317 901 298 901 293 905 286 922 292 949 302"></path>
         <path
-        name=""
+        name="chaldaea"
         type="cover"
         d="M901 298 899 317 874 321 874 329 899 335 916 339 927 323 945 320 948 312 944 311 939 303 933 303 929 301 924 301 921 299 917 299 906 291 906 296 904 298 901 298"></path>
         <path
-        name=""
+        name="charax"
         type="coastal"
         d="M901 293 901 298 899 317 874 321 862 303 861 299 871 298 886 294 897 294 901 293"></path>
         <path
-        name=""
+        name="charax"
         type="cover"
         d="M897 294 886 294 871 298 861 299 862 303 874 321 899 317 901 298 898 297 897 294"></path>
         <path
-        name=""
+        name="ur"
         type="coastal"
         d="M905 286 901 293 897 294 886 294 871 298 868 289 867 274 880 273 884 278 893 283 901 283 905 286"></path>
         <path
-        name=""
+        name="ur"
         type="cover"
         d="M884 278 880 273 867 274 868 289 871 298 886 294 897 294 899 290 902 288 901 286 890 286 884 278"></path>
         <path
-        name=""
+        name="babylonia"
         type="coastal"
         d="M901 283 893 283 884 278 880 273 867 274 852 271 842 269 821 247 825 240 872 241 876 249 881 262 884 263 899 276 901 283"></path>
         <path
-        name=""
+        name="babylonia"
         type="cover"
         d="M899 276 884 263 881 262 876 249 872 241 825 240 821 247 842 269 852 271 867 274 880 273 884 278 889 277 895 281 896 276 899 276"></path>
         <path
-        name=""
+        name="susa"
         type="coastal"
         d="M922 292 905 286 901 283 899 276 884 263 881 262 876 249 897 249 926 256 931 271 936 285 938 290 926 290 922 292"></path>
         <path
-        name=""
+        name="susa"
         type="cover"
         d="M936 285 931 271 926 256 897 249 876 249 881 262 884 263 899 276 903 276 907 283 908 282 912 282 917 280 923 282 932 282 936 285"></path>
         <path
-        name=""
+        name="liyan"
         type="coastal"
         d="M938 290 936 285 931 271 947 267 952 267 977 279 985 288 986 300 986 305 938 290"></path>
         <path
-        name=""
+        name="liyan"
         type="cover"
         d="M986 300 985 288 977 279 952 267 947 267 931 271 936 285 942 286 945 283 948 283 953 288 963 289 966 293 969 293 969 290 972 291 975 296 976 294 980 296 982 299 986 300 986 300"></path>
         <path
-        name=""
+        name="persis"
         type="coastal"
         d="M986 305 986 300 985 288 1019 282 1024 297 1025 303 986 305"></path>
         <path
-        name=""
+        name="persis"
         type="cover"
         d="M1024 297 1019 282 985 288 986 300 994 299 996 297 1007 297 1007 299 1013 299 1015 297 1024 297"></path>
         <path
-        name=""
+        name="carmania"
         type="coastal"
         d="M1025 303 1024 297 1019 282 1031 273 1041 265 1050 265 1050 271 1053 279 1049 282 1048 297 1025 303"></path>
         <path
-        name=""
+        name="carmania"
         type="cover"
         d="M1050 271 1050 265 1041 265 1031 273 1019 282 1024 297 1030 297 1033 294 1038 294 1040 291 1040 284 1041 277 1043 276 1043 272 1050 271"></path>
         <path
-        name=""
+        name="harmozia"
         type="coastal"
         d="M1075 287 1061 279 1053 279 1050 271 1050 265 1074 257 1086 273 1093 280 1075 287"></path>
         <path
-        name=""
+        name="harmozia"
         type="cover"
         d="M1086 273 1074 257 1050 265 1050 271 1055 274 1061 274 1069 280 1079 280 1086 273"></path>
         <path
-        name=""
+        name="makran"
         type="coastal"
         d="M1093 280 1086 273 1074 257 1084 250 1097 241 1113 256 1120 262 1093 280"></path>
         <path
-        name=""
+        name="makran"
         type="cover"
         d="M1113 256 1097 241 1084 250 1074 257 1086 273 1090 268 1098 268 1104 264 1104 258 1112 258 1113 256"></path>
         <path
-        name=""
+        name="sattagydia"
         type="coastal"
         d="M1120 262 1113 256 1097 241 1111 227 1118 208 1142 228 1149 234 1120 262"></path>
         <path
-        name=""
+        name="sattagydia"
         type="cover"
         d="M1142 228 1118 208 1111 227 1097 241 1113 256 1120 255 1120 250 1125 249 1127 241 1131 240 1132 237 1138 236 1138 231 1142 228"></path>
         <path
-        name=""
+        name="sind"
         type="coastal"
         d="M1149 234 1142 228 1118 208 1092 201 1087 178 1115 172 1140 180 1155 198 1159 210 1162 220 1149 234"></path>
         <path
-        name=""
+        name="sind"
         type="cover"
         d="M1159 210 1155 198 1140 180 1115 172 1087 178 1092 201 1118 208 1142 228 1142 225 1149 222 1159 210"></path>
         <path
-        name=""
+        name="balakot"
         type="coastal"
         d="M1162 220 1159 210 1155 198 1178 186 1183 189 1202 192 1207 206 1211 218 1162 220"></path>
         <path
-        name=""
+        name="balakot"
         type="cover"
         d="M1207 206 1202 192 1183 189 1178 186 1155 198 1159 210 1165 203 1169 203 1174 207 1178 203 1189 210 1200 209 1201 206 1207 206"></path>
         <path
-        name=""
+        name="dholavira"
         type="coastal"
         d="M1211 218 1207 206 1202 192 1199 184 1259 186 1261 192 1265 198 1245 207 1222 218 1211 218"></path>
         <path
-        name=""
+        name="dholavira"
         type="cover"
         d="M1245 207 1265 198 1261 192 1259 186 1199 184 1202 192 1207 206 1210 206 1210 202 1212 204 1212 208 1228 209 1235 207 1245 197 1245 207"></path>
         <path
-        name=""
+        name="surashtra"
         type="coastal"
         d="M1222 218 1245 207 1265 198 1288 204 1296 206 1300 225 1247 232 1222 218"></path>
         <path
-        name=""
+        name="surashtra"
         type="cover"
         d="M1288 204 1265 198 1245 207 1240 215 1234 215 1235 218 1260 222 1277 223 1284 219 1285 214 1288 212 1288 204"></path>
         <path
-        name=""
+        name="lothal"
         type="coastal"
         d="M1296 206 1288 204 1265 198 1261 192 1259 186 1282 175 1286 177 1302 178 1296 200 1296 206"></path>
         <path
-        name=""
+        name="lothal"
         type="cover"
         d="M1296 200 1302 178 1286 177 1282 175 1259 186 1261 192 1265 198 1288 204 1287 201 1279 194 1280 190 1283 188 1286 190 1285 193 1290 197 1290 195 1294 195 1296 200"></path>
         <path
-        name=""
+        name="shakas"
         type="coastal"
         d="M1300 225 1296 206 1296 200 1302 178 1335 181 1335 202 1346 223 1331 231 1316 239 1300 225"></path>
         <path
-        name=""
+        name="shakas"
         type="cover"
         d="M1331 231 1346 223 1335 202 1335 181 1302 178 1296 200 1300 203 1304 203 1308 206 1314 220 1319 223 1322 223 1326 227 1329 225 1331 231"></path>
         <path
-        name=""
+        name="western ghats"
         type="coastal"
         d="M1316 239 1331 231 1346 223 1371 236 1406 255 1422 263 1412 276 1405 286 1316 239"></path>
         <path
-        name=""
+        name="western ghats"
         type="cover"
         d="M1412 276 1422 263 1406 255 1371 236 1346 223 1331 231 1335 236 1347 239 1369 257 1391 267 1408 273 1412 276"></path>
         <path
-        name=""
+        name="red sea"
         type="water"
         d="M824 404 814 405 815 408 821 414 936 467 994 498 1016 501 1006 492 992 482 927 450 881 427 824 404"></path>
         <path
-        name=""
+        name="persian gulf"
         type="water"
         d="M1048 297 1050 319 1033 331 1020 318 993 318 949 302 922 292 926 290 938 290 986 305 1025 303 1048 297"></path>
         <path
-        name=""
+        name="vanchi"
         type="coastal"
         d="M1405 286 1412 276 1422 263 1457 279 1479 295 1489 304 1487 314 1485 324 1405 286"></path>
         <path
-        name=""
+        name="vanchi"
         type="cover"
         d="M1487 314 1489 304 1479 295 1457 279 1422 263 1412 276 1428 286 1445 294 1454 294 1463 302 1474 306 1483 313 1487 314"></path>
         <path
-        name=""
+        name="pandyas"
         type="coastal"
         d="M1485 324 1487 314 1489 304 1512 305 1521 305 1522 317 1512 326 1485 324"></path>
         <path
-        name=""
+        name="pandyas"
         type="cover"
         d="M1512 305 1489 304 1487 314 1499 317 1514 317 1515 310 1512 305"></path>
         <path
-        name=""
+        name="madurai"
         type="coastal"
         d="M1521 305 1512 305 1489 304 1479 295 1498 284 1513 284 1523 284 1524 303 1521 305"></path>
         <path
-        name=""
+        name="madurai"
         type="cover"
         d="M1513 284 1498 284 1479 295 1489 304 1512 305 1513 300 1519 295 1518 292 1514 292 1513 284"></path>
         <path
-        name=""
+        name="eastern sinhalese"
         type="coastal"
         d="M1523 284 1513 284 1498 284 1483 269 1501 257 1511 251 1523 270 1523 284"></path>
         <path
-        name=""
+        name="eastern sinhalese"
         type="cover"
         d="M1501 257 1483 269 1498 284 1513 284 1513 280 1518 276 1509 265 1506 265 1501 257"></path>
         <path
-        name=""
+        name="cholas"
         type="coastal"
         d="M1511 251 1501 257 1483 269 1475 257 1472 256 1463 252 1484 232 1494 223 1511 251"></path>
         <path
-        name=""
+        name="cholas"
         type="cover"
         d="M1484 232 1463 252 1472 256 1475 257 1483 269 1501 257 1498 251 1498 246 1493 242 1493 238 1488 233 1484 232"></path>
         <path
-        name=""
+        name="eastern ghats"
         type="coastal"
         d="M1494 223 1484 232 1463 252 1444 242 1442 224 1439 200 1447 196 1472 200 1487 202 1494 223"></path>
         <path
-        name=""
+        name="eastern ghats"
         type="cover"
         d="M1472 200 1447 196 1439 200 1442 224 1444 242 1463 252 1484 232 1481 231 1479 227 1475 223 1471 223 1464 213 1464 206 1466 204 1472 204 1472 200"></path>
         <path
-        name=""
+        name="tosali"
         type="coastal"
         d="M1487 202 1472 200 1447 196 1449 173 1450 161 1479 169 1496 173 1487 202"></path>
         <path
-        name=""
+        name="tosali"
         type="cover"
         d="M1479 169 1450 161 1449 173 1447 196 1472 200 1471 194 1472 191 1478 189 1482 185 1481 179 1478 178 1478 176 1478 171 1479 169"></path>
         <path
-        name=""
+        name="kalinga"
         type="coastal"
         d="M1496 173 1479 169 1450 161 1451 131 1488 132 1509 132 1496 173"></path>
         <path
-        name=""
+        name="kalinga"
         type="cover"
         d="M1488 132 1451 131 1450 161 1479 169 1484 158 1484 152 1488 147 1488 132"></path>
         <path
-        name=""
+        name="orissa"
         type="coastal"
         d="M1509 132 1488 132 1451 131 1451 114 1429 71 1458 63 1482 86 1489 90 1500 91 1515 92 1509 132"></path>
         <path
-        name=""
+        name="orissa"
         type="cover"
         d="M1500 91 1489 90 1482 86 1458 63 1429 71 1451 114 1451 131 1488 132 1490 117 1493 111 1498 110 1500 106 1501 95 1500 91"></path>
         <path
-        name=""
+        name="tamluk"
         type="coastal"
         d="M1515 92 1500 91 1489 90 1482 86 1458 63 1469 40 1480 40 1487 43 1506 45 1515 46 1515 92"></path>
         <path
-        name=""
+        name="tamluk"
         type="cover"
         d="M1506 45 1487 43 1480 40 1469 40 1458 63 1482 86 1489 90 1500 91 1500 88 1494 85 1494 78 1502 70 1502 61 1499 58 1504 57 1502 47 1505 47 1506 45"></path>
         <path
-        name=""
+        name="gauda"
         type="coastal"
         d="M1515 46 1506 45 1487 43 1480 40 1469 40 1463 23 1436 20 1418 25 1404 17 1407 0 1533 0 1535 14 1538 38 1515 46"></path>
         <path
-        name=""
+        name="gauda"
         type="cover"
         d="M1535 14 1533 0 1407 0 1404 17 1418 25 1436 20 1463 23 1469 40 1480 40 1487 43 1506 45 1508 44 1507 40 1503 40 1504 38 1506 36 1509 40 1512 40 1508 35 1510 31 1512 35 1514 35 1514 28 1515 23 1509 22 1512 20 1511 15 1519 18 1529 16 1532 13 1535 14"></path>
         <path
-        name=""
+        name="brahmaputra"
         type="coastal"
-        d="M1538 38 1535 14 1533 0 1599 0 1599 39 1599 54 1538 38"></path>
+        d="M1538 38 1535 14 1533 0 1600 0 1600 39 1600 54 1538 38"></path>
         <path
-        name=""
+        name="brahmaputra"
         type="cover"
-        d="M1599 39 1599 0 1533 0 1535 14 1541 17 1545 16 1545 21 1549 22 1556 26 1557 31 1565 33 1573 38 1581 40 1572 34 1576 34 1580 37 1585 37 1583 33 1586 33 1588 35 1591 34 1599 39"></path>
+        d="M1600 39 1600 0 1533 0 1535 14 1541 17 1545 16 1545 21 1549 22 1556 26 1557 31 1565 33 1573 38 1581 40 1572 34 1576 34 1580 37 1585 37 1583 33 1586 33 1588 35 1591 34 1600 39"></path>
         <path
-        name=""
+        name="western media"
         type="coastal"
         d="M818 154 803 163 797 167 795 169 795 177 790 185 790 195 794 199 800 205 809 214 814 218 819 215 823 215 828 210 834 208 835 195 836 179 818 154"></path>
         <path
-        name=""
+        name="western media"
         type="cover"
         d="M835 195 834 208 828 210 823 215 819 215 814 218 809 214 800 205 794 199 790 195 790 185 795 177 795 169 797 167 803 163 813 169 813 173 808 172 807 175 819 188 827 192 830 195 835 195"></path>
         <path
-        name=""
+        name="gulf of aden"
         type="water"
         d="M1137 427 1115 455 1096 478 1078 493 1058 504 1044 512 1049 518 1055 519 1060 517 1095 496 1132 476 1152 456 1166 455 1165 442 1137 427"></path>
         <path
-        name=""
+        name="western india ocean"
         type="water"
         d="M1195 447 1195 452 1176 461 1186 514 1188 531 1179 552 1286 552 1275 455 1195 447"></path>
         <path
-        name=""
+        name="western arabian sea"
         type="water"
         d="M1154 299 1159 322 1162 360 1144 411 1137 427 1165 442 1176 435 1182 434 1195 442 1195 447 1275 455 1297 349 1220 279 1154 299"></path>
         <path
-        name=""
+        name="gulf of oman"
         type="water"
         d="M1247 232 1222 218 1211 218 1162 220 1149 234 1120 262 1093 280 1075 287 1082 295 1115 286 1125 286 1143 288 1151 293 1154 299 1220 279 1247 232"></path>
         <path
-        name=""
+        name="eastern arabian sea"
         type="water"
-        d="M1524 303 1521 305 1522 317 1512 326 1485 324 1405 286 1316 239 1300 225 1247 232 1220 279 1297 349 1449 376 1599 360 1599 303 1590 303 1586 314 1579 326 1553 323 1524 303"></path>
+        d="M1524 303 1521 305 1522 317 1512 326 1485 324 1405 286 1316 239 1300 225 1247 232 1220 279 1297 349 1449 376 1600 360 1600 303 1590 303 1586 314 1579 326 1553 323 1524 303"></path>
         <path
-        name=""
+        name="central indian ocean"
         type="water"
-        d="M1599 360 1449 376 1297 349 1275 455 1286 552 1599 552 1599 360"></path>
+        d="M1600 360 1449 376 1297 349 1275 455 1286 552 1600 552 1600 360"></path>
         <path
-        name=""
+        name="ruhuuna"
         type="coastal"
         d="M1590 303 1586 314 1579 326 1553 323 1556 315 1566 290 1568 284 1584 289 1590 303"></path>
         <path
-        name=""
+        name="ruhuuna"
         type="cover"
         d="M1566 290 1556 315 1566 322 1575 321 1586 307 1582 297 1566 290"></path>
         <path
-        name=""
+        name="anuradhapura"
         type="coastal"
         d="M1523 270 1523 284 1524 303 1553 323 1556 315 1566 290 1568 284 1523 270"></path>
         <path
-        name=""
+        name="anuradhapura"
         type="cover"
         d="M1556 315 1566 290 1552 284 1546 284 1544 282 1528 281 1529 284 1533 284 1535 290 1529 292 1538 294 1543 306 1556 315"></path>
         <path
-        name=""
+        name="bay of bengal"
         type="water"
-        d="M1599 54 1538 38 1515 46 1515 92 1509 132 1496 173 1487 202 1494 223 1511 251 1523 270 1568 284 1584 289 1590 303 1599 303 1599 54"></path>
+        d="M1600 54 1538 38 1515 46 1515 92 1509 132 1496 173 1487 202 1494 223 1511 251 1523 270 1568 284 1584 289 1590 303 1600 303 1600 54"></path>
         <path
-        name=""
+        name="nis"
         type="land"
         d="M1055 211 1066 206 1065 182 1049 171 1029 170 1019 178 1023 194 1038 207 1055 211"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="chorasmia"
+        type="land"
+        d="M892 80 943 67 938 50 915 42 879 30 839 48 844 66 892 80"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="western sogdiana"
+        type="coastal"
+        d="M915 42 879 30 878 18 876 0 902 0 935 0 934 24 923 24 915 42"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="western sogdiana"
+        type="cover"
+        d="M902 0 935 0 934 24 923 24 915 42 879 30 878 18 881 15 887 15 889 17 897 11 899 10 902 0"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="toprok-kala"
+        type="land"
+        d="M938 50 915 42 923 24 934 24 947 24 952 41 938 50"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="eastern sogdiana"
+        type="land"
+        d="M947 24 934 24 935 0 981 0 981 16 947 24"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="bukhara"
+        type="land"
+        d="M952 41 947 24 981 16 992 27 990 45 952 41"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="upper oxus"
+        type="land"
+        d="M943 67 938 50 952 41 990 45 1011 68 995 80 943 67"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="karakum"
+        type="land"
+        d="M922 121 907 119 896 92 892 80 943 67 995 80 997 109 966 98 937 116 922 121"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="merv"
+        type="land"
+        d="M999 136 975 137 958 137 937 116 966 98 997 109 1004 122 999 136"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="nisa"
+        type="land"
+        d="M975 137 976 160 951 161 947 163 920 162 910 161 918 143 922 121 937 116 958 137 975 137"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="poura"
+        type="land"
+        d="M1092 201 1118 208 1111 227 1097 241 1084 250 1055 211 1066 206 1092 201"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="siestian"
+        type="land"
+        d="M1087 178 1092 201 1066 206 1065 182 1076 179 1087 178"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="aria"
+        type="land"
+        d="M1076 179 1065 182 1049 171 1029 170 999 136 1004 122 1025 117 1059 119 1071 135 1068 152 1076 179"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="arachosia"
+        type="land"
+        d="M1115 172 1087 178 1076 179 1068 152 1071 135 1100 122 1120 140 1115 172"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="mohenjo-daro"
+        type="land"
+        d="M1140 180 1115 172 1120 140 1143 142 1148 155 1152 168 1140 180"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="chanhu-daro"
+        type="land"
+        d="M1199 184 1202 192 1183 189 1178 186 1155 198 1140 180 1152 168 1148 155 1177 154 1194 167 1199 184"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="upper indus"
+        type="land"
+        d="M1177 154 1148 155 1143 142 1159 113 1182 111 1189 140 1177 154"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="suleiman"
+        type="land"
+        d="M1159 113 1143 142 1120 140 1100 122 1108 82 1116 87 1130 90 1142 97 1154 99 1159 113"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="gandhara"
+        type="land"
+        d="M1108 82 1100 122 1071 135 1059 119 1061 90 1076 89 1082 65 1088 65 1110 71 1108 82"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="bactria"
+        type="land"
+        d="M1061 90 1059 119 1025 117 1030 89 1047 78 1061 90"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="margiana"
+        type="land"
+        d="M1047 78 1030 89 1025 117 1004 122 997 109 995 80 1011 68 1042 67 1047 78"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="kuhwat"
+        type="land"
+        d="M1082 65 1076 89 1061 90 1047 78 1042 67 1049 46 1082 65"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="bactra"
+        type="land"
+        d="M1049 46 1042 67 1011 68 990 45 992 27 1045 16 1055 31 1049 46"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="samarkand"
+        type="land"
+        d="M1045 16 992 27 981 16 981 0 1046 0 1045 16"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="taxila"
+        type="land"
+        d="M1088 65 1082 65 1049 46 1055 31 1107 25 1106 38 1095 46 1088 65"></path>
         <path
-        name=""
-        type=""
-        d=""></path>
+        name="western himalaya"
+        type="land"
+        d="M1107 25 1055 31 1045 16 1046 0 1194 0 1196 17 1182 26 1131 14 1107 25"></path>
+        <path
+        name="sagala"
+        type="land"
+        d="M1110 71 1088 65 1095 46 1106 38 1116 42 1118 45 1119 60 1110 71"></path>
+        <path
+        name="habappa"
+        type="land"
+        d="M1154 99 1142 97 1130 90 1116 87 1108 82 1110 71 1119 60 1159 65 1154 99"></path>
+        <path
+        name="abhisaba"
+        type="land"
+        d="M1159 65 1119 60 1118 45 1116 42 1106 38 1107 25 1131 14 1182 26 1173 70 1159 65"></path>
+        <path
+        name="kuru"
+        type="land"
+        d="M1173 70 1182 26 1196 17 1236 37 1228 47 1219 52 1219 69 1193 78 1173 70"></path>
+        <path
+        name="kalibangan"
+        type="land"
+        d="M1182 111 1159 113 1154 99 1159 65 1173 70 1193 78 1194 85 1200 91 1200 97 1208 108 1182 111"></path>
+        <path
+        name="maru"
+        type="land"
+        d="M1282 175 1259 186 1199 184 1194 167 1232 154 1270 143 1285 156 1282 175"></path>
+        <path
+        name="thar desert"
+        type="land"
+        d="M1232 154 1194 167 1177 154 1189 140 1182 111 1208 108 1217 125 1232 154"></path>
+        <path
+        name="matsya"
+        type="land"
+        d="M1270 143 1232 154 1217 125 1251 108 1270 143"></path>
+        <path
+        name="surasena"
+        type="land"
+        d="M1251 108 1217 125 1208 108 1200 97 1200 91 1194 85 1193 78 1219 69 1255 74 1269 98 1251 108"></path>
+        <path
+        name="rupar"
+        type="land"
+        d="M1255 74 1219 69 1219 52 1228 47 1236 37 1255 37 1255 74"></path>
+        <path
+        name="central himalaya"
+        type="land"
+        d="M1404 17 1353 29 1289 36 1255 37 1236 37 1196 17 1194 0 1407 0 1404 17"></path>
+        <path
+        name="panchala"
+        type="land"
+        d="M1269 98 1255 74 1255 37 1289 36 1304 63 1300 68 1281 92 1269 98"></path>
+        <path
+        name="malla"
+        type="land"
+        d="M1304 63 1289 36 1353 29 1362 60 1304 63"></path>
+        <path
+        name="pataliputra"
+        type="land"
+        d="M1362 60 1353 29 1404 17 1418 25 1398 44 1384 49 1362 60"></path>
+        <path
+        name="ujjian"
+        type="land"
+        d="M1335 181 1302 178 1286 177 1282 175 1285 156 1303 145 1339 145 1347 162 1335 181"></path>
+        <path
+        name="avanti"
+        type="land"
+        d="M1339 145 1303 145 1285 156 1270 143 1251 108 1269 98 1281 92 1300 107 1323 112 1339 145"></path>
+        <path
+        name="vidarbha"
+        type="land"
+        d="M1335 202 1335 181 1347 162 1390 157 1396 168 1391 194 1335 202"></path>
+        <path
+        name="prathistana"
+        type="land"
+        d="M1371 236 1346 223 1335 202 1391 194 1401 208 1396 220 1371 236"></path>
+        <path
+        name="vidisa"
+        type="land"
+        d="M1390 157 1347 162 1339 145 1323 112 1333 111 1384 113 1397 121 1390 157"></path>
+        <path
+        name="vatsa"
+        type="land"
+        d="M1333 111 1323 112 1300 107 1281 92 1300 68 1337 83 1333 111"></path>
+        <path
+        name="chedi"
+        type="land"
+        d="M1384 113 1333 111 1337 83 1380 85 1384 113"></path>
+        <path
+        name="kausambi"
+        type="land"
+        d="M1380 85 1337 83 1300 68 1304 63 1362 60 1384 49 1400 79 1380 85"></path>
+        <path
+        name="magadha"
+        type="land"
+        d="M1400 79 1384 49 1398 44 1418 25 1436 20 1463 23 1469 40 1458 63 1429 71 1400 79"></path>
+        <path
+        name="bihar"
+        type="land"
+        d="M1397 121 1384 113 1380 85 1400 79 1429 71 1451 114 1397 121"></path>
+        <path
+        name="assaka"
+        type="land"
+        d="M1396 168 1390 157 1397 121 1451 114 1451 131 1450 161 1449 173 1396 168"></path>
+        <path
+        name="nalas"
+        type="land"
+        d="M1401 208 1391 194 1396 168 1449 173 1447 196 1439 200 1420 197 1401 208"></path>
+        <path
+        name="asmaka"
+        type="land"
+        d="M1396 220 1401 208 1420 197 1439 200 1442 224 1428 225 1420 222 1405 222 1396 220"></path>
+        <path
+        name="deccan"
+        type="land"
+        d="M1406 255 1371 236 1396 220 1405 222 1420 222 1428 225 1442 224 1444 242 1421 240 1406 255"></path>
+        <path
+        name="brahmaghiri"
+        type="land"
+        d="M1457 279 1422 263 1406 255 1421 240 1444 242 1463 252 1472 256 1457 279"></path>
+        <path
+        name="western sinhalese"
+        type="land"
+        d="M1479 295 1457 279 1472 256 1475 257 1483 269 1498 284 1479 295"></path>
+    </g>
+    <g name="overlay">
     </g>
     <g name="floodplains">
         <path
@@ -2113,10 +2241,10 @@ transform="matrix(1 0 0 1 0 0)"
         <path
         type="floodplain"
         name="ur"
-        d="M898 297 885 302 846 302 824 281 823 277 834 276 835 270 831 265 835 258 839 258 849 266 882 267 900 268 906 273 908 282"></path>
+        d="M898 297 897 294 899 290 902 288 901 286 890 286 884 278 889 277 895 281 896 276 899 276 903 276 907 283 908 282 909 277 904 270 890 266 880 268 868 266 860 267 849 266 838 258 832 260 832 266 836 274 834 276 824 276 824 281 829 285 836 291 842 300 850 303 862 303 881 302 895 300 898 297"></path>
         <path
         type="floodplain"
-        name=""
+        name="nis"
         d="M1063 202 1053 207 1040 203 1028 194 1024 181 1030 175 1046 177 1061 189 1063 202"></path>
         <path
         type="floodplain"
@@ -2130,6 +2258,10 @@ transform="matrix(1 0 0 1 0 0)"
         type="floodplain"
         name="tamluk"
         d="M1502 61 1497 61 1491 56 1487 46 1486 38 1472 30 1432 26 1417 30 1401 45 1390 48 1387 44 1394 41 1416 21 1427 15 1455 16 1466 13 1493 16 1498 12 1492 7 1487 0 1545 0 1545 5 1548 9 1545 16 1541 17 1535 14 1532 13 1529 16 1519 18 1511 15 1512 20 1509 22 1515 23 1514 28 1514 35 1512 35 1510 31 1508 35 1512 40 1509 40 1506 36 1504 38 1503 40 1507 40 1508 44 1506 45 1505 47 1502 47 1504 57 1499 58 1502 61"></path>
+    </g>
+    <g name="hovered">
+    </g>
+    <g name="selected">
     </g>
     <g name="volcanos">
         <path
@@ -2153,19 +2285,47 @@ transform="matrix(1 0 0 1 0 0)"
         <path d="M57 380 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="lusitania"></path>
         <path d="M130 411 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="corduba"></path>
         <path d="M205 378 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="carthago nova"></path>
-        <path d="M205 378 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="carthago nova"></path>
-        <path d="M205 378 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="carthago nova"></path>
         <path d="M266 277 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" floodplaincity type="city" name="aquae sextiae"></path>
+        <path d="M234 301 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="narbo"></path>
+        <path d="M264 267 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="lugdunum"></path>
+        <path d="M222 223 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="alesia"></path>
+        <path d="M257 190 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="germania superior"></path>
+        <path d="M281 184 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="upper rhine"></path>
+        <path d="M285 284 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="massillia"></path>
+        <path d="M371 291 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="rome"></path>
+        <path d="M414 306 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="neapolis"></path>
+        <path d="M349 346 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="caralis"></path>
+        <path d="M415 363 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="panormus"></path>
+        <path d="M447 372 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="syracuse"></path>
+        <path d="M328 402 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="citra"></path>
+        <path d="M376 388 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="carthage"></path>
+        <path d="M390 410 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="thapsus"></path>
+        <path d="M473 451 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="tripoli"></path>
+        <path d="M232 432 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="eastern mauretania"></path>
+        <path d="M445 303 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="tarentum"></path>
+        <path d="M586 410 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="cyrene"></path>
+        <path d="M494 310 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="ithaca"></path>
+        <path d="M547 333 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="corinth"></path>
+        <path d="M557 337 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="argos"></path>
+        <path d="M544 355 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="sparta"></path>
+        <path d="M566 320 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="athens"></path>
+        <path d="M566 308 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="chalcis"></path>
+        <path d="M574 311 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="eretria"></path>
+        <path d="M598 324 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="thera"></path>
+        <path d="M590 355 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="phaestos"></path>
+        <path d="M612 350 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="knossos"></path>
+        <path d="M484 286 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="apollionia"></path>
+        <path d="M529 274 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="thessalonica"></path>
+        <path d="M354 247 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" floodplaincity type="city" name="rubicon"></path>
+        <path d="M424 255 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="salonae"></path>
+        <path d="M573 240 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="byzantium"></path>
+        <path d="M559 224 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" type="city" name="odessus"></path>
+        <path d="M556 191 l0-3 1 0 0 3 3 0-1-2 0-3-5 0 0 5z" floodplaincity type="city" name="tomi"></path>
+
     </g>
-    <g name="overlay">
-    </g>
-    <g name="hovered">
-    </g>
-    <g name="selected">
-    </g>
-    <g name="supports">
-        <circle name="ithica" support cx="502" value="2" cy="320" r="4"></circle>
-        <text name="ithica" support x="502" y="320" dominant-baseline="central">2</text>
+    <g name="supports" >
+        <circle name="ithaca" support cx="502" value="2" cy="320" r="4"></circle>
+        <text name="ithaca" support x="502" y="320" dominant-baseline="central">2</text>
         <circle support name="chalcis" value="1" cx="551" cy="303" r="4"></circle>
         <text name="chalcis" support x="551" y="303" dominant-baseline="central">1</text>
         <circle support name="caledonia" value="0" cx="86" cy="65" r="4"></circle>
@@ -2242,12 +2402,12 @@ transform="matrix(1 0 0 1 0 0)"
         <text support name="caralis" dominant-baseline="central" x="342" y="349">1</text>
         <circle support name="rome" value="2" cx="353" cy="273" r="4"></circle>
         <text support name="rome" dominant-baseline="central" x="353" y="273">2</text>
-        <circle support name="western mauretnania" value="1" cx="135" cy="484" r="4"></circle>
-        <text support name="western mauretnania" dominant-baseline="central" x="135" y="484">1</text>
-        <circle support name="central mauretnania" value="2" cx="188" cy="494" r="4"></circle>
-        <text support name="central mauretnania" dominant-baseline="central" x="188" y="494">2</text>
-        <circle support name="eastern mauretnania" value="2" cx="234" cy="471" r="4"></circle>
-        <text support name="eastern mauretnania" dominant-baseline="central" x="234" y="471">2</text>
+        <circle support name="western mauretania" value="1" cx="135" cy="484" r="4"></circle>
+        <text support name="western mauretania" dominant-baseline="central" x="135" y="484">1</text>
+        <circle support name="central mauretania" value="2" cx="188" cy="494" r="4"></circle>
+        <text support name="central mauretania" dominant-baseline="central" x="188" y="494">2</text>
+        <circle support name="eastern mauretania" value="2" cx="234" cy="471" r="4"></circle>
+        <text support name="eastern mauretania" dominant-baseline="central" x="234" y="471">2</text>
         <circle support name="new africa" value="2" cx="278" cy="450" r="4"></circle>
         <text support name="new africa" dominant-baseline="central" x="278" y="450">2</text>
         <circle support name="citra" value="2" cx="320" cy="446" r="4"></circle>
@@ -2316,14 +2476,14 @@ transform="matrix(1 0 0 1 0 0)"
         <text support name="phaestos" dominant-baseline="central" x="604" y="351">2</text>
         <circle support name="knossos" value="3" cx="621" cy="345" r="4"></circle>
         <text support name="knossos" dominant-baseline="central" x="621" y="345">3</text>
-        <circle support name="apollonia" value="1" cx="494" cy="279" r="4"></circle>
-        <text support name="apollonia" dominant-baseline="central" x="494" y="279">1</text>
+        <circle support name="apollionia" value="1" cx="494" cy="279" r="4"></circle>
+        <text support name="apollionia" dominant-baseline="central" x="494" y="279">1</text>
         <circle support name="macedonia" value="" cx="510" cy="275" r="4"></circle>
         <text support name="macedonia" dominant-baseline="central" x="510" y="275">2</text>
         <circle support name="thessalonica" value="" cx="538" cy="271" r="4"></circle>
         <text support name="thessalonica" dominant-baseline="central" x="538" y="271">1</text>
-        <circle support name="lesbos" value="1" cx="563" cy="270" r="4"></circle>
-        <text support name="lesbos" dominant-baseline="central" x="563" y="270">1</text>
+        <circle support name="lemnos" value="1" cx="563" cy="270" r="4"></circle>
+        <text support name="lemnos" dominant-baseline="central" x="563" y="270">1</text>
         <circle support name="troy" value="2" cx="590" cy="266" r="4"></circle>
         <text support name="troy" dominant-baseline="central" x="590" y="266">2</text>
         <circle support name="byzantium" value="3" cx="573" cy="252" r="4"></circle>
@@ -2352,14 +2512,14 @@ transform="matrix(1 0 0 1 0 0)"
         <text support name="upper danube" dominant-baseline="central" x="430" y="170">3</text>
         <circle support name="lugia" value="1" cx="418" cy="103" r="4"></circle>
         <text support name="lugia" dominant-baseline="central" x="418" y="103">1</text>
-        <circle support name="western samartia" value="1" cx="491" cy="73" r="4"></circle>
-        <text support name="western samartia" dominant-baseline="central" x="491" y="73">1</text>
+        <circle support name="western sarmatia" value="1" cx="491" cy="73" r="4"></circle>
+        <text support name="western sarmatia" dominant-baseline="central" x="491" y="73">1</text>
         <circle support name="sudeten" value="2" cx="468" cy="116" r="4"></circle>
         <text support name="sudeten" dominant-baseline="central" x="468" y="116">2</text>
         <circle support name="northern wastes" value="0" cx="516" cy="16" r="4"></circle>
         <text support name="northern wastes" dominant-baseline="central" x="516" y="16">0</text>
-        <circle support name="eastern samartia" value="1" cx="576" cy="73" r="4"></circle>
-        <text support name="eastern samartia" dominant-baseline="central" x="576" y="73">1</text>
+        <circle support name="eastern sarmatia" value="1" cx="576" cy="73" r="4"></circle>
+        <text support name="eastern sarmatia" dominant-baseline="central" x="576" y="73">1</text>
         <circle support name="scythia" value="2" cx="548" cy="102" r="4"></circle>
         <text support name="scythia" dominant-baseline="central" x="548" y="102">2</text>
         <circle support name="maeotia" value="1" cx="604" cy="120" r="4"></circle>
@@ -2368,6 +2528,318 @@ transform="matrix(1 0 0 1 0 0)"
         <text support name="crimea" dominant-baseline="central" x="609" y="166">2</text>
         <circle support name="alani" value="0" cx="670" cy="61" r="4"></circle>
         <text support name="alani" dominant-baseline="central" x="670" y="61">0</text>
+        <circle support name="ustiurt" value="0" cx="831" cy="17" r="4"></circle>
+        <text support name="ustiurt" dominant-baseline="central" x="831" y="17">0</text>
+        <circle support name="caspian coast" value="1" cx="823" cy="55" r="4"></circle>
+        <text support name="caspian coast" dominant-baseline="central" x="823" y="55">1</text>
+        <circle support name="kara-bogaz gol" value="1" cx="872" cy="83" r="4"></circle>
+        <text support name="kara-bogaz gol" dominant-baseline="central" x="872" y="83">1</text>
+        <circle support name="dahae" value="1" cx="888" cy="115" r="4"></circle>
+        <text support name="dahae" dominant-baseline="central" x="888" y="115">1</text>
+        <circle support name="hyrcania" value="1" cx="913" cy="131" r="4"></circle>
+        <text support name="hyrcania" dominant-baseline="central" x="913" y="131">1</text>
+        <circle support name="hecatompylos" value="2" cx="907" cy="193" r="4"></circle>
+        <text support name="hecatompylos" dominant-baseline="central" x="907" y="193">2</text>
+        <circle support name="eastern media" value="2" cx="853" cy="199" r="4"></circle>
+        <text support name="eastern media" dominant-baseline="central" x="853" y="199">2</text>
+        <circle support name="western media" value="2" cx="816" cy="192" r="4"></circle>
+        <text support name="western media" dominant-baseline="central" x="816" y="192">2</text>
+        <circle support name="caucasus" value="1" cx="781" cy="132" r="4"></circle>
+        <text support name="caucasus" dominant-baseline="central" x="781" y="132">1</text>
+        <circle support name="nalchik" value="1" cx="721" cy="114" r="4"></circle>
+        <text support name="nalchik" dominant-baseline="central" x="721" y="114">1</text>
+        <circle support name="colchis" value="1" cx="724" cy="167" r="4"></circle>
+        <text support name="colchis" dominant-baseline="central" x="724" y="167">1</text>
+        <circle support name="western armenia" value="2" cx="751" cy="162" r="4"></circle>
+        <text support name="western armenia" dominant-baseline="central" x="751" y="162">2</text>
+        <circle support name="eastern armenia" value="2" cx="781" cy="176" r="4"></circle>
+        <text support name="eastern armenia" dominant-baseline="central" x="781" y="176">2</text>
+        <circle support name="vann" value="2" cx="729" cy="207" r="4"></circle>
+        <text support name="vann" dominant-baseline="central" x="729" y="207">2</text>
+        <circle support name="ninveh" value="2" cx="776" cy="201" r="4"></circle>
+        <text support name="ninveh" dominant-baseline="central" x="776" y="201">2</text>
+        <circle support name="urmia" value="2" cx="807" cy="225" r="4"></circle>
+        <text support name="urmia" dominant-baseline="central" x="807" y="225">2</text>
+        <circle support name="elam" value="3" cx="842" cy="222" r="4"></circle>
+        <text support name="elam" dominant-baseline="central" x="842" y="222">3</text>
+        <circle support name="ecbatana" value="2" cx="886" cy="224" r="4"></circle>
+        <text support name="ecbatana" dominant-baseline="central" x="886" y="224">2</text>
+        <circle support name="cilicia" value="2" cx="720" cy="242" r="4"></circle>
+        <text support name="cilicia" dominant-baseline="central" x="720" y="242">2</text>
+        <circle support name="carrhae" value="3" cx="788" cy="240" r="4"></circle>
+        <text support name="carrhae" dominant-baseline="central" x="788" y="240">3</text>
+        <circle support name="assyria" value="3" cx="758" cy="240" r="4"></circle>
+        <text support name="assyria" dominant-baseline="central" x="758" y="240">3</text>
+        <circle support name="mesapotamia" value="3" cx="821" cy="260" r="4"></circle>
+        <text support name="mesapotamia" dominant-baseline="central" x="821" y="260">3</text>
+        <circle support name="babylonia" value="4" cx="857" cy="253" r="4"></circle>
+        <text support name="babylonia" dominant-baseline="central" x="857" y="253">4</text>
+        <circle support name="paraetacene" value="1" cx="915" cy="228" r="4"></circle>
+        <text support name="paraetacene" dominant-baseline="central" x="915" y="228">1</text>
+        <circle support name="zagros" value="1" cx="936" cy="217" r="4"></circle>
+        <text support name="zagros" dominant-baseline="central" x="936" y="217">1</text>
+        <circle support name="kavir" value="1" cx="964" cy="216" r="4"></circle>
+        <text support name="kavir" dominant-baseline="central" x="964" y="216">1</text>
+        <circle support name="susiana" value="3" cx="960" cy="253" r="4"></circle>
+        <text support name="susiana" dominant-baseline="central" x="960" y="253">3</text>
+        <circle support name="sagartia" value="2" cx="1015" cy="245" r="4"></circle>
+        <text support name="sagartia" dominant-baseline="central" x="1015" y="245">2</text>
+        <circle support name="persua" value="2" cx="987" cy="224" r="4"></circle>
+        <text support name="persua" dominant-baseline="central" x="987" y="224">2</text>
+        <circle support name="drangiana" value="1" cx="1016" cy="204" r="4"></circle>
+        <text support name="drangiana" dominant-baseline="central" x="1016" y="204">1</text>
+        <circle support name="eastern parthia" value="2" cx="1007" cy="161" r="4"></circle>
+        <text support name="eastern parthia" dominant-baseline="central" x="1007" y="161">2</text>
+        <circle support name="western parthia" value="1" cx="953" cy="178" r="4"></circle>
+        <text support name="western parthia" dominant-baseline="central" x="953" y="178">1</text>
+        <circle support name="nis" value="3" cx="1050" cy="181" r="4"></circle>
+        <text support name="nis" dominant-baseline="central" x="1050" y="181">3</text>
+        <circle support name="lesbos" value="1" cx="582" cy="285" r="4"></circle>
+        <text support name="lesbos" dominant-baseline="central" x="582" y="285">1</text>
+        <circle support name="miletus" value="2" cx="609" cy="297" r="4"></circle>
+        <text support name="miletus" dominant-baseline="central" x="609" y="297">2</text>
+        <circle support name="sardes" value="2" cx="615" cy="263" r="4"></circle>
+        <text support name="sardes" dominant-baseline="central" x="615" y="263">2</text>
+        <circle support name="ionia" value="2" cx="634" cy="285" r="4"></circle>
+        <text support name="ionia" dominant-baseline="central" x="634" y="285">2</text>
+        <circle support name="rhodes" value="3" cx="638" cy="324" r="4"></circle>
+        <text support name="rhodes" dominant-baseline="central" x="638" y="324">3</text>
+        <circle support name="lycia" value="1" cx="650" cy="294" r="4"></circle>
+        <text support name="lycia" dominant-baseline="central" x="650" y="294">1</text>
+        <circle support name="anatolia" value="2" cx="645" cy="253" r="4"></circle>
+        <text support name="anatolia" dominant-baseline="central" x="645" y="253">2</text>
+        <circle support name="bithynia" value="2" cx="631" cy="233" r="4"></circle>
+        <text support name="bithynia" dominant-baseline="central" x="631" y="233">2</text>
+        <circle support name="phrygia" value="1" cx="645" cy="210" r="4"></circle>
+        <text support name="phrygia" dominant-baseline="central" x="645" y="210">1</text>
+        <circle support name="trapezus" value="2" cx="688" cy="202" r="4"></circle>
+        <text support name="trapezus" dominant-baseline="central" x="688" y="202">2</text>
+        <circle support name="hattusa" value="2" cx="673" cy="231" r="4"></circle>
+        <text support name="hattusa" dominant-baseline="central" x="673" y="231">2</text>
+        <circle support name="kanesh" value="2" cx="693" cy="244" r="4"></circle>
+        <text support name="kanesh" dominant-baseline="central" x="693" y="244">2</text>
+        <circle support name="galatia" value="" cx="682" cy="271" r="4"></circle>
+        <text support name="galatia" dominant-baseline="central" x="682" y="271">2</text>
+        <circle support name="cyprus" value="2" cx="707" cy="308" r="4"></circle>
+        <text support name="cyprus" dominant-baseline="central" x="707" y="308">2</text>
+        <circle support name="salamais" value="1" cx="713" cy="291" r="4"></circle>
+        <text support name="salamais" dominant-baseline="central" x="713" y="291">1</text>
+        <circle support name="antioch" value="2" cx="735" cy="283" r="4"></circle>
+        <text support name="antioch" dominant-baseline="central" x="735" y="283">2</text>
+        <circle support name="aleppo" value="2" cx="746" cy="262" r="4"></circle>
+        <text support name="aleppo" dominant-baseline="central" x="746" y="262">2</text>
+        <circle support name="syria" value="2" cx="781" cy="286" r="4"></circle>
+        <text support name="syria" dominant-baseline="central" x="781" y="286">2</text>
+        <circle support name="phoenicia" value="3" cx="750" cy="286" r="4"></circle>
+        <text support name="phoenicia" dominant-baseline="central" x="750" y="286">3</text>
+        <circle support name="sidon" value="1" cx="747" cy="306" r="4"></circle>
+        <text support name="sidon" dominant-baseline="central" x="747" y="306">1</text>
+        <circle support name="damascus" value="2" cx="767" cy="298" r="4"></circle>
+        <text support name="damascus" dominant-baseline="central" x="767" y="298">2</text>
+        <circle support name="tyre" value="3" cx="770" cy="320" r="4"></circle>
+        <text support name="tyre" dominant-baseline="central" x="770" y="320">3</text>
+        <circle support name="jericho" value="1" cx="785" cy="332" r="4"></circle>
+        <text support name="jericho" dominant-baseline="central" x="785" y="332">1</text>
+        <circle support name="mari" value="2" cx="816" cy="291" r="4"></circle>
+        <text support name="mari" dominant-baseline="central" x="816" y="291">2</text>
+        <circle support name="jordan" value="2" cx="814" cy="327" r="4"></circle>
+        <text support name="jordan" dominant-baseline="central" x="814" y="327">2</text>
+        <circle support name="sumaria" value="3" cx="852" cy="310" r="4"></circle>
+        <text support name="sumaria" dominant-baseline="central" x="852" y="310">3</text>
+        <circle support name="babylon" value="2" cx="850" cy="289" r="4"></circle>
+        <text support name="babylon" dominant-baseline="central" x="850" y="289">2</text>
+        <circle support name="ur" value="2" cx="874" cy="283" r="4"></circle>
+        <text support name="ur" dominant-baseline="central" x="874" y="283">2</text>
+        <circle support name="charax" value="2" cx="881" cy="306" r="4"></circle>
+        <text support name="charax" dominant-baseline="central" x="881" y="306">2</text>
+        <circle support name="chaldaea" value="2" cx="909" cy="313" r="4"></circle>
+        <text support name="chaldaea" dominant-baseline="central" x="909" y="313">2</text>
+        <circle support name="jerusalem" value="2" cx="766" cy="345" r="4"></circle>
+        <text support name="jerusalem" dominant-baseline="central" x="766" y="345">2</text>
+        <circle support name="gaza" value="" cx="748" cy="363" r="4"></circle>
+        <text support name="gaza" dominant-baseline="central" x="748" y="363">1</text>
+        <circle support name="tanis" value="2" cx="726" cy="368" r="4"></circle>
+        <text support name="tanis" dominant-baseline="central" x="726" y="368">2</text>
+        <circle support name="alexandria" value="4" cx="716" cy="388" r="4"></circle>
+        <text support name="alexandria" dominant-baseline="central" x="716" y="388">4</text>
+        <circle support name="sinai" value="1" cx="770" cy="369" r="4"></circle>
+        <text support name="sinai" dominant-baseline="central" x="770" y="369">1</text>
+        <circle support name="nabataea" value="1" cx="816" cy="374" r="4"></circle>
+        <text support name="nabataea" dominant-baseline="central" x="816" y="374">1</text>
+        <circle support name="petra" value="1" cx="785" cy="354" r="4"></circle>
+        <text support name="petra" dominant-baseline="central" x="785" y="354">1</text>
+        <circle support name="nafud" value="1" cx="863" cy="356" r="4"></circle>
+        <text support name="nafud" dominant-baseline="central" x="863" y="356">1</text>
+        <circle support name="cyrene" value="3" cx="584" cy="424" r="4"></circle>
+        <text support name="cyrene" dominant-baseline="central" x="584" y="424">3</text>
+        <circle support name="cyrenaica" value="2" cx="637" cy="411" r="4"></circle>
+        <text support name="cyrenaica" dominant-baseline="central" x="637" y="411">2</text>
+        <circle support name="paraetonium" value="2" cx="687" cy="407" r="4"></circle>
+        <text support name="paraetonium" dominant-baseline="central" x="687" y="407">2</text>
+        <circle support name="western desert" value="1" cx="708" cy="435" r="4"></circle>
+        <text support name="western desert" dominant-baseline="central" x="708" y="435">1</text>
+        <circle support name="fayum" value="4" cx="743" cy="427" r="4"></circle>
+        <text support name="fayum" dominant-baseline="central" x="743" y="427">4</text>
+        <circle support name="memphis" value="4" cx="737" cy="398" r="4"></circle>
+        <text support name="memphis" dominant-baseline="central" x="737" y="398">4</text>
+        <circle support name="eastern desert" value="1" cx="769" cy="398" r="4"></circle>
+        <text support name="eastern desert" dominant-baseline="central" x="769" y="398">1</text>
+        <circle support name="ptolemais" value="2" cx="795" cy="420" r="4"></circle>
+        <text support name="ptolemais" dominant-baseline="central" x="795" y="420">2</text>
+        <circle support name="upper egypt" value="2" cx="777" cy="436" r="4"></circle>
+        <text support name="upper egypt" dominant-baseline="central" x="777" y="436">2</text>
+        <circle support name="thebes" value="2" cx="833" cy="444" r="4"></circle>
+        <text support name="thebes" dominant-baseline="central" x="833" y="444">2</text>
+        <circle support name="buhen" value="2" cx="807" cy="451" r="4"></circle>
+        <text support name="buhen" dominant-baseline="central" x="807" y="451">2</text>
+        <circle support name="upper nubia" value="2" cx="845" cy="474" r="4"></circle>
+        <text support name="upper nubia" dominant-baseline="central" x="845" y="474">2</text>
+        <circle support name="siwa" value="1" cx="737" cy="498" r="4"></circle>
+        <text support name="siwa" dominant-baseline="central" x="737" y="498">1</text>
+        <circle support name="nukheila" value="1" cx="808" cy="480" r="4"></circle>
+        <text support name="nukheila" dominant-baseline="central" x="808" y="480">1</text>
+        <circle support name="salima" value="" cx="831" cy="502" r="4"></circle>
+        <text support name="salima" dominant-baseline="central" x="831" y="502">1</text>
+        <circle support name="teiga" value="0" cx="815" cy="531" r="4"></circle>
+        <text support name="teiga" dominant-baseline="central" x="815" y="531">0</text>
+        <circle support name="nuba" value="1" cx="876" cy="531" r="4"></circle>
+        <text support name="nuba" dominant-baseline="central" x="876" y="531">1</text>
+        <circle support name="napata" value="2" cx="878" cy="499" r="4"></circle>
+        <text support name="napata" dominant-baseline="central" x="878" y="499">2</text>
+        <circle support name="meroe" value="2" cx="910" cy="501" r="4"></circle>
+        <text support name="meroe" dominant-baseline="central" x="910" y="501">2</text>
+        <circle support name="nubian desert" value="0" cx="877" cy="461" r="4"></circle>
+        <text support name="nubian desert" dominant-baseline="central" x="877" y="461">0</text>
+        <circle support name="tayma" value="1" cx="861" cy="396" r="4"></circle>
+        <text support name="tayma" dominant-baseline="central" x="861" y="396">1</text>
+        <circle support name="yathrib" value="1" cx="912" cy="418" r="4"></circle>
+        <text support name="yathrib" dominant-baseline="central" x="912" y="418">1</text>
+        <circle support name="ma'in" value="2" cx="966" cy="447" r="4"></circle>
+        <text support name="ma'in" dominant-baseline="central" x="966" y="447">2</text>
+        <circle support name="nafud desert" value="0" cx="928" cy="376" r="4"></circle>
+        <text support name="nafud desert" dominant-baseline="central" x="928" y="376">0</text>
+        <circle support name="arabia deserta" value="0" cx="1017" cy="407" r="4"></circle>
+        <text support name="arabia deserta" dominant-baseline="central" x="1017" y="407">0</text>
+        <circle support name="bahrmeder" value="1" cx="938" cy="483" r="4"></circle>
+        <text support name="bahrmeder" dominant-baseline="central" x="938" y="483">1</text>
+        <circle support name="aksum" value="2" cx="945" cy="513" r="4"></circle>
+        <text support name="aksum" dominant-baseline="central" x="945" y="513">2</text>
+        <circle support name="adulis" value="1" cx="974" cy="498" r="4"></circle>
+        <text support name="adulis" dominant-baseline="central" x="974" y="498">1</text>
+        <circle support name="danokil" value="" cx="991" cy="510" r="4"></circle>
+        <text support name="danokil" dominant-baseline="central" x="991" y="510">1</text>
+        <circle support name="ahmar" value="0" cx="944" cy="539" r="4"></circle>
+        <text support name="ahmar" dominant-baseline="central" x="944" y="539">0</text>
+        <circle support name="t'ana" value="1" cx="964" cy="525" r="4"></circle>
+        <text support name="t'ana" dominant-baseline="central" x="964" y="525">1</text>
+        <circle support name="oromia" value="1" cx="1012" cy="538" r="4"></circle>
+        <text support name="oromia" dominant-baseline="central" x="1012" y="538">1</text>
+        <circle support name="barbaria" value="" cx="1036" cy="523" r="4"></circle>
+        <text support name="barbaria" dominant-baseline="central" x="1036" y="523">2</text>
+        <circle support name="berbera" value="1" cx="1091" cy="516" r="4"></circle>
+        <text support name="berbera" dominant-baseline="central" x="1091" y="516">1</text>
+        <circle support name="orodan" value="0" cx="1096" cy="535" r="4"></circle>
+        <text support name="orodan" dominant-baseline="central" x="1096" y="535">0</text>
+        <circle support name="rhapta" value="2" cx="1150" cy="528" r="4"></circle>
+        <text support name="rhapta" dominant-baseline="central" x="1150" y="528">2</text>
+        <circle support name="opone" value="1" cx="1150" cy="490" r="4"></circle>
+        <text support name="opone" dominant-baseline="central" x="1150" y="490">1</text>
+        <circle support name="calmadon" value="1" cx="1121" cy="505" r="4"></circle>
+        <text support name="calmadon" dominant-baseline="central" x="1121" y="505">1</text>
+        <circle support name="socotra" value="1" cx="1183" cy="445" r="4"></circle>
+        <text support name="socotra" dominant-baseline="central" x="1183" y="445">1</text>
+        <circle support name="himyar" value="2" cx="1020" cy="492" r="4"></circle>
+        <text support name="himyar" dominant-baseline="central" x="1020" y="492">2</text>
+        <circle support name="saba" value="3" cx="1004" cy="478" r="4"></circle>
+        <text support name="saba" dominant-baseline="central" x="1004" y="478">3</text>
+        <circle support name="zafar" value="1" cx="1039" cy="476" r="4"></circle>
+        <text support name="zafar" dominant-baseline="central" x="1039" y="476">1</text>
+        <circle support name="aden" value="2" cx="1060" cy="488" r="4"></circle>
+        <text support name="aden" dominant-baseline="central" x="1060" y="488">2</text>
+        <circle support name="marib" value="1" cx="1023" cy="457" r="4"></circle>
+        <text support name="marib" dominant-baseline="central" x="1023" y="457">1</text>
+        <circle support name="qutaban" value="2" cx="1066" cy="465" r="4"></circle>
+        <text support name="qutaban" dominant-baseline="central" x="1066" y="465">2</text>
+        <circle support name="hadhramawt" value="2" cx="1085" cy="448" r="4"></circle>
+        <text support name="hadhramawt" dominant-baseline="central" x="1085" y="448">2</text>
+        <circle support name="zufar" value="1" cx="1106" cy="420" r="4"></circle>
+        <text support name="zufar" dominant-baseline="central" x="1106" y="420">1</text>
+        <circle support name="susa" value="3" cx="920" cy="263" r="4"></circle>
+        <text support name="susa" dominant-baseline="central" x="920" y="263">3</text>
+        <circle support name="ad dhana" value="1" cx="941" cy="332" r="4"></circle>
+        <text support name="ad dhana" dominant-baseline="central" x="941" y="332">1</text>
+        <circle support name="gerrah" value="1" cx="983" cy="332" r="4"></circle>
+        <text support name="gerrah" dominant-baseline="central" x="983" y="332">1</text>
+        <circle support name="western arabia felix" value="0" cx="1072" cy="373" r="4"></circle>
+        <text support name="western arabia felix" dominant-baseline="central" x="1072" y="373">0</text>
+        <circle support name="ubar" value="2" cx="1129" cy="368" r="4"></circle>
+        <text support name="ubar" dominant-baseline="central" x="1129" y="368">2</text>
+        <circle support name="madrrakah" value="1" cx="1132" cy="340" r="4"></circle>
+        <text support name="madrrakah" dominant-baseline="central" x="1132" y="340">1</text>
+        <circle support name="oman" value="1" cx="1131" cy="310" r="4"></circle>
+        <text support name="oman" dominant-baseline="central" x="1131" y="310">1</text>
+        <circle support name="bat" value="2" cx="1102" cy="305" r="4"></circle>
+        <text support name="bat" dominant-baseline="central" x="1102" y="305">2</text>
+        <circle support name="eastern arabia felix" value="1" cx="1099" cy="328" r="4"></circle>
+        <text support name="eastern arabia felix" dominant-baseline="central" x="1099" y="328">1</text>
+        <circle support name="maka" value="2" cx="1068" cy="303" r="4"></circle>
+        <text support name="maka" dominant-baseline="central" x="1068" y="303">2</text>
+        <circle support name="magan" value="1" cx="1059" cy="337" r="4"></circle>
+        <text support name="magan" dominant-baseline="central" x="1059" y="337">1</text>
+        <circle support name="liyan" value="2" cx="971" cy="282" r="4"></circle>
+        <text support name="liyan" dominant-baseline="central" x="971" y="282">2</text>
+        <circle support name="persis" value="3" cx="1010" cy="290" r="4"></circle>
+        <text support name="persis" dominant-baseline="central" x="1010" y="290">3</text>
+        <circle support name="persepolis" value="2" cx="1005" cy="273" r="4"></circle>
+        <text support name="persepolis" dominant-baseline="central" x="1005" y="273">2</text>
+        <circle support name="carmania" value="3" cx="1026" cy="284" r="4"></circle>
+        <text support name="carmania" dominant-baseline="central" x="1026" y="284">3</text>
+        <circle support name="harmozia" value="2" cx="1071" cy="265" r="4"></circle>
+        <text support name="harmozia" dominant-baseline="central" x="1071" y="265">2</text>
+        <circle support name="makran" value="1" cx="1091" cy="254" r="4"></circle>
+        <text support name="makran" dominant-baseline="central" x="1091" y="254">1</text>
+        <circle support name="sattagydia" value="1" cx="1116" cy="233" r="4"></circle>
+        <text support name="sattagydia" dominant-baseline="central" x="1116" y="233">1</text>
+        <circle support name="poura" value="1" cx="1088" cy="212" r="4"></circle>
+        <text support name="poura" dominant-baseline="central" x="1088" y="212">1</text>
+        <circle support name="gedrosia" value="3" cx="1050" cy="236" r="4"></circle>
+        <text support name="gedrosia" dominant-baseline="central" x="1050" y="236">3</text>
+        <circle support name="sind" value="1" cx="1126" cy="189" r="4"></circle>
+        <text support name="sind" dominant-baseline="central" x="1126" y="189">1</text>
+        <circle support name="siestian" value="" cx="1078" cy="188" r="4"></circle>
+        <text support name="siestian" dominant-baseline="central" x="1078" y="188">1</text>
+        <circle support name="aria" value="2" cx="1042" cy="142" r="4"></circle>
+        <text support name="aria" dominant-baseline="central" x="1042" y="142">2</text>
+        <circle support name="arachosia" value="" cx="1092" cy="150" r="4"></circle>
+        <text support name="arachosia" dominant-baseline="central" x="1092" y="150">2</text>
+        <circle support name="mohenjo-daro" value="4" cx="1129" cy="152" r="4"></circle>
+        <text support name="mohenjo-daro" dominant-baseline="central" x="1129" y="152">4</text>
+        <circle support name="chanhu-daro" value="3" cx="1171" cy="175" r="4"></circle>
+        <text support name="chanhu-daro" dominant-baseline="central" x="1171" y="175">3</text>
+        <circle support name="upper indus" value="2" cx="1166" cy="131" r="4"></circle>
+        <text support name="upper indus" dominant-baseline="central" x="1166" y="131">2</text>
+        <circle support name="suleiman" value="2" cx="1127" cy="110" r="4"></circle>
+        <text support name="suleiman" dominant-baseline="central" x="1127" y="110">2</text>
+        <circle support name="bactria" value="2" cx="1044" cy="96" r="4"></circle>
+        <text support name="bactria" dominant-baseline="central" x="1044" y="96">2</text>
+        <circle support name="margiana" value="1" cx="1014" cy="87" r="4"></circle>
+        <text support name="margiana" dominant-baseline="central" x="1014" y="87">1</text>
+        <circle support name="kuhwat" value="1" cx="1062" cy="67" r="4"></circle>
+        <text support name="kuhwat" dominant-baseline="central" x="1062" y="67">1</text>
+        <circle support name="gandhara" value="2" cx="1080" cy="105" r="4"></circle>
+        <text support name="gandhara" dominant-baseline="central" x="1080" y="105">2</text>
+        <circle support name="sagala" value="1" cx="1106" cy="52" r="4"></circle>
+        <text support name="sagala" dominant-baseline="central" x="1106" y="52">1</text>
+        <circle support name="taxila" value="2" cx="1066" cy="39" r="4"></circle>
+        <text support name="taxila" dominant-baseline="central" x="1066" y="39">2</text>
+        <circle support name="bactra" value="2" cx="1026" cy="33" r="4"></circle>
+        <text support name="bactra" dominant-baseline="central" x="1026" y="33">2</text>
+        <circle support name="abhisaba" value="2" cx="1149" cy="41" r="4"></circle>
+        <text support name="abhisaba" dominant-baseline="central" x="1149" y="41">2</text>
+        <circle support name="habappa" value="3" cx="1132" cy="71" r="4"></circle>
+        <text support name="habappa" dominant-baseline="central" x="1132" y="71">3</text>
+        <circle support name="thar desert" value="1" cx="1207" cy="134" r="4"></circle>
+        <text support name="thar desert" dominant-baseline="central" x="1207" y="134">1</text>
         <!-- <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text>
         <circle support name="" value="" cx="" cy="" r="4"></circle>
@@ -2461,163 +2933,6 @@ transform="matrix(1 0 0 1 0 0)"
         <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text>
         <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
-        <text support name="" dominant-baseline="central" x="" y=""></text>
-        <circle support name="" value="" cx="" cy="" r="4"></circle>
         <text support name="" dominant-baseline="central" x="" y=""></text> -->
-
-    </g>
-    <g name="texts">
-        <text name="black sea" x="633" y="186">Black Sea</text>
-        <text name="new africa" x="275" y="434">New Africa</text>
-        <text name="gallaecia" x="62" y="322">Gallaecia</text>
-        <text name="lugdunum" x="270" y="255">Lugdunum</text>
-        <text name="centra mediterranean" x="494" y="400">Centra Mediterranean</text>
-        <text name="jalo" x="640" y="485">Jalo</text>
-        <text name="libya" x="557" y="460">Libya</text>
-        <text name="phaestos" x="595" y="354">Phaestos</text>
-        <text name="knossos" x="621" y="345">Knossos</text>
-        <text name="thera" x="602" y="334">Thera</text>
-        <text name="adriatic sea" x="427" y="274">Adriatic Sea</text>
-        <text name="agean sea" x="600" y="308">Agean Sea</text>
-        <text name="eretria" x="578" y="316">Eretria</text>
-        <text name="Lesbos" x="561" y="273">Lesbos</text>
-        <text name="thessalonica" x="537" y="281">Thessalonica</text>
-        <text name="troy" x="597" y="256">Troy</text>
-        <text name="crimea" x="604" y="158">Crimea</text>
-        <text name="maeotia" x="611" y="113">Maeotia</text>
-        <text name="alain" x="670" y="42">Alani</text>
-        <text name="tripolitania" x="513" y="511">Tripolitania</text>
-        <text name="tripoli" x="476" y="454">Tripoli</text>
-        <text name="athens" x="569" y="324">Athens</text>
-        <text name="argos" x="567" y="345">Argos</text>
-        <text name="sparta" x="558" y="358">Sparta</text>
-        <text name="peloponnesos" x="525" y="350">Peloponnesos</text>
-        <text name="boeotia" x="542" y="313">Boeotia</text>
-        <text name="corinth" x="537" y="332">Corinth</text>
-        <text name="chalcis" x="557" y="304">Chalcis</text>
-        <text name="phocis" x="538" y="322">Phocis</text>
-        <text name="milazzo" x="438" y="351">Milazzo</text>
-        <text name="syracuse" x="453" y="368">Syracuse</text>
-        <text name="panormus" x="413" y="363">Panormus</text>
-        <text name="ithica" x="493" y="314">Ithica</text>
-        <text name="tarentum" x="460" y="301">Tarentum</text>
-        <text name="campania" x="444" y="320">Campania</text>
-        <text name="neopolis" x="405" y="299">Neapolis</text>
-        <text name="samnium" x="417" y="288">Samnium</text>
-        <text name="aetolia" x="518" y="306">Aetolia</text>
-        <text name="macedonia" x="510" y="266">Macedonia</text>
-        <text name="thessaly" x="528" y="291">Thessaly</text>
-        <text name="epirus" x="502" y="294">Epirus</text>
-        <text name="byzantium" x="578" y="245">Byzantium</text>
-        <text name="thrace" x="543" y="251">Thrace</text>
-        <text name="apollionia" x="486" y="274">Apollionia</text>
-        <text name="paeonia" x="499" y="247">Paeonia</text>
-        <text name="odessus" x="556" y="218">Odessus</text>
-        <text name="moresia" x="507" y="224">Moresia</text>
-        <text name="illyricum" x="458" y="240">Illyricum</text>
-        <text name="salonae" x="419" y="247">Salonae</text>
-        <text name="pannnonia" x="399" y="212">Pannonia</text>
-        <text name="tomi" x="562" y="195">Tomi</text>
-        <text name="gethae" x="525" y="188">Gethae</text>
-        <text name="scythia" x="550" y="128">Scythia</text>
-        <text name="dacia" x="476" y="185">Dacia</text>
-        <text name="upper danube" x="395" y="163">Upper Danube</text>
-        <text name="sudeten" x="465" y="133">Sudeten</text>
-        <text name="eastern sarmatia" x="570" y="61">Eastern Sarmatia</text>
-        <text name="western sarmatia" x="486" y="60">Western Sarmatia</text>
-        <text name="lugia" x="405" y="82">Lugia</text>
-        <text name="northern wastes" x="464" y="16">Northern Wastes</text>
-        <text name="rome" x="368" y="284">Rome</text>
-        <text name="rubicon" x="370" y="264">Rubicon</text>
-        <text name="upper rhine" x="288" y="197">Upper Rhine</text>
-        <text name="noricum" x="334" y="205">Noricum</text>
-        <text name="cisalpina" x="314" y="230">Cisalpina</text>
-        <text name="etruria" x="326" y="253">Etruria</text>
-        <text name="corsica" x="330" y="294">Corsica</text>
-        <text name="sardinia" x="338" y="324">Sardinia</text>
-        <text name="caralis" x="344" y="343">Caralis</text>
-        <text name="sabrata" x="423" y="462">Sabrata</text>
-        <text name="sahara" x="400" y="515">Sahara</text>
-        <text name="eastern getules" x="270" y="512">Eastern Getules</text>
-        <text name="tunisia" x="358" y="452">Tunisia</text>
-        <text name="thapsus" x="396" y="417">Thapsus</text>
-        <text name="carthage" x="384" y="389">Carthage</text>
-        <text name="numidia" x="352" y="397">Numidia</text>
-        <text name="citra" x="318" y="420">Citra</text>
-        <text name="eastern mauretania" x="229" y="450">Eastern Mauretania</text>
-        <text name="western mauretania" x="110" y="463">Western Mauretania</text>
-        <text name="central mauretania" x="177" y="474">Central Mauretania</text>
-        <text name="getules" x="108" y="522">Getules</text>
-        <text name="western mediterranean" x="290" y="375">Western Mediterranean</text>
-        <text name="baleares" x="260" y="349" >Baleares</text>
-        <text name="ebusus" x="236" y="361">Ebusus</text>
-        <text name="carthago nova" x="200" y="367">Carthago Nova</text>
-        <text name="carthaginensis" x="171" y="342">Carthaginensis</text>
-        <text name="iberus" x="215" y="335">Iberus</text>
-        <text name="caesaraugustanus" x="176" y="299">Caesaraugustanus</text>
-        <text name="emeritensis" x="116" y="367">Emeritensis</text>
-        <text name="corduba" x="149" y="397">Corduba</text>
-        <text name="lusitania" x="67" y="393">Lusitania</text>
-        <text name="cluniensis" x="115" y="312">Cluniensis</text>
-        <text name="eastern atlantic ocean" x="42" y="188">Eastern Atlantic Ocean</text>
-        <text name="bay of biscay" x="87" y="247">Bay of Biscay</text>
-        <text name="massillia" x="295" y="276">Massillia</text>
-        <text name="aquae sextiae" x="256" y="285">Aquae Sextiae</text>
-        <text name="narbo" x="229" y="303">Narbo</text>
-        <text name="germania superior" x="264" y="207">Germania superior</text>
-        <text name="alesia" x="234" y="214">Alesia</text>
-        <text name="aquatainia" x="198" y="252">aquatainia</text>
-        <text name="lugdunensis" x="159" y="210">Lugdunensis</text>
-        <text name="belgica" x="215" y="167">Belgica</text>
-        <text name="germania inferior" x="230" y="135" >Germania Inferior</text>
-        <text name="germania magna" x="316" y="129" >Germania Magna</text>
-        <text name="ultima thule" x="260" y="20">Ultima Thule</text>
-        <text name="north sea" x="184" y="79" >North Sea</text>
-        <text name="dyfed" x="112" y="153">Dyfed</text>
-        <text name="caledonia" x="94" y="78">Caledonia</text>
-        <text name="northern atlantic ocean" x="85" y="20">Northern Atlantic Ocean</text>
-        <text name="hibernia" x="57" y="127">Hibernia</text>
-        <text name="britannia" x="115" y="125">Britannia</text>
-        <text name="londinium" x="132" y="176">Londinium</text>    
     </g>
 </svg>
