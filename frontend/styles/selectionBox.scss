@@ -1,0 +1,12 @@
+
+div.selectionBox div[id*="Title"] {
+    text-align: center;
+}
+
+div.selectionBox div[id*="Body"] {
+    border: solid black 1px;
+}
+
+div.selectionBox div[id*="Body"] div:hover {
+    background-color: gray;
+}

@@ -17,7 +17,7 @@ export class ButtonUI extends ElementUI{
     constructor(id:string) {
         super(id);
         this.className = 'btn'
-        this.element.addEventListener('click', (event:MouseEvent)=>this.onClick?.(event));
+        this.element.addEventListener('click', (event:MouseEvent)=>!this.disabled? this.onClick?.(event): null);
     };
 
     set html(text:string) {
@@ -26,5 +26,15 @@ export class ButtonUI extends ElementUI{
         };
         this.element.innerHTML = text;
     };
+
+    set disabled(truth:boolean) {
+        if (truth) {
+            this.element.setAttribute('disabled', '');
+        } else {
+            this.element.removeAttribute('disabled');
+        }
+    }
+
+    get disabled() {return !!this.element.getAttribute('disabled')}
 
 };

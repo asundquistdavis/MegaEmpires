@@ -1,0 +1,25 @@
+
+path[softLight] {
+    fill: green;
+    opacity: 50%;
+    pointer-events: none;
+}
+
+path[softLight][coastalSoftLight] {
+    opacity: 50%;
+    fill: blue;
+}
+
+div#editAreaButtons {
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button#resetButton {
+    margin-inline: auto;
+}
+
+button#dropButton {
+    margin-inline: auto;
+}

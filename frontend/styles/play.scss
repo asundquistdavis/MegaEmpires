@@ -37,16 +37,6 @@ div#actionCard, div#actionCard div.card {
     bottom: 10px;
 }
 
-div#info {
-    @extend .overboard;
-    bottom: 20px;
-    left: 50%;
-    transform: translate(-50%);
-    padding-inline: 10px;
-    padding-block: 5px;
-    background: radial-gradient(ellipse farthest-side at center, lightgray 80%, transparent 100%);
-}
-
 div#badges {
     @extend .overboard;
     display: flex;

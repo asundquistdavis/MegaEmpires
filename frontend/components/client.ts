@@ -3,6 +3,8 @@ import { Player } from "../objects/player";
 import { Unit } from "../objects/unit";
 import { User } from "../objects/user";
 import { adjacencies } from "../phases/adjacencies";
+import { start } from "../phases/start";
+import { trade } from "../phases/trade";
 import { BoardUI } from "./board";
 import { ButtonUI } from "./button";
 import { Connection } from "./connection";
@@ -59,7 +61,7 @@ export class Client {
         const gui = GUI.new('root');
         const board = await BoardUI.new('root');
         const game = new Game([], []);
-        const client = new Client(gui, board, game, user, connection);
+        const client = new Client(gui, board, game, user, await connection);
         gui.actionCard.show();
         return client;
     };
@@ -71,7 +73,9 @@ export class Client {
         this.user = clientPlayer;
         this.connection = connection;
     };
-    
+
+    start = start
+    trade = trade
     adjacencies = adjacencies
 };
 

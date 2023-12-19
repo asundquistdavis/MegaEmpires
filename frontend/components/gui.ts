@@ -2,6 +2,7 @@ import { ElementUI, _new } from "../utilities";
 import { BarUI } from "./bar";
 import { CardUI } from "./card"
 import { SwitchUI } from "./switch";
+import '../styles/gui.scss';
 
 export class GUI extends ElementUI{
 
@@ -18,6 +19,7 @@ export class GUI extends ElementUI{
         gui.playerCard = CardUI.new('gui', 'playerCard');
         gui.toolBar = BarUI.new('gui', 'toolBar');
         gui.optionsBar = BarUI.new('gui', 'optionsBar');
+        gui.info = CardUI.new('gui', 'info');
         return gui;
     
     };

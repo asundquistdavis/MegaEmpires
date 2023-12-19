@@ -1,0 +1,18 @@
+
+
+path[starting-area] {
+    stroke: gold;
+    fill-opacity: 0;
+    stroke-width: 3px;
+    stroke-linecap: round;
+}
+
+path[civilization-color] {
+    fill: 100%;
+}
+
+path[starting-civilization] {
+    fill: lightgrey;
+    fill-opacity: .7;
+    stroke: none;
+}

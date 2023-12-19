@@ -1,0 +1,13 @@
+
+div#playerCard {
+    box-sizing: border-box;
+    top: 10px;
+    right: 10px;
+    max-height: calc(100vh - 30px);
+    width: calc(20vw - 10px);
+}
+
+div#actionCard {
+    box-sizing: border-box;
+    max-width: calc(80vw - 20px);
+}

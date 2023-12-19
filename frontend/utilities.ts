@@ -3,10 +3,15 @@ export function capitalize(string:string) {return string? string[0].toUpperCase(
 
 export function title(string:string) {return string? string.split(' ').map(capitalize).join(' '): ''};
 
+export function toCamel(string:string) {return string? ([string.split(new RegExp('[\\s-]'))[0], ...string.split(new RegExp('[\\s-]')).slice(1)?.map(capitalize)].join('')): ''};
+
+export function randint(n:number) {return Math.floor(Math.random()*n)}
+
 export class ElementUI {
 
     element: HTMLElement;
     parts: Array<ElementUI>
+    get id() {return this.element.id}
 
     static on(target:ElementUI):ElementUI {
         return _on(ElementUI, target, 'Element', 'div');
@@ -36,6 +41,8 @@ export class ElementUI {
     set text(text:string|number) {
         this.element.innerText = typeof text === 'number'? text.toString(): text;
     };
+
+    get text() {return this.element.innerText}
 
     set display(text:string|number) {
         this.text = text;

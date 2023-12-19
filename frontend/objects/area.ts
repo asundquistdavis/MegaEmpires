@@ -1,16 +1,52 @@
+import { randint, toCamel } from "../utilities";
+import { Civilization } from "./civilization";
 import { Player } from "./player";
 import { PlayerArea } from "./playerarea";
 
-export class Area {
+export class AreaLike {
+    element:SVGElement;
+    name: string;
+    selectedElement: SVGElement;
+    hoveredElement: SVGElement;
+    overlayElements: Array<SVGElement>;
+    cover:AreaLike|null;
+    type: string
+
+    constructor(element:SVGElement) {
+        this.element = element;
+        this.name = this.element.getAttribute('name');
+        this.overlayElements = [];
+        this.selectedElement = null;
+        this.hoveredElement = null;
+        this.cover = null;
+        this.type = this.element.getAttribute('type');
+    }
+
+    copy(useCover:Boolean=false):SVGPathElement {
+        const copy = ((useCover&&this.cover)? this.cover.element.cloneNode(): this.element.cloneNode()) as SVGPathElement;
+        if (!copy) {return};
+        const attrs = Object.values(copy.attributes).filter(attr=>((attr.name!=='d')&&(attr.name!=='name')));
+        attrs.forEach(attr=>copy.removeAttribute(attr.name));
+        copy.setAttribute('overlay', '')
+        return copy;
+    };
+}
+
+export class Area extends AreaLike{
 
     // elements
     element: SVGElement;
-    selectedElement: SVGPathElement;
-    hoveredElement: SVGPathElement;
+    selectedElement: SVGElement;
+    hoveredElement: SVGElement;
     overlayElements: Array<SVGElement>;
     support: Support;
     city: City;
-    cover: Cover;
+    startingCivilization: Civilization;
+    isStartingArea: boolean;
+    landAdjacent: string[];
+    waterAdjacent: string[];
+
+    // cover: Cover;
     
     // area props
     name: string;
@@ -24,32 +60,16 @@ export class Area {
     };
 
     constructor(element:SVGElement, ) {
-        this.element = element;
-        this.name = this.element.getAttribute('name');
+        super(element);
         this.cover = this.element.getAttribute('type')==='coastal'? new Cover(document.querySelector(`path[type="cover"][name="${this.name}"]`)): null;
         this.otherPlayers = [];
-        this.overlayElements = [];
+        this.city = null;
+        this.support = null;
     };
 
     get(player:Player) {
         if (player.user) {return player.areas.find(area=>area.area.name===this.name)};
         return this.otherPlayers.find(player=>player.area.name=this.name);
-    };
-
-    copy(useCover:Boolean=false, maskCover:Boolean=false):SVGPathElement {
-        let id = '';
-        if (maskCover&&this.cover) {
-            const mask = document.createElement('mask');
-            mask.appendChild(this.cover.element.cloneNode());
-            id = this.name + 'Mask' + Math.floor(Math.random()*1000).toString()
-            mask.id = id
-        };
-        const copy = ((useCover&&this.cover)? this.cover.element.cloneNode(): this.element.cloneNode()) as SVGPathElement;
-        if (!copy) {return}
-        const attrs = Object.values(copy.attributes).filter(attr=>((attr.name!=='d')&&(attr.name!=='name')));
-        attrs.forEach(attr=>copy.removeAttribute(attr.name));
-        maskCover? copy.setAttribute('mask', 'url(#' + id + ')'): null;
-        return copy
     };
 
 };
@@ -59,35 +79,31 @@ export class Support {
     element: Element;
     textElement: Element;
     name: string;
+    value:number;
 
     constructor(element:SVGElement, ) {
         this.element = element;
         this.name = this.element.getAttribute('name');
         this.textElement = document.querySelector(`text[name="${this.name}"]`);
+        this.value = parseInt(this.element.getAttribute('value'));
     };
 
 };
 
-export class City {
-
-    element: Element;
-    name: string;
+export class City extends AreaLike{
 
     constructor(element:SVGElement, ) {
-        this.element = element;
-        this.name = this.element.getAttribute('name');
+        super(element)
     };
 
 };
 
-export class Cover {
+export class Cover extends AreaLike {
 
-    element: Element;
     name: string;
 
     constructor(element:SVGElement, ) {
-        this.element = element;
-        this.name = this.element.getAttribute('name');
+        super(element);
     };
 
 };

@@ -1,0 +1,50 @@
+
+div[checkBoxRow] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div[checkBoxBool] {
+    width: 1rem;
+    height: 1rem;
+    background-color: black;
+    margin: 3px;
+}
+
+div[checkBoxBool][checked] {
+    background-color: grey;
+}
+
+div[checkBoxBool][checked].fpCheck {
+    background-color: darkgreen;
+}
+
+div[textInputRow] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input[textInputBox] {
+    text-align: right;
+}
+
+input[textInputBox][type="number"] {
+    width: 25px;
+}
+
+div[dropDownOptionRow] {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+div[dropDownOptionRow] select {
+    width: 50%;
+}
+
+option[ext-color] {
+    --color: attr(ext-color);
+    background-color: var(--color) !important;
+}

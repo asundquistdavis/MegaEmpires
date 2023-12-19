@@ -1,10 +1,29 @@
 
+:root {
+    --effect: royalblue;
+}
+
 div#board {
     position: relative;
     height: 100vh;
+    background-color: wheat;
 }
 
 div.overboard {
     position: absolute;
     z-index: 1;
+}
+
+g[hovered] path {
+    fill: transparent;
+    stroke: var(--effect);
+    stroke-width: 5px;
+    pointer-events: none;
+}
+
+g[selected] path {
+    fill: transparent;
+    stroke: var(--effect);
+    stroke-width: 5px;
+    pointer-events: none;
 }

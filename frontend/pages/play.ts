@@ -5,8 +5,8 @@ import { Client } from '../components/client';
 async function play() {
 
     const client = await Client.create();
-    client.adjacencies();
-
+    // client.adjacencies()
+    client.trade()
 };
 
 play();

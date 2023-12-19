@@ -1,0 +1,79 @@
+
+div.tradeCardHand {
+    position: relative;
+    min-width: 65px;
+    max-width: 100%;
+    height: 98px;
+    display: flex;
+    gap: 5px;
+}
+
+div.tradeCardHand[data-need-scroll] {
+    height: 108px;
+    width: 100vw;
+}
+
+div.tradeCard {
+    aspect-ratio: 5/7;
+    height: var(--height, 65px);
+}
+
+div.tradeCard[data-need-scroll] {
+    position: absolute;
+    top: 0;
+
+}
+
+div.tradeCardControlBar {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 40px;
+    height: 5px;
+    background-color: grey;
+    border-radius: 5px;
+}
+
+div.tradeCardBorder {
+    height: 100%;
+    background-color: black;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+div.tradeCardBody {
+    background-image: url(#tcDefault);
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--pColor, 'white')
+}
+
+div.tradeCardTop {
+    font-size: 13px;
+}
+
+div.tradeCardMiddle {
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 30px;
+}
+
+div.tradeCardBottom {
+    font-size: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+    margin-left: -1px;
+}
+
+div.tradeCardPill {
+    font-size: 9px;
+    width: 23%;
+    margin-top: 1px;
+    margin-left: 1px;
+    outline: solid black 1px;
+}

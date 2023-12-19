@@ -24,15 +24,10 @@ export class SwitchUI extends ElementUI{
         return path;
     };
 
-    add(path:ElementUI) {
-        this.element.appendChild(path.element);
-        this.paths.push(path);
-    };
-
-    select(id:string) {
+    select(name:string) {
         this.selectedPath.hide();
-        const path = this.paths.find(path=>path.element.id===id);
-        path.show();
+        this.selectedPath = this.paths.find(path=>path.element.id===name);
+        this.selectedPath.show();
     };
 
 }

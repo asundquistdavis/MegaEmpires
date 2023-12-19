@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Card Prototype</title>
+    <style>
+        html, body {
+        	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+        div.tradeCard {
+            position: absolute;
+            display: flex;
+            height: 70px;
+            width: 50px;
+        }
+        div.tradeCardBorder {
+            height: 70px;
+            width: 50px;
+            /* margin: 5px 5px; */
+            background-color: black;
+            border-radius: 5px;
+            display: flex;
+        }
+        div.tradeCardBody {
+            width: 47.5px;
+            height: 67.5px;
+            flex-shrink: 0;
+            margin: auto;
+            background-color: blue;
+            border-radius: 3.75px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        div.tradeCardTop {
+            margin: auto;
+            flex: 0 1 100%;
+            width: fit-content;
+            font-size: 8.75px;
+            text-align: center;
+            line-height: 1;
+            line-height: .9;
+        }
+        div.tradeCardMiddle {
+            flex: 1 1 100%;
+            margin: 0 auto auto auto;
+            font-size: 20px;
+            line-height: .9;
+        }
+        div.tradeCardBottom {
+            flex: 0 0 50%;
+            margin: 0 auto auto auto;
+            line-height: .9;
+            display: flex;
+            flex-direction: row-reverse;
+            flex-wrap: wrap-reverse;
+            margin-left: -1px;
+            justify-content: center;
+            align-content: end;
+        }
+        div.tradeCardPill {
+            background-color: white;
+            height: fit-content;
+            max-width: 17.5%;
+            outline: 1px solid;
+            margin-top: 1px;
+            margin-left: 1px;
+            flex: 0 1 100%;
+            text-align: center;
+        }
+        div.tardeCardNT {
+            font-size: 8px;
+        }
+        div.tradeCardCalamity {
+            font-size: 8px;
+            background-color: red;
+            margin-bottom: 2px;
+        }
+
+
+
+        div.tcContainer {
+            width: 300px;
+            height: 100px;
+            background-color: beige;
+            position: relative;
+            overflow: hidden;
+        }
+        div.containerBar {
+            position: absolute;
+            background-color: grey;
+            bottom: 5px;
+            left: 5px;
+            width: 40px;
+            height: 5px;
+            border-radius: 3px;
+        }
+        div#tcProto {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="tcProto" class="tradeCard">
+            <div id="tc1Border" class="tradeCardBorder">
+                <div id="tc1Body" class="tradeCardBody">
+                    <div id="tc1Top" class="tradeCardTop">
+                        Squandered Wealth
+                    </div>
+                    <div id="tc1Middle" class="tradeCardMiddle">
+                        9
+                    </div>
+                    <div id="tcBottom" class="tradeCardBottom">
+                        <div id="tc1Pill1" class="tradeCardPill">1</div>
+                        <div id="tc1Pill2" class="tradeCardPill">2</div>
+                        <div id="tc1Pill3" class="tradeCardPill">3</div>
+                        <div id="tc1Pill4" class="tradeCardPill">4</div>
+                        <div id="tc1Pill5" class="tradeCardPill">5</div>
+                        <div id="tc1Pill6" class="tradeCardPill">6</div>
+                        <div id="tc1Pill7" class="tradeCardPill">7</div>
+                        <div id="tc1Pill8" class="tradeCardPill">8</div>
+                        <div id="tc1Pill9" class="tradeCardPill">9</div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div id="tcContainer" class="tcContainer">
+        <div id="bar" class="containerBar"></div>
+    </div>
+    <script>
+        function moveTo(element, x) {
+            element.style.left = x + 'px';
+        }
+        function logistic(x, yMin, yRange, slope, xMid) {
+            return yMin + yRange / (1 + Math.exp( -slope * (x-xMid) ) )
+        }
+        const proto = document.querySelector('div#tcProto');
+        const container = document.getElementById('tcContainer');
+        const width = container.clientWidth;
+        const cards = Array.from(Array(6)).map((_, n)=>{
+            const elem = proto.cloneNode(true); 
+            elem.id = 'tc' + n; 
+            document.getElementById('tcContainer').appendChild(elem); 
+            return elem;
+        });
+        let N = cards.length;
+        let mousedown = false
+        let cardWidth = cards[0].clientWidth;
+        let x = 0;
+        const bar = document.getElementById('bar');
+        const barWidth = bar.clientWidth;
+        const gama = Math.log(width/(width-cardWidth))
+        console.log(gama)
+        container.addEventListener('mousedown', ()=>mousedown=true)
+        container.addEventListener('mousemove', (event)=>{if (mousedown) {
+            event.stopPropagation();
+            console.log(event.clientX)
+            console.log(event.clientX +barWidth/2, width)
+            if ((event.clientX +barWidth/2 < width ) && (event.clientX>barWidth/2)) {x = event.clientX}; 
+            moveTo(bar, x - barWidth/2)
+            cards.forEach((card, n)=>{
+                moveTo(card, logistic( (x-barWidth/2) / (width-barWidth) , (width-cardWidth) - 2*(1-n/(N-1))*cardWidth, 2*(1)*cardWidth - (width-cardWidth), 2*N, (2*n+width/cardWidth)/(2*N+1)));
+            })
+        }}, true)
+        container.addEventListener('mouseup', ()=>mousedown=false)
+        
+    </script>
+</body>
+</html>
